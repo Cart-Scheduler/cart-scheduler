@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 
-import './index.css';
+import './assets/scss/index.scss';
+
 import Router from './routes';
 import reportWebVitals from './reportWebVitals';
 import store from './redux/store';
