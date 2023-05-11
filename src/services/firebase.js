@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import {
   collection,
   doc,
@@ -81,4 +83,16 @@ export async function getTestDocs() {
   const testQuery = (ref) => query(ref, where('test', '==', 'hello'));
   const docs = await fetchDocs('removeme', testQuery);
   return docs;
+}
+
+// Custom hook for authentication. Returns authenticated user if exists.
+export function useAuth() {
+  const [user, setUser] = useState();
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(getAuth(), (newUser) =>
+      setUser(newUser),
+    );
+    return unsubscribe;
+  }, []);
+  return user;
 }
