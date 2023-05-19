@@ -7,8 +7,10 @@ import './assets/scss/index.scss';
 import Router from './routes';
 import reportWebVitals from './reportWebVitals';
 import store from './redux/store';
+import { initLocales } from './i18next';
 import { initFirebase } from './services/firebase';
 
+initLocales();
 initFirebase();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

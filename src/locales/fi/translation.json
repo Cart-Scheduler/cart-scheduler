@@ -1,0 +1,22 @@
+{
+  "SIGNIN.LINK.HELP": "Tulitko tälle sivulle sähköpostistasi löytyneellä linkillä? Klikkaa sähköpostissa olevaa linkkiä uudelleen tai yritä kirjautua sisään uudelleen.",
+  "Cancel": "Peruuta",
+  "Confirm authentication by entering your email address.": "Varmista tunnistautuminen kirjoittamalla sähköpostiosoitteesi.",
+  "Error code": "Virhekoodi",
+  "Email address": "Sähköpostiosoite",
+  "john.smith@example.com": "matti.meikalainen@osoite.com",
+  "If you don't receive the email in 15 minutes:": "Jos et saa sähköpostia 15 minuutin kuluessa:",
+  "Please check that your email address is typed correctly. For example, it must not contain spaces.": "Tarkista, että kirjoitit sähköpostiosoitteesi oikein. Siinä ei esimerkiksi saa olla välilyöntejä.",
+  "Send link": "Lähetä linkki",
+  "Sign in": "Kirjaudu sisään",
+  "Sign in again": "Kirjaudu uudelleen",
+  "Sign in with email": "Kirjaudu sähköpostilla",
+  "Sign in with Google": "Kirjaudu Google-tilillä",
+  "Sign out": "Kirjaudu ulos",
+  "This link is invalid!": "Tämä linkki ei toimi!",
+  "You will receive an email to address:": "Saat sähköpostin osoitteeseen:",
+  "The email contains a link that allows you to sign in without a password.": "Sähköpostista löytyy linkki, jota klikkaamalla pääset kirjautumaan sisään ilman salasanaa.",
+  "check that the email address above is correct": "tarkista, että yllä näkyvä sähköpostiosoite on oikein",
+  "check spam": "tarkista roskapostit",
+  "contact support": "ota yhteyttä tukeen"
+}
