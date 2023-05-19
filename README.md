@@ -4,6 +4,10 @@
 
 1. Add `REACT_APP_LANGUAGE="en"` to `.env.local`
 
+## Theme
+
+[Argon Dashboard 2](https://github.com/creativetimofficial/argon-dashboard)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
