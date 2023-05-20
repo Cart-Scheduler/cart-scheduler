@@ -2,17 +2,18 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useAuth } from '../services/auth';
-import { fetchPerson } from '../redux/slices/person';
+import { useListenDoc } from '../services/firebase';
+import { fetchUser, setPerson } from '../redux/slices/person';
 
-// Custom hook that fetches person document from Firestore.
+// Custom hook that fetches user document from Firestore.
 // Use this hook only once for optimization, in the upper component.
-export function useFetchPerson() {
+export function useFetchUser() {
   const dispatch = useDispatch();
   const auth = useAuth();
   const uid = auth?.uid;
   useEffect(() => {
     if (uid) {
-      const promise = dispatch(fetchPerson(uid));
+      const promise = dispatch(fetchUser(uid));
       return () => {
         promise.abort();
       };
@@ -20,11 +21,25 @@ export function useFetchPerson() {
   }, [dispatch, uid]);
 }
 
-// Custom hook that returns:
-// - Firebase auth object
-// - person Firestore document
+// Custom hook that listens to person document changes.
+// Writes person document into redux store.
+export function useListenPerson() {
+  const dispatch = useDispatch();
+  const personId = useSelector((state) => state.person.id);
+  const personData = useListenDoc(`persons/${personId}`, { skip: !personId });
+  useEffect(() => {
+    dispatch(setPerson(personData));
+  }, [dispatch, personData]);
+}
+
+// Custom hook to be used in the upper component. Use only in one component.
+export function usePersonInit() {
+  useFetchUser();
+  useListenPerson();
+}
+
+// Custom hook that returns person data from redux state.
 export function usePerson() {
-  const auth = useAuth();
-  const person = useSelector((state) => state.person.person);
-  return { auth, person };
+  const { id, data } = useSelector((state) => state.person);
+  return { personId: id, person: data };
 }

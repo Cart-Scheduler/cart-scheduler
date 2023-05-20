@@ -8,11 +8,13 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Row from 'react-bootstrap/Row';
 
-import { useFetchPerson, usePerson } from '../services/user';
+import { useAuth } from '../services/auth';
+import { usePerson, usePersonInit } from '../services/user';
 
 function UserMenu() {
   const { t } = useTranslation();
-  const { auth, person } = usePerson();
+  const auth = useAuth();
+  const { person } = usePerson();
   const name = person?.name ?? auth?.email;
   return (
     <Dropdown>
@@ -49,7 +51,7 @@ function MyNavbar() {
 }
 
 export default function DefaultLayout() {
-  useFetchPerson();
+  usePersonInit();
   return (
     <div className="main-content position-relative max-height-vh-100 h-100">
       <MyNavbar />

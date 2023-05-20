@@ -1,11 +1,17 @@
+import { useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
 import {
+  addDoc,
   collection,
   doc,
+  getCountFromServer,
   getDoc,
   getDocs,
   getFirestore,
+  onSnapshot,
   query,
+  serverTimestamp,
+  updateDoc as updateDocFirestore,
   where,
   Timestamp,
 } from 'firebase/firestore';
@@ -48,16 +54,28 @@ export function serializableClone(obj) {
 }
 
 // Returns Firestore document data.
-export async function fetchDoc(path, silent) {
+export async function fetchDoc(path) {
   const ref = doc(db, path);
   const snap = await getDoc(ref);
-  if (snap.exists()) {
-    return snap.data();
-  }
-  if (!silent) {
-    console.error('No document found with path', path);
-  }
-  return undefined;
+  return snap.exists() ? snap.data() : undefined;
+}
+
+// Custom hook wrapper for fetchDoc.
+export function useFetchDoc(path) {
+  const [data, setData] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    if (path) {
+      const start = async () => {
+        setIsLoading(true);
+        const docData = await fetchDoc(path);
+        setData(docData ? docData : null);
+        setIsLoading(false);
+      };
+      start();
+    }
+  }, [path]);
+  return { data, isLoading };
 }
 
 // Returns multiple Firestore documents in object, doc id as key.
@@ -72,6 +90,45 @@ export async function fetchDocs(path, queryFunc) {
     docs[doc.id] = serializableClone(doc.data());
   });
   return docs;
+}
+
+export async function updateDoc(path, data) {
+  const ref = doc(db, path);
+  await updateDocFirestore(ref, data);
+}
+
+// Returns count of documents in a query.
+// This is more effective than reading all the documents.
+export async function countDocs(path, queryFunc) {
+  const ref = collection(db, path);
+  // use provided query function or default query
+  const myQuery = queryFunc ? queryFunc : (ref) => query(ref);
+  const q = myQuery(ref);
+  const snapshot = await getCountFromServer(q);
+  return snapshot.data().count;
+}
+
+export async function createJoinRequest(data) {
+  const docRef = await addDoc(collection(db, 'joinRequests'), {
+    ...data,
+    created: serverTimestamp(),
+  });
+  return docRef.id;
+}
+
+export function useListenDoc(path, options = {}) {
+  const skip = options.skip ?? false;
+  const [data, setData] = useState();
+  useEffect(() => {
+    if (!skip) {
+      const ref = doc(db, path);
+      const unsubscribe = onSnapshot(ref, (doc) => {
+        setData(serializableClone(doc.data()));
+      });
+      return unsubscribe;
+    }
+  }, [path, skip]);
+  return data;
 }
 
 export async function getTestDoc() {

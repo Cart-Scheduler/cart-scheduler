@@ -6,7 +6,7 @@ import DefaultLayout from '../layouts/Default';
 import SignInLayout from '../layouts/SignIn';
 
 const Home = React.lazy(() => import('../app/Home'));
-const JoinProgram = React.lazy(() => import('../app/join'));
+const JoinProject = React.lazy(() => import('../app/join'));
 const SignIn = React.lazy(() => import('../app/signin'));
 const SignInLink = React.lazy(() => import('../app/signin/Link'));
 const SignOut = React.lazy(() => import('../app/SignOut'));
@@ -24,7 +24,7 @@ export default function Router() {
         >
           <Route index element={<RC isPublic element={<SignIn />} />} />
           <Route
-            path="link/:programId?"
+            path="link"
             element={<RC isPublic element={<SignInLink />} />}
           />
         </Route>
@@ -32,11 +32,11 @@ export default function Router() {
           path="/signout"
           element={<RC isPublic element={<SignOut />} />}
         />
-        <Route
-          path="/join/:programId"
-          element={<RC element={<JoinProgram />} />}
-        />
         <Route path="/" element={<RC element={<DefaultLayout />} />}>
+          <Route
+            path="join/:projectId"
+            element={<RC element={<JoinProject />} />}
+          />
           <Route index element={<Home />} />
         </Route>
       </Routes>
