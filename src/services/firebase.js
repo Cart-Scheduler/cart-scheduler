@@ -33,7 +33,7 @@ export function initFirebase() {
 export const toTimestamp = (value) => new Timestamp(value / 1000, 0);
 
 // Deep clones given object but converts Firestore.Timestamp to primitive number.
-function serializableClone(obj) {
+export function serializableClone(obj) {
   const clone = {};
   for (const prop in obj) {
     let val = obj[prop];

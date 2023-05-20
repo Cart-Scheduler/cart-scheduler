@@ -3,12 +3,30 @@ import { Link, Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
+import Dropdown from 'react-bootstrap/Dropdown';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Row from 'react-bootstrap/Row';
 
-function MyNavbar() {
+import { useFetchPerson, usePerson } from '../services/user';
+
+function UserMenu() {
   const { t } = useTranslation();
+  const { auth, person } = usePerson();
+  const name = person?.name ?? auth?.email;
+  return (
+    <Dropdown>
+      <Dropdown.Toggle>{name}</Dropdown.Toggle>
+      <Dropdown.Menu>
+        <Dropdown.Item as={Link} to="/signout">
+          {t('Sign out')}
+        </Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
+  );
+}
+
+function MyNavbar() {
   return (
     <Navbar
       expand="lg"
@@ -20,10 +38,7 @@ function MyNavbar() {
           <Nav>
             <Row>
               <Col>
-                <Link to="/signout">
-                  <i className="fa fa-user me-sm-2" />
-                  <span className="d-sm-inline d-none">{t('Sign out')}</span>
-                </Link>
+                <UserMenu />
               </Col>
             </Row>
           </Nav>
@@ -34,6 +49,7 @@ function MyNavbar() {
 }
 
 export default function DefaultLayout() {
+  useFetchPerson();
   return (
     <div className="main-content position-relative max-height-vh-100 h-100">
       <MyNavbar />
