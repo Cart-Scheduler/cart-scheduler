@@ -48,13 +48,15 @@ function serializableClone(obj) {
 }
 
 // Returns Firestore document data.
-export async function fetchDoc(path) {
+export async function fetchDoc(path, silent) {
   const ref = doc(db, path);
   const snap = await getDoc(ref);
   if (snap.exists()) {
     return snap.data();
   }
-  console.error('No document found with path', path);
+  if (!silent) {
+    console.error('No document found with path', path);
+  }
   return undefined;
 }
 

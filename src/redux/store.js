@@ -1,7 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
+import dbReducer from './slices/db';
 
 const store = configureStore({
-  reducer: {},
+  reducer: {
+    db: dbReducer,
+  },
 });
 
 export default store;
