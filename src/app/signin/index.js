@@ -36,12 +36,12 @@ export default function Login() {
   // check if we have next path after a successful authentication
   const next = new URLSearchParams(location.search).get('next');
 
-  const user = useAuth();
-  if (user === undefined) {
+  const auth = useAuth();
+  if (auth === undefined) {
     return <AuthLoading />;
   }
 
-  if (user) {
+  if (auth) {
     // user is already logged in
     return <Navigate to={next ? next : DEFAULT_PATH} />;
   }

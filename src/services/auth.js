@@ -25,6 +25,12 @@ export function useAuth() {
   return user;
 }
 
+// Custom hook that just returns uid when available.
+export function useUid() {
+  const auth = useAuth();
+  return auth?.uid;
+}
+
 const SAVED_SIGN_IN_EMAIL_KEY = 'emailForSignIn';
 
 export function saveSignInEmail(email) {

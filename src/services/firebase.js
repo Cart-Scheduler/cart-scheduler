@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
 import {
   addDoc,
+  arrayUnion,
   collection,
   doc,
   getCountFromServer,
@@ -45,7 +46,7 @@ export function serializableClone(obj) {
     let val = obj[prop];
     if (val instanceof Timestamp) {
       val = val.toMillis();
-    } else if (val instanceof Object) {
+    } else if (!Array.isArray(val) && val instanceof Object) {
       val = serializableClone(val);
     }
     clone[prop] = val;
@@ -129,6 +130,14 @@ export function useListenDoc(path, options = {}) {
     }
   }, [path, skip]);
   return data;
+}
+
+// Adds given registration token to user document.
+export async function addRegistrationToken(uid, token) {
+  await updateDoc(`users/${uid}`, {
+    regTokens: arrayUnion(token),
+    modified: serverTimestamp(),
+  });
 }
 
 export async function getTestDoc() {

@@ -3,29 +3,25 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { useAuth } from '../services/auth';
 import { useListenDoc } from '../services/firebase';
-import { fetchUser, setPerson } from '../redux/slices/person';
+import { setPerson } from '../redux/slices/person';
+import { setUser } from '../redux/slices/user';
 
-// Custom hook that fetches user document from Firestore.
-// Use this hook only once for optimization, in the upper component.
-export function useFetchUser() {
+// Custom hook that listens to person document changes.
+// Writes person document into redux store.
+function useListenUser() {
   const dispatch = useDispatch();
-  const auth = useAuth();
-  const uid = auth?.uid;
+  const { uid } = useAuth() ?? {};
+  const userData = useListenDoc(`users/${uid}`, { skip: !uid });
   useEffect(() => {
-    if (uid) {
-      const promise = dispatch(fetchUser(uid));
-      return () => {
-        promise.abort();
-      };
-    }
-  }, [dispatch, uid]);
+    dispatch(setUser(userData));
+  }, [dispatch, userData]);
 }
 
 // Custom hook that listens to person document changes.
 // Writes person document into redux store.
-export function useListenPerson() {
+function useListenPerson() {
   const dispatch = useDispatch();
-  const personId = useSelector((state) => state.person.id);
+  const personId = useSelector((state) => state.user.personId);
   const personData = useListenDoc(`persons/${personId}`, { skip: !personId });
   useEffect(() => {
     dispatch(setPerson(personData));
@@ -34,12 +30,19 @@ export function useListenPerson() {
 
 // Custom hook to be used in the upper component. Use only in one component.
 export function usePersonInit() {
-  useFetchUser();
   useListenPerson();
+  useListenUser();
 }
 
 // Custom hook that returns person data from redux state.
 export function usePerson() {
-  const { id, data } = useSelector((state) => state.person);
-  return { personId: id, person: data };
+  return useSelector((state) => ({
+    personId: state.user.personId,
+    person: state.person,
+  }));
+}
+
+// Custom hook that returns person data from redux state.
+export function useUser() {
+  return useSelector((state) => state.user);
 }
