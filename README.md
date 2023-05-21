@@ -4,6 +4,17 @@
 
 1. Add `REACT_APP_LANGUAGE="en"` to `.env.local`
 
+## Deployment
+
+```bash
+$ firebase init
+```
+
+Choose:
+* Firebase Hosting
+* set `build` as your public directory
+* configure as a single-page app
+
 ## Theme
 
 [Argon Dashboard 2](https://github.com/creativetimofficial/argon-dashboard)
