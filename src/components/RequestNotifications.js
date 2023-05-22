@@ -56,10 +56,10 @@ export default function RequestNotifications() {
 
   const reqPermission = async () => {
     const permission = await Notification.requestPermission();
+    setShowModal(false);
     if (permission === 'granted') {
       await setupMessaging(uid, user);
     }
-    setShowModal(false);
   };
 
   return (
