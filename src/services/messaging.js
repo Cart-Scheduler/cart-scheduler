@@ -1,5 +1,5 @@
 import { getMessaging, getToken, onMessage } from 'firebase/messaging';
-import { addRegistrationToken } from './firebase';
+import { addRegistrationToken } from './db';
 
 const messaging = getMessaging();
 

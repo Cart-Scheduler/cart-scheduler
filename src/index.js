@@ -4,20 +4,27 @@ import { Provider } from 'react-redux';
 
 import './assets/scss/index.scss';
 
+import MainListener from './components/MainListener';
 import Router from './routes';
 import reportWebVitals from './reportWebVitals';
 import store from './redux/store';
 import { initLocales } from './i18next';
 import { initFirebase } from './services/firebase';
+import { initDb } from './services/db';
+import { initFunctions } from './services/functions';
 
 initLocales();
 initFirebase();
+initDb();
+initFunctions();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Router />
+      <MainListener>
+        <Router />
+      </MainListener>
     </Provider>
   </React.StrictMode>,
 );

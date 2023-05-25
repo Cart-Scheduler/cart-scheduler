@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   getAuth,
   isSignInWithEmailLink,
@@ -10,25 +11,28 @@ import {
   GoogleAuthProvider,
 } from 'firebase/auth';
 
+import { setUser } from '../redux/slices/auth';
+
 // Custom hook for authentication. Returns:
 // - undefined = still figuring out
 // - null = user is not authenticated
 // - authenticated user object
-export function useAuth() {
-  const [user, setUser] = useState();
+export function useListenAuth() {
+  const dispatch = useDispatch();
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(getAuth(), (newUser) =>
-      setUser(newUser),
-    );
+    const unsubscribe = onAuthStateChanged(getAuth(), (user) => {
+      const newUser = user
+        ? {
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+            photoURL: user.photoURL,
+          }
+        : user;
+      dispatch(setUser(newUser));
+    });
     return unsubscribe;
-  }, []);
-  return user;
-}
-
-// Custom hook that just returns uid when available.
-export function useUid() {
-  const auth = useAuth();
-  return auth?.uid;
+  }, [dispatch]);
 }
 
 const SAVED_SIGN_IN_EMAIL_KEY = 'emailForSignIn';

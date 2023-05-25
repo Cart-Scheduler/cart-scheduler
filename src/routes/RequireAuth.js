@@ -1,7 +1,7 @@
 import { Navigate, useLocation } from 'react-router-dom';
 
+import { useAuth } from '../services/db';
 import AuthLoading from '../components/AuthLoading';
-import { useAuth } from '../services/auth';
 
 // Returns path (string) from given location object.
 const makePath = ({ pathname, search, hash }) => {
@@ -9,10 +9,10 @@ const makePath = ({ pathname, search, hash }) => {
 };
 
 // RequireAuth forces the authorization before the children can be accessed
-const RequireAuth = ({ children }) => {
+export default function RequireAuth({ children }) {
   const location = useLocation();
-  const user = useAuth();
-  if (user === undefined) {
+  const { initializing, user } = useAuth();
+  if (initializing === undefined) {
     return <AuthLoading />;
   }
 
@@ -27,6 +27,4 @@ const RequireAuth = ({ children }) => {
   }
 
   return children;
-};
-
-export default RequireAuth;
+}

@@ -3,9 +3,8 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useTranslation } from 'react-i18next';
 
-import { useUid } from '../services/auth';
+import { useUid, useListenUser } from '../services/db';
 import { setupMessaging } from '../services/messaging';
-import { useUser } from '../services/user';
 
 function NotificationsModal({ show, onHide, onContinue }) {
   const { t } = useTranslation();
@@ -38,7 +37,7 @@ function NotificationsModal({ show, onHide, onContinue }) {
 export default function RequestNotifications() {
   const [showModal, setShowModal] = useState(true);
   const uid = useUid();
-  const user = useUser();
+  const user = useListenUser();
 
   const support = 'Notification' in window;
   if (!support) {

@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import AuthLoading from '../../components/AuthLoading';
 import { DEFAULT_PATH } from '../../routes';
-import { useAuth } from '../../services/auth';
+import { useAuth } from '../../services/db';
 import GoogleSignIn from './GoogleSignIn';
 import SendLink from './SendLink';
 
@@ -36,12 +36,12 @@ export default function Login() {
   // check if we have next path after a successful authentication
   const next = new URLSearchParams(location.search).get('next');
 
-  const auth = useAuth();
-  if (auth === undefined) {
+  const { initializing, user } = useAuth();
+  if (initializing) {
     return <AuthLoading />;
   }
 
-  if (auth) {
+  if (user) {
     // user is already logged in
     return <Navigate to={next ? next : DEFAULT_PATH} />;
   }
