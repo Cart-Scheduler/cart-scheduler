@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   addDoc,
@@ -234,26 +234,78 @@ export function useListenPerson() {
   return useSelector((state) => state.db[path]);
 }
 
+// Filters object by calling the given callback function for each entry with
+// [key, value] parameter. It should return a truthy value to keep the entry
+// in the resulting object, and a falsy value otherwise.
+const filterObj = (obj, fn) =>
+  Object.fromEntries(Object.entries(obj).filter(fn));
+
+// Modifies given object so that "len" characters are extracted from the start
+// of each key.
+const shortenKeys = (obj, len) =>
+  Object.fromEntries(
+    Object.entries(obj).map(([key, value]) => [key.substring(len), value]),
+  );
+
+// Hook that extracts data from db state.
+// Filter function gets argument [id, doc] and it should return truthy value
+// to keep the entry. Path argument is for trimming keys in returned object.
+function useExtractDb(key, filterFn, path) {
+  const { db, isLoading } = useSelector((state) => ({
+    db: state.db,
+    isLoading: state.db.__loading__[key],
+  }));
+  return {
+    docs: useMemo(() => {
+      if (!path) {
+        return {};
+      }
+      return shortenKeys(filterObj(db, filterFn), path.length + 1);
+    }, [db, filterFn, path]),
+    isLoading,
+  };
+}
+
 // Hook that returns array of project ids that user is member of.
-export function useMyProjectIds() {
+export function useMyProjectMembers() {
   const personId = usePersonId();
-  const myQuery = useCallback(
+  const path = personId ? 'projectMembers' : undefined;
+  const key = 'myProjectMembers';
+  const queryFn = useCallback(
     (ref) => query(ref, where(`members.${personId}`, '!=', null)),
     [personId],
   );
-  const path = personId ? 'projectMembers' : undefined;
-  const key = 'myProjectMembers';
-  useListenCollection(path, myQuery, key);
+  useListenCollection(path, queryFn, key);
 
-  return useSelector((state) => {
-    const ids = Object.keys(state.db)
-      .filter((path) => path.startsWith('projectMembers/'))
-      .map((path) => path.slice(15));
-    return {
-      isLoading: state.db.__loading__[key],
-      ids,
-    };
-  });
+  // Returns true if db entry is a slot document for given projectId
+  const filterMembers = useCallback(
+    ([id, doc]) => id.startsWith(`${path}/`),
+    [path],
+  );
+  return useExtractDb(key, filterMembers, path);
+}
+
+// Hook that returns array of project ids that user is member of.
+export function useSlots(projectId) {
+  const path = 'slots';
+  const key = `slots-${projectId}`;
+  const queryFn = useCallback(
+    (ref) => query(ref, where('projectId', '==', projectId)),
+    [projectId],
+  );
+  useListenCollection(path, queryFn, key);
+
+  // Returns true if db entry is a slot document for given projectId
+  const filterSlots = useCallback(
+    ([id, doc]) => {
+      if (!id.startsWith(`${path}/`)) {
+        return false;
+      }
+      return doc.projectId === projectId;
+    },
+    [projectId],
+  );
+  return useExtractDb(key, filterSlots, path);
 }
 
 // Returns a project document that has already been fetched.
