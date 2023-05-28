@@ -34,6 +34,12 @@ export function initDb() {
 // Converts given milliseconds to Firestore Timestamp object.
 export const toTimestamp = (value) => new Timestamp(value / 1000, 0);
 
+export const dateToTimestamp = (date) =>
+  new Timestamp(date.getTime() / 1000, 0);
+
+// Rounds given value by flooring milliseconds.
+export const roundTimestamp = (value) => Math.floor(value / 1000) * 1000;
+
 // Deep clones given object but converts Firestore.Timestamp to primitive number.
 export function serializableClone(obj) {
   const clone = {};
@@ -285,13 +291,22 @@ export function useMyProjectMembers() {
   return useExtractDb(key, filterMembers, path);
 }
 
-// Hook that returns array of project ids that user is member of.
-export function useSlots(projectId) {
+// Hook that returns filtered slot documents.
+export function useSlots(projectId, starts, ends) {
   const path = 'slots';
   const key = `slots-${projectId}`;
   const queryFn = useCallback(
-    (ref) => query(ref, where('projectId', '==', projectId)),
-    [projectId],
+    (ref) => {
+      const params = [ref, where('projectId', '==', projectId)];
+      if (starts) {
+        params.push(where('starts', '>=', dateToTimestamp(starts)));
+      }
+      if (ends) {
+        params.push(where('starts', '<', dateToTimestamp(ends)));
+      }
+      return query(...params);
+    },
+    [projectId, starts, ends],
   );
   useListenCollection(path, queryFn, key);
 
