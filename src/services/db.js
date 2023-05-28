@@ -294,7 +294,7 @@ export function useMyProjectMembers() {
 // Hook that returns filtered slot documents.
 export function useSlots(projectId, starts, ends) {
   const path = 'slots';
-  const key = `slots-${projectId}`;
+  const key = `slots-${projectId}-${starts}-${ends}`;
   const queryFn = useCallback(
     (ref) => {
       const params = [ref, where('projectId', '==', projectId)];
@@ -310,15 +310,21 @@ export function useSlots(projectId, starts, ends) {
   );
   useListenCollection(path, queryFn, key);
 
-  // Returns true if db entry is a slot document for given projectId
+  // Returns true if db entry is a slot document that matches the filters.
   const filterSlots = useCallback(
     ([id, doc]) => {
-      if (!id.startsWith(`${path}/`)) {
+      if (!id.startsWith(`${path}/`) || doc.projectId !== projectId) {
         return false;
       }
-      return doc.projectId === projectId;
+      if (starts && doc.starts < starts.getTime()) {
+        return false;
+      }
+      if (ends && doc.starts >= ends.getTime()) {
+        return false;
+      }
+      return true;
     },
-    [projectId],
+    [projectId, starts, ends],
   );
   return useExtractDb(key, filterSlots, path);
 }
