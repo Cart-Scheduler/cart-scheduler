@@ -12,11 +12,13 @@ import { initLocales } from './i18next';
 import { initFirebase } from './services/firebase';
 import { initDb } from './services/db';
 import { initFunctions } from './services/functions';
+import { initMessaging } from './services/messaging';
 
 initLocales();
 initFirebase();
 initDb();
 initFunctions();
+initMessaging();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

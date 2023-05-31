@@ -2,8 +2,8 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   addDoc,
-  arrayUnion,
   collection,
+  deleteDoc,
   doc,
   getCountFromServer,
   getDoc,
@@ -198,12 +198,36 @@ export async function createJoinRequest(data) {
   return docRef.id;
 }
 
+// Returns [id, doc] where document matches given uid and token.
+export async function getExistingFcmToken(uid, token) {
+  const myQuery = (ref) =>
+    query(ref, where('uid', '==', uid), where('token', '==', token));
+  const docs = await fetchDocs('fcmTokens', myQuery);
+  const entries = Object.entries(docs);
+  return entries.length > 0 ? entries[0] : [undefined, undefined];
+}
+
 // Adds given registration token to user document.
 export async function addRegistrationToken(uid, token) {
-  await updateDoc(`users/${uid}`, {
-    regTokens: arrayUnion(token),
-    modified: serverTimestamp(),
+  const docRef = await addDoc(collection(db, 'fcmTokens'), {
+    uid,
+    token,
+    updated: serverTimestamp(),
   });
+  return docRef.id;
+}
+
+// Updates timestamp in the fcmToken document.
+export async function touchRegistrationToken(id, uid) {
+  await updateDoc(`fcmTokens/${id}`, {
+    uid,
+    updated: serverTimestamp(),
+  });
+}
+
+export async function deleteRegistrationToken(id) {
+  const ref = doc(db, `fcmTokens/${id}`);
+  await deleteDoc(ref);
 }
 
 // Hook that returns auth slice from state.
@@ -271,6 +295,27 @@ function useExtractDb(key, filterFn, path) {
     isLoading,
   };
 }
+
+/*
+// Hook that returns user's saved fcmTokens.
+export function useFcmTokens() {
+  const uid = useUid();
+  const path = uid ? 'fcmTokens' : undefined;
+  const key = 'fcmTokens';
+  const queryFn = useCallback(
+    (ref) => query(ref, where('uid', '==', uid)),
+    [uid],
+  );
+  useListenCollection(path, queryFn, key);
+
+  // Returns true if db entry is a slot document for given projectId
+  const filterFcmTokens = useCallback(
+    ([id, doc]) => id.startsWith(`${path}/`),
+    [path],
+  );
+  return useExtractDb(key, filterFcmTokens, path);
+}
+*/
 
 // Hook that returns array of project ids that user is member of.
 export function useMyProjectMembers() {

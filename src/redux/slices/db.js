@@ -1,13 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { reset } from '../actions';
+
+const initialState = {
+  // Loading flags.
+  // Use double underscores in the start and end to because it cannot be
+  // a collection ID.
+  __loading__: {},
+};
 
 export const slice = createSlice({
   name: 'db',
-  initialState: {
-    // Loading flags.
-    // Use double underscores in the start and end to because it cannot be
-    // a collection ID.
-    __loading__: {},
-  },
+  initialState,
   reducers: {
     startLoading: (state, action) => {
       state.__loading__[action.payload] = true;
@@ -30,6 +33,9 @@ export const slice = createSlice({
     removeDoc: (state, action) => {
       delete state[action.payload];
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(reset, () => initialState);
   },
 });
 

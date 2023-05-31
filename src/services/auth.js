@@ -11,6 +11,7 @@ import {
   GoogleAuthProvider,
 } from 'firebase/auth';
 
+import { reset } from '../redux/actions';
 import { setUser } from '../redux/slices/auth';
 
 // Custom hook for authentication. Returns:
@@ -91,14 +92,21 @@ export async function signInLinkToEmail(email, next) {
 }
 
 export function useSignOut() {
+  const dispatch = useDispatch();
   const [signedOut, setSignedOut] = useState(false);
   useEffect(() => {
     const start = async () => {
-      await signOutFirebase(getAuth());
-      setSignedOut(true);
+      try {
+        await signOutFirebase(getAuth());
+        // re-initialize redux state by dispatching reset action
+        dispatch(reset());
+        setSignedOut(true);
+      } catch (err) {
+        console.error(err);
+      }
     };
     start();
-  }, []);
+  }, [dispatch]);
   return signedOut;
 }
 
