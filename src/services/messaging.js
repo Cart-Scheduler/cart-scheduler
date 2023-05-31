@@ -45,8 +45,15 @@ function useGetToken() {
   return useSelector((state) => state.fcm.token);
 }
 
-// const TOKEN_REFRESH_TIME = 1000 * 60 * 60 * 24 * 30; // 30 days
-const TOKEN_REFRESH_TIME = 1000 * 60 * 60; // 1 hour
+// To see if registration token is fresh or stale, we use timestamp field
+// in fcmToken document. We update the timestamp when the token is in use,
+// but we do it only after some period of time to limit write operations.
+//
+// Tokens which haven't been updated for > 2 months or so are probably
+// inactive.
+//
+// https://firebase.google.com/docs/cloud-messaging/manage-tokens
+const TOKEN_REFRESH_TIME = 1000 * 60 * 60 * 24 * 30; // 30 days
 
 // Returns true if given timestamp is older than REFRESH_TIME from now.
 const shouldBeRefreshed = (updated) => {
