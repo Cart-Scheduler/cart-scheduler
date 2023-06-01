@@ -264,6 +264,13 @@ export function useListenPerson() {
   return useSelector((state) => state.db[path]);
 }
 
+export async function updatePersonDoc(personId, data) {
+  await updateDoc(`persons/${personId}`, {
+    ...data,
+    updated: serverTimestamp(),
+  });
+}
+
 // Filters object by calling the given callback function for each entry with
 // [key, value] parameter. It should return a truthy value to keep the entry
 // in the resulting object, and a falsy value otherwise.
@@ -295,27 +302,6 @@ function useExtractDb(key, filterFn, path) {
     isLoading,
   };
 }
-
-/*
-// Hook that returns user's saved fcmTokens.
-export function useFcmTokens() {
-  const uid = useUid();
-  const path = uid ? 'fcmTokens' : undefined;
-  const key = 'fcmTokens';
-  const queryFn = useCallback(
-    (ref) => query(ref, where('uid', '==', uid)),
-    [uid],
-  );
-  useListenCollection(path, queryFn, key);
-
-  // Returns true if db entry is a slot document for given projectId
-  const filterFcmTokens = useCallback(
-    ([id, doc]) => id.startsWith(`${path}/`),
-    [path],
-  );
-  return useExtractDb(key, filterFcmTokens, path);
-}
-*/
 
 // Hook that returns array of project ids that user is member of.
 export function useMyProjectMembers() {
