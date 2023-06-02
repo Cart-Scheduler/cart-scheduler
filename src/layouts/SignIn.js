@@ -11,7 +11,7 @@ export default function SignInLayout() {
         <Col md={8} lg={6} xl={5} xxl={4}>
           <Card>
             <Card.Header className="pt-4 pb-4 text-center text-white bg-primary text-uppercase text-bold">
-              Cart Scheduler
+              {process.env.REACT_APP_TITLE}
             </Card.Header>
             <Card.Body className="p-4">
               <Outlet />
