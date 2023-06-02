@@ -1,37 +1,33 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-import { saveSignInEmail, signInLinkToEmail } from '../../services/auth';
-import BackButton from './BackButton';
+import { signInPassword } from '../../services/auth';
 
 export const cleanEmail = (email) => email.trim().toLowerCase();
 
 export default function PasswordSignIn({ next, onCancel }) {
-  const [sending, setSending] = useState(false);
-  const [isSent, setIsSent] = useState(false);
+  const [processing, setProcessing] = useState(false);
+  const [error, setError] = useState();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { t } = useTranslation();
 
   const send = async () => {
     try {
-      setSending(true);
+      setError();
+      setProcessing(true);
       const cleaned = cleanEmail(email);
-      await signInLinkToEmail(cleaned, next);
-      // save the used email locally so we don't need to ask the user for it
-      // again if they open the link on this same device
-      saveSignInEmail(cleaned);
-      setSending(false);
+      await signInPassword(cleaned, password);
       setEmail(cleaned);
-      setIsSent(true);
     } catch (err) {
-      // if you get auth/invalid-continue-uri here, make sure you have
-      // REACT_APP_EMAIL_LINK_AUTH_URL defined in .local.env
       console.error(err);
+      setError(err.message);
     }
+    setProcessing(false);
   };
 
   const handleSubmit = (evt) => {
@@ -39,11 +35,6 @@ export default function PasswordSignIn({ next, onCancel }) {
     evt.stopPropagation();
     send();
   };
-
-  if (isSent) {
-    return null;
-    //return <EmailSent email={email} />;
-  }
 
   return (
     <div>
@@ -80,10 +71,15 @@ export default function PasswordSignIn({ next, onCancel }) {
             onChange={(evt) => setPassword(evt.target.value)}
           />
         </Form.Group>
+        {error && (
+          <Alert variant="danger" className="text-white">
+            {error}
+          </Alert>
+        )}
         <div className="justify-content-center mt-5 mb-4 d-flex justify-end">
           <Button
             variant="outline"
-            disabled={sending}
+            disabled={processing}
             onClick={onCancel}
             className="mx-3 w"
           >
@@ -92,7 +88,7 @@ export default function PasswordSignIn({ next, onCancel }) {
           <Button
             type="submit"
             className="bg-gradient-primary"
-            disabled={sending}
+            disabled={processing}
           >
             {t('Sign in')}
           </Button>

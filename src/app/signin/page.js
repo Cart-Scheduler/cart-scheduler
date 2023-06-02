@@ -11,7 +11,10 @@ import PasswordSignIn from './PasswordSignIn';
 import SendLink from './SendLink';
 
 function MethodButton({ className, onClick, children }) {
-  const classes = 'btn w-100 px-3 py-3 text-white';
+  let classes = 'btn w-100 px-3 py-3';
+  if (!className || !className.includes('text-')) {
+    classes += ' text-white';
+  }
   return (
     <button className={classNames(classes, className)} onClick={onClick}>
       {children}
@@ -35,7 +38,7 @@ function SignInPasswordButton({ className, onClick }) {
   const { t } = useTranslation();
   return (
     <MethodButton
-      className={classNames('bg-dark', className)}
+      className={classNames('btn-link text-dark', className)}
       onClick={onClick}
     >
       {t('Sign in with password')}

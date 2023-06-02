@@ -11,7 +11,7 @@ export const cleanEmail = (email) => email.trim().toLowerCase();
 
 export default function SignUpPassword({ next, onCancel }) {
   const navigate = useNavigate();
-  const [sending, setSending] = useState(false);
+  const [processing, setProcessing] = useState(false);
   const [error, setError] = useState();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -20,16 +20,16 @@ export default function SignUpPassword({ next, onCancel }) {
   const send = async () => {
     try {
       setError();
-      setSending(true);
+      setProcessing(true);
       const cleaned = cleanEmail(email);
       await signUpPassword(cleaned, password);
-      setSending(false);
       setEmail(cleaned);
       navigate(next ?? '/');
     } catch (err) {
       console.error(err);
       setError(err.message);
     }
+    setProcessing(false);
   };
 
   const handleSubmit = (evt) => {
@@ -73,7 +73,7 @@ export default function SignUpPassword({ next, onCancel }) {
         <Button
           type="submit"
           className="bg-gradient-primary w-100"
-          disabled={sending}
+          disabled={processing}
         >
           {t('Sign up')}
         </Button>

@@ -7,6 +7,7 @@ import {
   onAuthStateChanged,
   signInWithEmailLink,
   sendSignInLinkToEmail,
+  signInWithEmailAndPassword,
   signInWithRedirect,
   signOut as signOutFirebase,
   GoogleAuthProvider,
@@ -93,6 +94,10 @@ export async function signInLinkToEmail(email, next) {
   };
 
   await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+}
+
+export async function signInPassword(email, password) {
+  await signInWithEmailAndPassword(auth, email, password);
 }
 
 export async function signUpPassword(email, password) {
