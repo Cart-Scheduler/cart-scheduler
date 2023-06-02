@@ -32,5 +32,6 @@
   "The email contains a link that allows you to sign in without a password.": "Sähköpostista löytyy linkki, jota klikkaamalla pääset kirjautumaan sisään ilman salasanaa.",
   "check that the email address above is correct": "tarkista, että yllä näkyvä sähköpostiosoite on oikein",
   "check spam": "tarkista roskapostit",
-  "contact support": "ota yhteyttä tukeen"
+  "contact support": "ota yhteyttä tukeen",
+  "Dear user, we are strongly recommending you to use passwordless logins.": "Hyvä käyttäjä, suosittelemme vahvasti käyttämään salasanatonta kirjautumista."
 }

@@ -46,56 +46,69 @@ export default function PasswordSignIn({ next, onCancel }) {
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group className="mb-3">
-        <Form.Label>{t('Email address')}</Form.Label>
-        <Form.Control
-          required
-          type="email"
-          placeholder={t('john.smith@example.com')}
-          value={email}
-          onChange={(evt) => setEmail(evt.target.value)}
-        />
-        <Form.Control.Feedback type="invalid">
+    <div>
+      <div className="mt-3">
+        <p className="text-center mb-4 text-md mx-auto">
           {t(
-            'Please check that your email address is typed correctly. For example, it must not contain spaces.',
+            'Dear user, we are strongly recommending you to use passwordless logins.',
           )}
-        </Form.Control.Feedback>
-      </Form.Group>
-      <Form.Group className="mb-5">
-        <Form.Label>{t('Password')}</Form.Label>
-        <Form.Control
-          required
-          type="password"
-          value={password}
-          onChange={(evt) => setPassword(evt.target.value)}
-        />
-      </Form.Group>
-      <div className="d-flex justify-end">
-        <Button
-          variant="outline"
-          disabled={sending}
-          onClick={onCancel}
-          className="mx-3 w"
-        >
-          {t('Cancel')}
-        </Button>
-        <Button
-          type="submit"
-          className="bg-gradient-primary"
-          disabled={sending}
-        >
-          {t('Sign in')}
-        </Button>
-      </div>
-      <div className="">
-        <p className="mb-4 text-sm mx-auto">
-          {t("Don't have an account?")}{' '}
-          <Link to="/signup/password" className="text-primary font-weight-bold">
-            {t('Sign up')}
-          </Link>
         </p>
       </div>
-    </Form>
+      <div className="mb-4" style={{ borderTop: '1px solid lightgrey' }}></div>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group className="mb-3">
+          <Form.Label>{t('Email address')}</Form.Label>
+          <Form.Control
+            required
+            type="email"
+            placeholder={t('john.smith@example.com')}
+            value={email}
+            onChange={(evt) => setEmail(evt.target.value)}
+          />
+          <Form.Control.Feedback type="invalid">
+            {t(
+              'Please check that your email address is typed correctly. For example, it must not contain spaces.',
+            )}
+          </Form.Control.Feedback>
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>{t('Password')}</Form.Label>
+          <Form.Control
+            required
+            type="password"
+            value={password}
+            onChange={(evt) => setPassword(evt.target.value)}
+          />
+        </Form.Group>
+        <div className="justify-content-center mt-5 mb-4 d-flex justify-end">
+          <Button
+            variant="outline"
+            disabled={sending}
+            onClick={onCancel}
+            className="mx-3 w"
+          >
+            {t('Cancel')}
+          </Button>
+          <Button
+            type="submit"
+            className="bg-gradient-primary"
+            disabled={sending}
+          >
+            {t('Sign in')}
+          </Button>
+        </div>
+        <div className="">
+          <p className="text-center mb-4 mt-3 text-sm mx-auto">
+            {t("Don't have an account?")}{' '}
+            <Link
+              to="/signup/password"
+              className="text-primary font-weight-bold"
+            >
+              {t('Sign up')}
+            </Link>
+          </p>
+        </div>
+      </Form>
+    </div>
   );
 }
