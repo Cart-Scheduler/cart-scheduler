@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
@@ -8,34 +9,11 @@ import BackButton from './BackButton';
 
 export const cleanEmail = (email) => email.trim().toLowerCase();
 
-function EmailSent({ email }) {
-  const { t } = useTranslation();
-  return (
-    <div>
-      <p className="mb-1 text-center">
-        {t('You will receive an email to address:')}
-      </p>
-      <h4 className="mb-4 text-center">{email}</h4>
-      <p>
-        {t(
-          'The email contains a link that allows you to sign in without a password.',
-        )}
-      </p>
-      <p>{t("If you don't receive the email in 15 minutes:")}</p>
-      <ul className="mb-4">
-        <li>{t('check that the email address above is correct')}</li>
-        <li>{t('check spam')}</li>
-        <li>{t('contact support')}</li>
-      </ul>
-      <BackButton />
-    </div>
-  );
-}
-
-export default function SendLink({ next, onCancel }) {
+export default function PasswordSignIn({ next, onCancel }) {
   const [sending, setSending] = useState(false);
   const [isSent, setIsSent] = useState(false);
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const { t } = useTranslation();
 
   const send = async () => {
@@ -63,12 +41,13 @@ export default function SendLink({ next, onCancel }) {
   };
 
   if (isSent) {
-    return <EmailSent email={email} />;
+    return null;
+    //return <EmailSent email={email} />;
   }
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Form.Group className="mb-4">
+      <Form.Group className="mb-3">
         <Form.Label>{t('Email address')}</Form.Label>
         <Form.Control
           required
@@ -83,7 +62,16 @@ export default function SendLink({ next, onCancel }) {
           )}
         </Form.Control.Feedback>
       </Form.Group>
-      <div className="float-end">
+      <Form.Group className="mb-5">
+        <Form.Label>{t('Password')}</Form.Label>
+        <Form.Control
+          required
+          type="password"
+          value={password}
+          onChange={(evt) => setPassword(evt.target.value)}
+        />
+      </Form.Group>
+      <div className="d-flex justify-end">
         <Button
           variant="outline"
           disabled={sending}
@@ -97,8 +85,16 @@ export default function SendLink({ next, onCancel }) {
           className="bg-gradient-primary"
           disabled={sending}
         >
-          {t('Send link')}
+          {t('Sign in')}
         </Button>
+      </div>
+      <div className="">
+        <p className="mb-4 text-sm mx-auto">
+          {t("Don't have an account?")}{' '}
+          <Link to="/signup/password" className="text-primary font-weight-bold">
+            {t('Sign up')}
+          </Link>
+        </p>
       </div>
     </Form>
   );

@@ -13,6 +13,7 @@ const Project = React.lazy(() => import('../app/projects/project/page'));
 const SignIn = React.lazy(() => import('../app/signin/page'));
 const SignInLink = React.lazy(() => import('../app/signin/Link'));
 const SignOut = React.lazy(() => import('../app/SignOut'));
+const SignUpPassword = React.lazy(() => import('../app/signup/password/page'));
 
 // The path where user is redirected to after authentication by default
 export const DEFAULT_PATH = '/';
@@ -29,6 +30,15 @@ export default function Router() {
           <Route
             path="link"
             element={<RC isPublic element={<SignInLink />} />}
+          />
+        </Route>
+        <Route
+          path="/signup"
+          element={<RC isPublic element={<SignInLayout />} />}
+        >
+          <Route
+            path="password"
+            element={<RC isPublic element={<SignUpPassword />} />}
           />
         </Route>
         <Route
