@@ -9,6 +9,7 @@ import Router from './routes';
 import reportWebVitals from './reportWebVitals';
 import store from './redux/store';
 import { initLocales } from './i18next';
+import { initAuth } from './services/auth';
 import { initFirebase } from './services/firebase';
 import { initDb } from './services/db';
 import { initFunctions } from './services/functions';
@@ -16,6 +17,7 @@ import { initMessaging } from './services/messaging';
 
 initLocales();
 initFirebase();
+initAuth();
 initDb();
 initFunctions();
 initMessaging();

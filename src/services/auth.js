@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
+  createUserWithEmailAndPassword,
   getAuth,
   isSignInWithEmailLink,
   onAuthStateChanged,
@@ -14,6 +15,15 @@ import {
 import { reset } from '../redux/actions';
 import { setUser } from '../redux/slices/auth';
 
+let auth;
+
+export function initAuth() {
+  auth = getAuth();
+  if (process.env.REACT_APP_LANGUAGE) {
+    auth.languageCode = process.env.REACT_APP_LANGUAGE;
+  }
+}
+
 // Custom hook for authentication. Returns:
 // - undefined = still figuring out
 // - null = user is not authenticated
@@ -21,7 +31,7 @@ import { setUser } from '../redux/slices/auth';
 export function useListenAuth() {
   const dispatch = useDispatch();
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(getAuth(), (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       const newUser = user
         ? {
             uid: user.uid,
@@ -56,11 +66,6 @@ export function googleSignIn() {
   provider.addScope('email');
   provider.addScope('profile');
 
-  const auth = getAuth();
-  if (process.env.REACT_APP_LANGUAGE) {
-    auth.languageCode = process.env.REACT_APP_LANGUAGE;
-  }
-
   signInWithRedirect(auth, provider);
 }
 
@@ -87,8 +92,11 @@ export async function signInLinkToEmail(email, next) {
     handleCodeInApp: true, // must be true
   };
 
-  const auth = getAuth();
   await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+}
+
+export async function signUpPassword(email, password) {
+  await createUserWithEmailAndPassword(auth, email, password);
 }
 
 export function useSignOut() {
@@ -97,7 +105,7 @@ export function useSignOut() {
   useEffect(() => {
     const start = async () => {
       try {
-        await signOutFirebase(getAuth());
+        await signOutFirebase(auth);
         // re-initialize redux state by dispatching reset action
         dispatch(reset());
         setSignedOut(true);
@@ -111,7 +119,7 @@ export function useSignOut() {
 }
 
 export function isValidSignInLink(link) {
-  return isSignInWithEmailLink(getAuth(), link);
+  return isSignInWithEmailLink(auth, link);
 }
 
 export function useSignInWithEmailLink(email, link) {
@@ -119,7 +127,6 @@ export function useSignInWithEmailLink(email, link) {
   const [error, setError] = useState();
   useEffect(() => {
     const start = async () => {
-      const auth = getAuth();
       try {
         const res = await signInWithEmailLink(auth, email, link);
         // remove saved email address
