@@ -6,6 +6,7 @@ import Alert from 'react-bootstrap/Alert';
 
 import Spinner from '../../components/Spinner';
 import { DEFAULT_PATH } from '../../routes';
+import { useCheckRedirectResult } from '../../services/auth';
 import { useAuth } from '../../services/db';
 import AppleSignIn from './AppleSignIn';
 import GoogleSignIn from './GoogleSignIn';
@@ -51,6 +52,8 @@ function SignInPasswordButton({ className, onClick }) {
 export default function Login() {
   const [method, setMethod] = useState();
   const location = useLocation();
+  useCheckRedirectResult();
+
   // check if we have next path after a successful authentication
   const next = new URLSearchParams(location.search).get('next');
 
@@ -60,14 +63,6 @@ export default function Login() {
       <div className="text-center pt-2 pb-2">
         <Spinner />
       </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <Alert variant="danger" className="text-white">
-        {error.code} {error.message}
-      </Alert>
     );
   }
 
@@ -87,6 +82,11 @@ export default function Login() {
   // render main menu
   return (
     <div>
+      {error && (
+        <Alert variant="danger" className="text-white">
+          {error.code} {error.message}
+        </Alert>
+      )}
       <GoogleSignIn className="w-100 mb-3" />
       <AppleSignIn className="mb-3" />
       <SignInLinkButton className="mb-3" onClick={() => setMethod('link')} />

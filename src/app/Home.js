@@ -14,7 +14,7 @@ function NameChecker() {
   const { isLoading, data: person } = usePerson();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  if (!isLoading && person) {
+  if (!isLoading && person && person.name) {
     if (person.name.trim().length === 0) {
       return (
         <Row>
