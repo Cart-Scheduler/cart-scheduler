@@ -1,6 +1,7 @@
 import GoogleButton from 'react-google-button';
 import { useTranslation } from 'react-i18next';
 
+import { logSignInError } from '../../services/analytics';
 import { googleSignIn } from '../../services/auth';
 
 // Button that follows Google's style guidelines
@@ -11,6 +12,7 @@ export default function GoogleSignIn({ className }) {
       await googleSignIn();
     } catch (err) {
       console.error(err);
+      logSignInError(err.code);
     }
   };
   return (

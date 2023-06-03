@@ -1,3 +1,4 @@
+import { logSignInError } from '../../services/analytics';
 import { appleSignIn } from '../../services/auth';
 import AppleSignInButton from '../../components/AppleSignInButton';
 
@@ -8,6 +9,7 @@ export default function AppleSignIn({ className }) {
       await appleSignIn();
     } catch (err) {
       console.error(err);
+      logSignInError(err.code);
     }
   };
   return <AppleSignInButton onClick={handleClick} />;

@@ -17,6 +17,7 @@ import {
   Timestamp,
 } from 'firebase/firestore';
 
+import { logUpdatePerson } from './analytics';
 import { getApp } from './firebase';
 import {
   setDoc as setDbDoc,
@@ -269,6 +270,7 @@ export async function updatePersonDoc(personId, data) {
     ...data,
     updated: serverTimestamp(),
   });
+  logUpdatePerson();
 }
 
 // Filters object by calling the given callback function for each entry with

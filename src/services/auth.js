@@ -15,6 +15,7 @@ import {
   OAuthProvider,
 } from 'firebase/auth';
 
+import { logSignIn, logSignInError, logSignOut, logSignUp } from './analytics';
 import { reset } from '../redux/actions';
 import { setError, setUser } from '../redux/slices/auth';
 
@@ -50,6 +51,7 @@ export function useListenAuth() {
       (err) => {
         console.error(err);
         dispatch(setError({ code: err.code, message: err.message }));
+        logSignInError(err.code);
       },
     );
     return unsubscribe;
@@ -80,6 +82,7 @@ export async function appleSignIn() {
   }
 
   await signInWithRedirect(auth, provider);
+  logSignIn('Apple');
 }
 
 export function useCheckRedirectResult() {
@@ -91,6 +94,7 @@ export function useCheckRedirectResult() {
       } catch (err) {
         console.error(err);
         dispatch(setError({ code: err.code, message: err.message }));
+        logSignInError(err.code);
       }
     };
     run();
@@ -107,6 +111,7 @@ export async function googleSignIn() {
   provider.addScope('profile');
 
   await signInWithRedirect(auth, provider);
+  logSignIn('Google');
 }
 
 // Query parameter key to be used for next path information while using
@@ -133,14 +138,17 @@ export async function signInLinkToEmail(email, next) {
   };
 
   await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+  logSignIn('EmailLink');
 }
 
 export async function signInPassword(email, password) {
   await signInWithEmailAndPassword(auth, email, password);
+  logSignIn('EmailPassword');
 }
 
 export async function signUpPassword(email, password) {
   await createUserWithEmailAndPassword(auth, email, password);
+  logSignUp('EmailPassword');
 }
 
 export function useSignOut() {
@@ -153,6 +161,7 @@ export function useSignOut() {
         // re-initialize redux state by dispatching reset action
         dispatch(reset());
         setSignedOut(true);
+        logSignOut();
       } catch (err) {
         console.error(err);
       }
@@ -178,6 +187,7 @@ export function useSignInWithEmailLink(email, link) {
         setResult(res);
       } catch (err) {
         setError(err);
+        logSignInError(err.code);
       }
     };
     if (email && link) {
