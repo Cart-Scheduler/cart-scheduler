@@ -14,6 +14,8 @@
   "Notifications": "Ilmoitukset",
   "Home": "Etusivu",
   "Password": "Salasana",
+  "Password again": "Salasana uudelleen",
+  "Passwords do not match. Please type passwords again.": "Salasanat eivät täsmää. Kirjoita salasanat uudelleen.",
   "Please check that your email address is typed correctly. For example, it must not contain spaces.": "Tarkista, että kirjoitit sähköpostiosoitteesi oikein. Siinä ei esimerkiksi saa olla välilyöntejä.",
   "Profile": "Omat tiedot",
   "Projects": "Projektit",

@@ -67,6 +67,7 @@ export default function PasswordSignIn({ next, onCancel }) {
           <Form.Control
             required
             type="password"
+            placeholder={t('Password')}
             value={password}
             onChange={(evt) => setPassword(evt.target.value)}
           />

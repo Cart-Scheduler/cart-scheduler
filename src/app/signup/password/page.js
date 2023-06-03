@@ -15,6 +15,7 @@ export default function SignUpPassword({ next, onCancel }) {
   const [error, setError] = useState();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [password2, setPassword2] = useState('');
   const { t } = useTranslation();
 
   const send = async () => {
@@ -35,7 +36,11 @@ export default function SignUpPassword({ next, onCancel }) {
   const handleSubmit = (evt) => {
     evt.preventDefault();
     evt.stopPropagation();
-    send();
+    if (password !== password2) {
+      setError(t('Passwords do not match. Please type passwords again.'));
+    } else {
+      send();
+    }
   };
 
   return (
@@ -55,13 +60,24 @@ export default function SignUpPassword({ next, onCancel }) {
           )}
         </Form.Control.Feedback>
       </Form.Group>
-      <Form.Group className="mb-4">
+      <Form.Group className="mb-3">
         <Form.Label>{t('Password')}</Form.Label>
         <Form.Control
           required
           type="password"
+          placeholder={t('Password')}
           value={password}
           onChange={(evt) => setPassword(evt.target.value)}
+        />
+      </Form.Group>
+      <Form.Group className="mb-4">
+        <Form.Label>{t('Password again')}</Form.Label>
+        <Form.Control
+          required
+          type="password"
+          placeholder={t('Password')}
+          value={password2}
+          onChange={(evt) => setPassword2(evt.target.value)}
         />
       </Form.Group>
       {error && (
