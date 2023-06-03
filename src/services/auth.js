@@ -15,7 +15,7 @@ import {
 } from 'firebase/auth';
 
 import { reset } from '../redux/actions';
-import { setUser } from '../redux/slices/auth';
+import { setError, setUser } from '../redux/slices/auth';
 
 let auth;
 
@@ -33,17 +33,24 @@ export function initAuth() {
 export function useListenAuth() {
   const dispatch = useDispatch();
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      const newUser = user
-        ? {
-            uid: user.uid,
-            email: user.email,
-            displayName: user.displayName,
-            photoURL: user.photoURL,
-          }
-        : user;
-      dispatch(setUser(newUser));
-    });
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (user) => {
+        const newUser = user
+          ? {
+              uid: user.uid,
+              email: user.email,
+              displayName: user.displayName,
+              photoURL: user.photoURL,
+            }
+          : user;
+        dispatch(setUser(newUser));
+      },
+      (err) => {
+        console.error(err);
+        dispatch(setError({ code: err.code, message: err.message }));
+      },
+    );
     return unsubscribe;
   }, [dispatch]);
 }

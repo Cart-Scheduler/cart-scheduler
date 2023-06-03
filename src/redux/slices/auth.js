@@ -6,12 +6,16 @@ export const slice = createSlice({
     initializing: true,
   },
   reducers: {
+    setError: (state, action) => {
+      state.error = action.payload;
+    },
     setUser: (state, action) => {
       state.initializing = false;
       state.user = action.payload;
+      delete state.error;
     },
   },
 });
 
-export const { setUser } = slice.actions;
+export const { setError, setUser } = slice.actions;
 export default slice.reducer;

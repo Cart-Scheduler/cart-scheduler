@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
+import Alert from 'react-bootstrap/Alert';
 
 import Spinner from '../../components/Spinner';
 import { DEFAULT_PATH } from '../../routes';
@@ -53,12 +54,20 @@ export default function Login() {
   // check if we have next path after a successful authentication
   const next = new URLSearchParams(location.search).get('next');
 
-  const { initializing, user } = useAuth();
+  const { error, initializing, user } = useAuth();
   if (initializing) {
     return (
       <div className="text-center pt-2 pb-2">
         <Spinner />
       </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <Alert variant="danger" className="text-white">
+        {error.code} {error.message}
+      </Alert>
     );
   }
 

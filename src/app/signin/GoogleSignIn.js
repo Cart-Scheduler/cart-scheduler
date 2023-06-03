@@ -6,10 +6,17 @@ import { googleSignIn } from '../../services/auth';
 // Button that follows Google's style guidelines
 export default function GoogleSignIn({ className }) {
   const { t } = useTranslation();
+  const handleClick = async () => {
+    try {
+      await googleSignIn();
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
     <GoogleButton
       label={t('Sign in with Google')}
-      onClick={googleSignIn}
+      onClick={handleClick}
       className={className}
     />
   );
