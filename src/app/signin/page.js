@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import AuthLoading from '../../components/AuthLoading';
 import { DEFAULT_PATH } from '../../routes';
 import { useAuth } from '../../services/db';
+import AppleSignIn from './AppleSignIn';
 import GoogleSignIn from './GoogleSignIn';
 import PasswordSignIn from './PasswordSignIn';
 import SendLink from './SendLink';
@@ -26,7 +27,7 @@ function SignInLinkButton({ className, onClick }) {
   const { t } = useTranslation();
   return (
     <MethodButton
-      className={classNames('bg-danger', className)}
+      className={classNames('bg-warning', className)}
       onClick={onClick}
     >
       {t('Sign in with email link')}
@@ -74,6 +75,7 @@ export default function Login() {
   return (
     <div>
       <GoogleSignIn className="w-100 mb-3" />
+      <AppleSignIn className="mb-3" />
       <SignInLinkButton className="mb-3" onClick={() => setMethod('link')} />
       <SignInPasswordButton
         className="mb-3"

@@ -11,6 +11,7 @@ import {
   signInWithRedirect,
   signOut as signOutFirebase,
   GoogleAuthProvider,
+  OAuthProvider,
 } from 'firebase/auth';
 
 import { reset } from '../redux/actions';
@@ -57,8 +58,23 @@ export function readSavedSignInEmail() {
   return window.localStorage.getItem(SAVED_SIGN_IN_EMAIL_KEY);
 }
 
+export async function appleSignIn() {
+  const provider = new OAuthProvider('apple.com');
+
+  // scopes that we want to request from Apple
+  provider.addScope('email');
+  provider.addScope('name');
+
+  if (process.env.REACT_APP_LANGUAGE) {
+    provider.setCustomParameters({
+      locale: process.env.REACT_APP_LANGUAGE,
+    });
+  }
+
+  signInWithRedirect(auth, provider);
+}
+
 // https://firebase.google.com/docs/auth/web/redirect-best-practices
-// Choose option 1
 
 export function googleSignIn() {
   const provider = new GoogleAuthProvider();
