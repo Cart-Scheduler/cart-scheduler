@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -19,6 +20,7 @@ const cleanName = (name) => name.trim();
 
 function ProfileForm() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const auth = useAuth();
   const personId = usePersonId();
   const person = useListenPerson();
@@ -35,6 +37,7 @@ function ProfileForm() {
     setSaving(true);
     try {
       await updatePersonDoc(personId, { name: cleanName(name) });
+      navigate('/');
     } catch (err) {
       console.error(err);
     }
