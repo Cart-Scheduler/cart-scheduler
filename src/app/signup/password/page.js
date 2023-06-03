@@ -50,6 +50,7 @@ export default function SignUpPassword({ next, onCancel }) {
         <Form.Control
           required
           type="email"
+          size="lg"
           placeholder={t('john.smith@example.com')}
           value={email}
           onChange={(evt) => setEmail(evt.target.value)}
@@ -65,6 +66,7 @@ export default function SignUpPassword({ next, onCancel }) {
         <Form.Control
           required
           type="password"
+          size="lg"
           placeholder={t('Password')}
           value={password}
           onChange={(evt) => setPassword(evt.target.value)}
@@ -75,6 +77,7 @@ export default function SignUpPassword({ next, onCancel }) {
         <Form.Control
           required
           type="password"
+          size="lg"
           placeholder={t('Password')}
           value={password2}
           onChange={(evt) => setPassword2(evt.target.value)}

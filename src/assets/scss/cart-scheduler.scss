@@ -6,3 +6,8 @@
 .navbar-collapse {
   box-shadow: none;
 }
+
+// make large form control font bigger to prevent iOS Safari auto-zooming in form
+.form-control-lg {
+  font-size: 1rem;
+}
