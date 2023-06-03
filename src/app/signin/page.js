@@ -3,7 +3,7 @@ import { Navigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 
-import AuthLoading from '../../components/AuthLoading';
+import Spinner from '../../components/Spinner';
 import { DEFAULT_PATH } from '../../routes';
 import { useAuth } from '../../services/db';
 import AppleSignIn from './AppleSignIn';
@@ -55,7 +55,11 @@ export default function Login() {
 
   const { initializing, user } = useAuth();
   if (initializing) {
-    return <AuthLoading />;
+    return (
+      <div className="text-center pt-2 pb-2">
+        <Spinner />
+      </div>
+    );
   }
 
   if (user) {
