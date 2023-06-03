@@ -7,11 +7,12 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
+import Spinner from '../../components/Spinner';
 import { LayoutContainer } from '../../layouts/Default';
 import Breadcrumb from '../../layouts/Breadcrumb';
 import {
   useAuth,
-  useListenPerson,
+  usePerson,
   usePersonId,
   updatePersonDoc,
 } from '../../services/db';
@@ -23,7 +24,7 @@ function ProfileForm() {
   const navigate = useNavigate();
   const auth = useAuth();
   const personId = usePersonId();
-  const person = useListenPerson();
+  const { data: person } = usePerson();
   const [saving, setSaving] = useState(false);
   const [name, setName] = useState('');
   useEffect(() => {
@@ -31,6 +32,7 @@ function ProfileForm() {
       setName(person.name);
     }
   }, [person]);
+  const nameEmpty = name.trim().length === 0;
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
@@ -44,11 +46,15 @@ function ProfileForm() {
     setSaving(false);
   };
 
+  if (!person) {
+    return <Spinner />;
+  }
+
   return (
     <Form onSubmit={handleSubmit}>
       <Row>
         <Col>
-          <Form.Group className="mb-3">
+          <Form.Group className={`mb-3 ${nameEmpty ? 'has-danger' : ''}`}>
             <Form.Label>{t('Name')}</Form.Label>
             <Form.Control
               required
@@ -56,7 +62,13 @@ function ProfileForm() {
               placeholder={t('John Smith')}
               value={name}
               onChange={(evt) => setName(evt.target.value)}
+              className={`${nameEmpty ? 'is-invalid' : ''}`}
             />
+            {nameEmpty && (
+              <Form.Text muted>
+                {t('Please enter your name so that others can recognize you.')}
+              </Form.Text>
+            )}
           </Form.Group>
         </Col>
         <Col>
