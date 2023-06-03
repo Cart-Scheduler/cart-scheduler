@@ -2,57 +2,57 @@ import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Container from 'react-bootstrap/Container';
-import Col from 'react-bootstrap/Col';
-import Dropdown from 'react-bootstrap/Dropdown';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Row from 'react-bootstrap/Row';
+import Offcanvas from 'react-bootstrap/Offcanvas';
+import { FaBars, FaHome, FaSignOutAlt, FaUserCircle } from 'react-icons/fa';
 
 import { useAuth, usePerson } from '../services/db';
 import Footer from './Footer';
 import NotificationController from '../components/notifications/Controller';
 
-function UserMenu() {
+function MyOffCanvas({ title }) {
   const { t } = useTranslation();
-  const { user } = useAuth();
-  const { data: person } = usePerson();
-  const name = person?.name ?? user?.email;
+  const iconClass = 'me-2';
   return (
-    <NavDropdown
-      id="nav-user"
-      title={name}
-      menuVariant="light"
-      className="text-white"
-      align="end"
-    >
-      <NavDropdown.Item as={Link} to="/profile">
-        {t('Profile')}
-      </NavDropdown.Item>
-      <NavDropdown.Item as={Link} to="/signout">
-        {t('Sign out')}
-      </NavDropdown.Item>
-    </NavDropdown>
+    <Navbar.Offcanvas placement="end">
+      <Offcanvas.Header closeButton>
+        <Offcanvas.Title>{title}</Offcanvas.Title>
+      </Offcanvas.Header>
+      <Offcanvas.Body>
+        <Nav className="justify-content-end flex-grow-1 pe-3">
+          <Nav.Link as={Link} to="/">
+            <FaHome className={iconClass} /> {t('Home')}
+          </Nav.Link>
+          <Nav.Link as={Link} to="/profile">
+            <FaUserCircle className={iconClass} /> {t('Profile')}
+          </Nav.Link>
+          <Nav.Link as={Link} to="/signout">
+            <FaSignOutAlt className={iconClass} /> {t('Sign out')}
+          </Nav.Link>
+        </Nav>
+      </Offcanvas.Body>
+    </Navbar.Offcanvas>
   );
 }
 
 function MyNavbar({ breadcrumb }) {
+  const { user } = useAuth();
+  const { data: person } = usePerson();
+  const title = person?.name ?? user?.email;
   return (
     <Navbar
-      expand="sm"
+      expand={false}
       bg="transparent"
       variant="dark"
-      className="text-white px-0 mx-4 shadow-none border-radius-xl navbar-transparent"
+      className="px-0 mx-4 shadow-none border-radius-xl navbar-transparent"
     >
       <Container fluid className="py-1 px-3">
         {breadcrumb}
-        <Navbar.Toggle>Toggle</Navbar.Toggle>
-        <Navbar.Collapse className="mt-sm-0 mt-2 me-md-0 me-sm-4">
-          <div className="ms-md-auto pe-md-3 d-flex align-items-center" />
-          <Nav className="justify-content-end">
-            <UserMenu />
-          </Nav>
-        </Navbar.Collapse>
+        <Navbar.Toggle>
+          <FaBars />
+        </Navbar.Toggle>
+        <MyOffCanvas title={title} />
       </Container>
     </Navbar>
   );

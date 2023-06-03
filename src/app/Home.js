@@ -45,11 +45,7 @@ function NameChecker() {
 
 function MyBreadcrumb() {
   const { t } = useTranslation();
-  return (
-    <Breadcrumb title={t('Home')}>
-      <Breadcrumb.Item>{t('Home')}</Breadcrumb.Item>
-    </Breadcrumb>
-  );
+  return <Breadcrumb title={t('Home')}></Breadcrumb>;
 }
 
 function WorkInProgress() {
