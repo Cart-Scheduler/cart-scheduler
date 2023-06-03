@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import {
   createUserWithEmailAndPassword,
   getAuth,
+  getRedirectResult,
   isSignInWithEmailLink,
   onAuthStateChanged,
   signInWithEmailLink,
@@ -78,19 +79,34 @@ export async function appleSignIn() {
     });
   }
 
-  signInWithRedirect(auth, provider);
+  await signInWithRedirect(auth, provider);
+}
+
+export function useCheckRedirectResult() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const run = async () => {
+      try {
+        await getRedirectResult(auth);
+      } catch (err) {
+        console.error(err);
+        dispatch(setError({ code: err.code, message: err.message }));
+      }
+    };
+    run();
+  }, [dispatch]);
 }
 
 // https://firebase.google.com/docs/auth/web/redirect-best-practices
 
-export function googleSignIn() {
+export async function googleSignIn() {
   const provider = new GoogleAuthProvider();
 
   // scopes that we want to request from Google API
   provider.addScope('email');
   provider.addScope('profile');
 
-  signInWithRedirect(auth, provider);
+  await signInWithRedirect(auth, provider);
 }
 
 // Query parameter key to be used for next path information while using
