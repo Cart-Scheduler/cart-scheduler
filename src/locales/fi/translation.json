@@ -8,6 +8,7 @@
   "Email address": "Sähköpostiosoite",
   "Firebase: Error (auth/email-already-in-use).": "Sähköpostiosoitteelle on jo tili.",
   "Firebase: Error (auth/invalid-login-credentials).": "Väärä sähköpostiosoite tai salasana.",
+  "Firebase: Error (auth/network-request-failed).": "Verkkovirhe. Lataa sivu uudelleen ja yritä myöhemmin.",
   "If you don't receive the email in 15 minutes:": "Jos et saa sähköpostia 15 minuutin kuluessa:",
   "If you want to receive notifications, please press Continue and then Allow.": "Jos haluat vastaanottaa ilmoituksia, paina ensin Jatka ja sitten Hyväksy.",
   "is a service maintained by private individuals and is based on open source project": "on yksityishenkilöiden ylläpitämä palvelu, joka perustuu avoimen lähdekoodin projektiin",

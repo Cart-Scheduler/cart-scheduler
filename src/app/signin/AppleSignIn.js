@@ -6,7 +6,7 @@ import AppleSignInButton from '../../components/AppleSignInButton';
 export default function AppleSignIn({ className }) {
   const handleClick = async () => {
     try {
-      await appleSignIn();
+      appleSignIn();
     } catch (err) {
       console.error(err);
       logSignInError(err.code);

@@ -52,6 +52,8 @@ function SignInPasswordButton({ className, onClick }) {
 export default function Login() {
   const [method, setMethod] = useState();
   const location = useLocation();
+  const { t } = useTranslation();
+
   useCheckRedirectResult();
 
   // check if we have next path after a successful authentication
@@ -84,7 +86,7 @@ export default function Login() {
     <div>
       {error && (
         <Alert variant="danger" className="text-white">
-          {error.code} {error.message}
+          {t(error.message)}
         </Alert>
       )}
       <GoogleSignIn className="w-100 mb-3" />

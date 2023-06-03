@@ -9,7 +9,7 @@ export default function GoogleSignIn({ className }) {
   const { t } = useTranslation();
   const handleClick = async () => {
     try {
-      await googleSignIn();
+      googleSignIn();
     } catch (err) {
       console.error(err);
       logSignInError(err.code);

@@ -68,7 +68,7 @@ export function readSavedSignInEmail() {
   return window.localStorage.getItem(SAVED_SIGN_IN_EMAIL_KEY);
 }
 
-export async function appleSignIn() {
+export function appleSignIn() {
   const provider = new OAuthProvider('apple.com');
 
   // scopes that we want to request from Apple
@@ -81,7 +81,7 @@ export async function appleSignIn() {
     });
   }
 
-  await signInWithRedirect(auth, provider);
+  signInWithRedirect(auth, provider);
   logSignIn('Apple');
 }
 
@@ -103,14 +103,14 @@ export function useCheckRedirectResult() {
 
 // https://firebase.google.com/docs/auth/web/redirect-best-practices
 
-export async function googleSignIn() {
+export function googleSignIn() {
   const provider = new GoogleAuthProvider();
 
   // scopes that we want to request from Google API
   provider.addScope('email');
   provider.addScope('profile');
 
-  await signInWithRedirect(auth, provider);
+  signInWithRedirect(auth, provider);
   logSignIn('Google');
 }
 
