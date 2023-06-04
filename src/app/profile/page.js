@@ -40,7 +40,10 @@ function ProfileForm() {
     evt.preventDefault();
     setSaving(true);
     try {
-      await updatePersonDoc(personId, { name: cleanName(name), gender });
+      await updatePersonDoc(personId, {
+        name: cleanName(name),
+        gender,
+      });
       navigate('/');
     } catch (err) {
       console.error(err);
@@ -61,6 +64,7 @@ function ProfileForm() {
             <Form.Control
               required
               type="text"
+              size="lg"
               placeholder={t('John Smith')}
               value={name}
               onChange={(evt) => setName(evt.target.value)}
@@ -79,6 +83,7 @@ function ProfileForm() {
             <Form.Control
               required
               type="text"
+              size="lg"
               value={auth?.user?.email}
               disabled
             />

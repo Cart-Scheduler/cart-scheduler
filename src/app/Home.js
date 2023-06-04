@@ -10,35 +10,33 @@ import { LayoutContainer } from '../layouts/Default';
 import Breadcrumb from '../layouts/Breadcrumb';
 import { usePerson } from '../services/db';
 
-function NameChecker() {
+function WelcomeChecker() {
   const { isLoading, data: person } = usePerson();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  if (!isLoading && person && person.name) {
-    if (person.name.trim().length === 0) {
-      return (
-        <Row>
-          <Col>
-            <Card className="mb-4 p-4">
-              <Card.Body>
-                <h5>{t('Welcome!')}</h5>
-                <p>
-                  {t(
-                    'Get started by entering your name in the profile page so that others can recognize you.',
-                  )}
-                </p>
-                <Button
-                  className="bg-gradient-primary mb-0"
-                  onClick={() => navigate('/profile')}
-                >
-                  {t('Profile')}
-                </Button>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      );
-    }
+  if (!isLoading && person && person.created && !person.modified) {
+    return (
+      <Row>
+        <Col>
+          <Card className="mb-4 p-4">
+            <Card.Body>
+              <h5>{t('Welcome!')}</h5>
+              <p>
+                {t(
+                  'Get started by providing information about you in the profile page.',
+                )}
+              </p>
+              <Button
+                className="bg-gradient-primary mb-0"
+                onClick={() => navigate('/profile')}
+              >
+                {t('Profile')}
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    );
   }
   return null;
 }
@@ -69,7 +67,7 @@ function WorkInProgress() {
 export default function Home() {
   return (
     <LayoutContainer breadcrumb={<MyBreadcrumb />}>
-      <NameChecker />
+      <WelcomeChecker />
       <Row>
         <Col>
           <Card className="mb-4" style={{ minHeight: '20em' }}>

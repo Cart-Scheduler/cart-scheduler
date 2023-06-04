@@ -268,7 +268,7 @@ export function useListenPerson() {
 export async function updatePersonDoc(personId, data) {
   await updateDoc(`persons/${personId}`, {
     ...data,
-    updated: serverTimestamp(),
+    modified: serverTimestamp(),
   });
   logUpdatePerson();
 }
