@@ -53,7 +53,7 @@ function ProfileForm() {
   return (
     <Form onSubmit={handleSubmit}>
       <Row>
-        <Col>
+        <Col sm={12} md={6}>
           <Form.Group className={`mb-3 ${nameEmpty ? 'has-danger' : ''}`}>
             <Form.Label>{t('Name')}</Form.Label>
             <Form.Control
@@ -71,7 +71,7 @@ function ProfileForm() {
             )}
           </Form.Group>
         </Col>
-        <Col>
+        <Col sm={12} md={6}>
           <Form.Group className="mb-3">
             <Form.Label>{t('Email address')}</Form.Label>
             <Form.Control
