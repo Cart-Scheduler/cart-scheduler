@@ -56,6 +56,7 @@ export default function PasswordSignIn({ next, onCancel }) {
             type="email"
             size="lg"
             placeholder={t('john.smith@example.com')}
+            autoComplete="email"
             value={email}
             onChange={(evt) => setEmail(evt.target.value)}
           />
@@ -72,6 +73,7 @@ export default function PasswordSignIn({ next, onCancel }) {
             type="password"
             size="lg"
             placeholder={t('Password')}
+            autoComplete="current-password"
             value={password}
             onChange={(evt) => setPassword(evt.target.value)}
           />

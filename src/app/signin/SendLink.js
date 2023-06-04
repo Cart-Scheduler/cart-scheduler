@@ -74,6 +74,7 @@ export default function SendLink({ next, onCancel }) {
           required
           type="email"
           placeholder={t('john.smith@example.com')}
+          autoComplete="email"
           value={email}
           onChange={(evt) => setEmail(evt.target.value)}
         />

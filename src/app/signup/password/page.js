@@ -54,6 +54,7 @@ export default function SignUpPassword({ next, onCancel }) {
           type="email"
           size="lg"
           placeholder={t('john.smith@example.com')}
+          autoComplete="email"
           value={email}
           onChange={(evt) => setEmail(evt.target.value)}
         />
@@ -70,6 +71,7 @@ export default function SignUpPassword({ next, onCancel }) {
           type="password"
           size="lg"
           placeholder={t('Password')}
+          autoComplete="new-password"
           value={password}
           onChange={(evt) => setPassword(evt.target.value)}
         />
@@ -81,6 +83,7 @@ export default function SignUpPassword({ next, onCancel }) {
           type="password"
           size="lg"
           placeholder={t('Password')}
+          autoComplete="new-password"
           value={password2}
           onChange={(evt) => setPassword2(evt.target.value)}
         />
