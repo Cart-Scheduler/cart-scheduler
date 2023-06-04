@@ -27,9 +27,11 @@ function ProfileForm() {
   const { data: person } = usePerson();
   const [saving, setSaving] = useState(false);
   const [name, setName] = useState('');
+  const [gender, setGender] = useState('');
   useEffect(() => {
     if (person) {
       setName(person.name);
+      setGender(person.gender);
     }
   }, [person]);
   const nameEmpty = name.trim().length === 0;
@@ -38,7 +40,7 @@ function ProfileForm() {
     evt.preventDefault();
     setSaving(true);
     try {
-      await updatePersonDoc(personId, { name: cleanName(name) });
+      await updatePersonDoc(personId, { name: cleanName(name), gender });
       navigate('/');
     } catch (err) {
       console.error(err);
@@ -79,6 +81,28 @@ function ProfileForm() {
               type="text"
               value={auth?.user?.email}
               disabled
+            />
+          </Form.Group>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Form.Group className="mb-3">
+            <Form.Check
+              type="radio"
+              id="gender-male"
+              label={t('Male')}
+              name="gender"
+              checked={gender === 'male'}
+              onChange={() => setGender('male')}
+            />
+            <Form.Check
+              type="radio"
+              id="gender-female"
+              label={t('Female')}
+              name="gender"
+              checked={gender === 'female'}
+              onChange={() => setGender('female')}
             />
           </Form.Group>
         </Col>
