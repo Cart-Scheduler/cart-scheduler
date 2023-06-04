@@ -116,7 +116,7 @@ export default function Profile() {
         <Col>
           <Card className="mb-4">
             <Card.Header className="pb-0">
-              <h6>{t('Profile')}</h6>
+              <h6 className="mb-0">{t('Profile')}</h6>
             </Card.Header>
             <Card.Body>
               <ProfileForm />
