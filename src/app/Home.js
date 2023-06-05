@@ -22,9 +22,9 @@ function WorkInProgress() {
         </h3>
         <h5 className="mb-4">Palvelua vielä kehitetään</h5>
         <p>
-          Kiitos kun rekisteröidyt palveluun! Ole hyvä ja odota, kunnes saat
-          lisätietoa siitä, milloin pääset anomaan vuoroja. Kärsivällisyys
-          palkitaan!
+          Kiitos kun rekisteröidyit palveluun! Ole hyvä ja odota, kunnes saat
+          WhatsApp-ryhmässä lisätietoa siitä, milloin pääset anomaan vuoroja.
+          Kärsivällisyys palkitaan!
         </p>
       </div>
     </div>
