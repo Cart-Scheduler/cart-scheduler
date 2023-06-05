@@ -1,5 +1,3 @@
-import { useNavigate } from 'react-router-dom';
-import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -8,38 +6,7 @@ import { FaSpinner } from 'react-icons/fa';
 
 import { LayoutContainer } from '../layouts/Default';
 import Breadcrumb from '../layouts/Breadcrumb';
-import { usePerson } from '../services/db';
-
-function WelcomeChecker() {
-  const { isLoading, data: person } = usePerson();
-  const navigate = useNavigate();
-  const { t } = useTranslation();
-  if (!isLoading && person && person.created && !person.modified) {
-    return (
-      <Row>
-        <Col>
-          <Card className="mb-4 p-4">
-            <Card.Body>
-              <h5>{t('Welcome!')}</h5>
-              <p>
-                {t(
-                  'Get started by providing information about you in the profile page.',
-                )}
-              </p>
-              <Button
-                className="bg-gradient-primary mb-0"
-                onClick={() => navigate('/profile')}
-              >
-                {t('Profile')}
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    );
-  }
-  return null;
-}
+import Welcome from '../components/Welcome';
 
 function MyBreadcrumb() {
   const { t } = useTranslation();
@@ -67,7 +34,7 @@ function WorkInProgress() {
 export default function Home() {
   return (
     <LayoutContainer breadcrumb={<MyBreadcrumb />}>
-      <WelcomeChecker />
+      <Welcome />
       <Row>
         <Col>
           <Card className="mb-4" style={{ minHeight: '20em' }}>
