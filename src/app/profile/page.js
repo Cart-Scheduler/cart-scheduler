@@ -94,6 +94,7 @@ function ProfileForm() {
         <Col>
           <Form.Group className="mb-3">
             <Form.Check
+              required
               type="radio"
               id="gender-male"
               label={t('Male')}
