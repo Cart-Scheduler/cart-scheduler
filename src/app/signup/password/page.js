@@ -52,6 +52,7 @@ export default function SignUpPassword({ next, onCancel }) {
         <Form.Control
           required
           type="email"
+          name="email"
           size="lg"
           placeholder={t('john.smith@example.com')}
           autoComplete="email"
@@ -69,6 +70,7 @@ export default function SignUpPassword({ next, onCancel }) {
         <Form.Control
           required
           type="password"
+          name="password"
           size="lg"
           placeholder={t('Password')}
           autoComplete="new-password"
@@ -81,6 +83,7 @@ export default function SignUpPassword({ next, onCancel }) {
         <Form.Control
           required
           type="password"
+          name="password-confirm"
           size="lg"
           placeholder={t('Password')}
           autoComplete="new-password"

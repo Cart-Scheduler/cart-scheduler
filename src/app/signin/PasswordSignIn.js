@@ -54,6 +54,7 @@ export default function PasswordSignIn({ next, onCancel }) {
           <Form.Control
             required
             type="email"
+            name="email"
             size="lg"
             placeholder={t('john.smith@example.com')}
             autoComplete="email"
@@ -71,6 +72,7 @@ export default function PasswordSignIn({ next, onCancel }) {
           <Form.Control
             required
             type="password"
+            name="password"
             size="lg"
             placeholder={t('Password')}
             autoComplete="current-password"

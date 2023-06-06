@@ -64,8 +64,10 @@ function ProfileForm() {
             <Form.Control
               required
               type="text"
+              name="name"
               size="lg"
               placeholder={t('John Smith')}
+              autoComplete="name"
               value={name}
               onChange={(evt) => setName(evt.target.value)}
               className={`${nameEmpty ? 'is-invalid' : ''}`}
