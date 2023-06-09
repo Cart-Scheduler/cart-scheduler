@@ -1,0 +1,40 @@
+$hairline: #DADCE0;
+
+.cal-container {
+  display: flex;
+  align-items: flex-start;
+  flex: 1 1 auto;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.cal-content {
+  min-width: 100%;
+  flex: none;
+  display: inline-flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.cal-hour-row::after {
+  content: "";
+  border-bottom: $hairline 1px solid;
+  position: absolute;
+  width: 100%;
+  margin-top: -1px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.cal-day-col {
+  border-right: $hairline 1px solid;
+  flex: 1 1 auto;
+  flex-shrink: 0;
+  min-width: 80px;
+}
+
+.cal-slot {
+  background-color: $primary;
+  padding-left: 1em;
+  padding-right: 1em;
+}

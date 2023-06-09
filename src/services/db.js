@@ -19,6 +19,7 @@ import {
 
 import { logUpdatePerson } from './analytics';
 import { getApp } from './firebase';
+import { filterObj } from './object';
 import {
   setDoc as setDbDoc,
   startLoading,
@@ -273,12 +274,6 @@ export async function updatePersonDoc(personId, data) {
   logUpdatePerson();
 }
 
-// Filters object by calling the given callback function for each entry with
-// [key, value] parameter. It should return a truthy value to keep the entry
-// in the resulting object, and a falsy value otherwise.
-const filterObj = (obj, fn) =>
-  Object.fromEntries(Object.entries(obj).filter(fn));
-
 // Modifies given object so that "len" characters are extracted from the start
 // of each key.
 const shortenKeys = (obj, len) =>
@@ -322,6 +317,16 @@ export function useMyProjectMembers() {
     [path],
   );
   return useExtractDb(key, filterMembers, path);
+}
+
+export async function createSlot(data) {
+  const docRef = await addDoc(collection(db, 'slots'), {
+    ...data,
+    starts: dateToTimestamp(data.starts),
+    ends: dateToTimestamp(data.ends),
+    created: serverTimestamp(),
+  });
+  return docRef.id;
 }
 
 // Hook that returns filtered slot documents.
