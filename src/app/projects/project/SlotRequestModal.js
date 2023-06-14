@@ -201,13 +201,13 @@ export default function SlotRequestModal({
           {slotRequestId ? (
             <p>
               {t(
-                'You have already sent a request for this cart shift. If you want to update the request, make the changes and press Save. You can cancel your request by pressing Remove request.',
+                'You already have a request for this cart shift. If you want to update existing request, make the changes and press Save. You can cancel your request by pressing Remove request.',
               )}
             </p>
           ) : (
             <p>
               {t(
-                'If you are available for this cart shift, fill the form and press Send request. Sending a request does not mean that your request is accepted. You will be informed about accepted requests.',
+                'If you are available for this cart shift, fill the form and press Add request. Adding a request does not mean that your request is accepted. You will be informed about accepted requests.',
               )}
             </p>
           )}
@@ -248,7 +248,7 @@ export default function SlotRequestModal({
               onClick={handleCreateRequest}
               disabled={processing}
             >
-              {t('Send request')}
+              {t('Add request')}
             </Button>
           )}
         </Modal.Footer>
