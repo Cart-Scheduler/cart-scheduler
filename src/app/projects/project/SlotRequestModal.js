@@ -60,7 +60,7 @@ function PartnerSelect(props) {
   );
 }
 
-function Title({ slot }) {
+function Title({ locationName, slot }) {
   const { t } = useTranslation();
   if (!slot) {
     return null;
@@ -70,12 +70,12 @@ function Title({ slot }) {
   return (
     <Modal.Title>
       {t(WEEKDAYS[starts.getDay()])} {starts.getDate()}.{starts.getMonth() + 1}.{' '}
-      <Time date={starts} /> – <Time date={ends} />
+      <Time date={starts} /> – <Time date={ends} /> {locationName}
     </Modal.Title>
   );
 }
 
-export default function SlotModal({
+export default function SlotRequestModal({
   show,
   onHide,
   projectId,
@@ -83,6 +83,7 @@ export default function SlotModal({
   slotRequestId,
   slotRequest,
   slot,
+  locationName,
   members,
 }) {
   const { data: person } = usePerson();
@@ -193,18 +194,14 @@ export default function SlotModal({
   return (
     <Modal show={show} onHide={onHide} size="lg">
       <Modal.Header closeButton>
-        <Title slot={slot} />
+        <Title locationName={locationName} slot={slot} />
       </Modal.Header>
       <Form onSubmit={handleSubmit}>
         <Modal.Body>
-          {/*
-          <code>REQ: {JSON.stringify(slotRequest)}</code>
-          <code>SLOT: {JSON.stringify(slot ?? {})}</code>
-          */}
           {slotRequestId ? (
             <p>
               {t(
-                'You have already sent a request for this cart shift. If you want to update the request, make the changes and press Update. You can cancel your request by pressing Remove request.',
+                'You have already sent a request for this cart shift. If you want to update the request, make the changes and press Save. You can cancel your request by pressing Remove request.',
               )}
             </p>
           ) : (
@@ -242,7 +239,7 @@ export default function SlotModal({
                 onClick={handleUpdateRequest}
                 disabled={processing || !touched}
               >
-                {t('Update request')}
+                {t('Save')}
               </Button>
             </>
           ) : (

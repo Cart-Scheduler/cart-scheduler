@@ -134,6 +134,7 @@ export default function Project() {
         show={showSlotModal}
         onHide={() => setShowSlotModal(false)}
         projectId={projectId}
+        locationName={project?.locations[selectedLocation]?.name}
         slotId={selectedSlot}
         slotRequestId={slotRequestId}
         slotRequest={slotRequests[slotRequestId]}

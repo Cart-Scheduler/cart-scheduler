@@ -34,7 +34,7 @@ function ProfileForm() {
       setGender(person.gender);
     }
   }, [person]);
-  const nameEmpty = name.trim().length === 0;
+  const nameEmpty = (name ?? '').trim().length === 0;
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
