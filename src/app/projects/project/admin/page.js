@@ -93,8 +93,8 @@ export default function ProjectAdminPage() {
               <Tabs
                 activeKey={selectedLocation}
                 onSelect={(loc) => setSelectedLocation(loc)}
-                id="calendar-tabs"
-                className="mb-3"
+                id="location-tabs-admin"
+                className="location-tabs mb-3"
                 justify
               >
                 {locations.map((locationId) => (

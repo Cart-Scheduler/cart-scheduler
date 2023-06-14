@@ -91,8 +91,8 @@ export default function Project() {
               <Tabs
                 activeKey={selectedLocation}
                 onSelect={(loc) => setSelectedLocation(loc)}
-                id="calendar-tabs"
-                className="mb-3"
+                id="location-tabs"
+                className="location-tabs mb-3"
                 justify
               >
                 {locations.map((locationId) => (
