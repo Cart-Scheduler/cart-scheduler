@@ -200,6 +200,26 @@ export async function createJoinRequest(data) {
   return docRef.id;
 }
 
+export async function createSlotRequest(data) {
+  const docRef = await addDoc(collection(db, 'slotRequests'), {
+    ...data,
+    created: serverTimestamp(),
+  });
+  return docRef.id;
+}
+
+export async function updateSlotRequest(id, data) {
+  await updateDoc(`slotRequests/${id}`, {
+    ...data,
+    modified: serverTimestamp(),
+  });
+}
+
+export async function deleteSlotRequest(id) {
+  const ref = doc(db, `slotRequests/${id}`);
+  await deleteDoc(ref);
+}
+
 // Returns [id, doc] where document matches given uid and token.
 export async function getExistingFcmToken(uid, token) {
   const myQuery = (ref) =>
@@ -300,7 +320,7 @@ function useExtractDb(key, filterFn, path) {
   };
 }
 
-// Hook that returns array of project ids that user is member of.
+// Hook that returns members from all projects that user is member of.
 export function useMyProjectMembers() {
   const personId = usePersonId();
   const path = personId ? 'projectMembers' : undefined;
@@ -319,6 +339,11 @@ export function useMyProjectMembers() {
   return useExtractDb(key, filterMembers, path);
 }
 
+export function useProjectMembers(projectId) {
+  const { docs } = useMyProjectMembers();
+  return docs?.[projectId];
+}
+
 export async function createSlot(data) {
   const docRef = await addDoc(collection(db, 'slots'), {
     ...data,
@@ -327,6 +352,11 @@ export async function createSlot(data) {
     created: serverTimestamp(),
   });
   return docRef.id;
+}
+
+export async function deleteSlot(id) {
+  const ref = doc(db, `slots/${id}`);
+  await deleteDoc(ref);
 }
 
 // Hook that returns filtered slot documents.
@@ -364,6 +394,16 @@ export function useSlots(projectId, starts, ends) {
     },
     [projectId, starts, ends],
   );
+  return useExtractDb(key, filterSlots, path);
+}
+
+// Hook that returns all slotRequests for given personId.
+export function useSlotRequests(personId) {
+  const key = 'mySlotRequests';
+  const path = personId ? 'slotRequests' : undefined;
+  const queryFn = (ref) => query(ref, where(`persons.${personId}`, '!=', null));
+  useListenCollection(path, queryFn, key);
+  const filterSlots = ([id, doc]) => id.startsWith(`${path}/`);
   return useExtractDb(key, filterSlots, path);
 }
 

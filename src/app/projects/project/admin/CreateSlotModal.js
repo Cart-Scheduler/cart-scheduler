@@ -5,8 +5,8 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { useTranslation } from 'react-i18next';
 
-import { addMinutes } from '../../../services/date';
-import { createSlot } from '../../../services/db';
+import { addMinutes } from '../../../../services/date';
+import { createSlot } from '../../../../services/db';
 
 const DEFAULT_DURATION = 60;
 

@@ -1,5 +1,10 @@
 $hairline: #DADCE0;
 
+.cal-nav button {
+  height: 4em;
+  width: 4em;
+}
+
 .cal-container {
   display: flex;
   align-items: flex-start;
@@ -14,6 +19,7 @@ $hairline: #DADCE0;
   display: inline-flex;
   position: relative;
   overflow: hidden;
+  padding-top: 4em;
 }
 
 .cal-hour-row::after {
@@ -26,15 +32,40 @@ $hairline: #DADCE0;
   pointer-events: none;
 }
 
+.cal-hour-number {
+  position: relative;
+  font-size: 10px;
+  top: -8px;
+  padding-right: 8px;
+}
+
 .cal-day-col {
+  position: relative;
   border-right: $hairline 1px solid;
   flex: 1 1 auto;
   flex-shrink: 0;
   min-width: 80px;
 }
 
+.cal-day-col-title {
+  position: absolute;
+  top: -3.75em;
+}
+
+.cal-day-col-content {
+  position: relative;
+  width: calc(100% - 1em);
+  height: 100%;
+  padding-right: 3em;
+  font-size: 12px;
+}
+
 .cal-slot {
-  background-color: $primary;
+  position: absolute;
   padding-left: 1em;
   padding-right: 1em;
+  z-index: 5;
+  width: 100%;
+  border-radius: 3px;
+  cursor: pointer;
 }

@@ -10,6 +10,9 @@ const JoinProject = React.lazy(() => import('../app/join/page'));
 const Profile = React.lazy(() => import('../app/profile/page'));
 const ProjectList = React.lazy(() => import('../app/projects/page'));
 const Project = React.lazy(() => import('../app/projects/project/page'));
+const ProjectAdmin = React.lazy(() =>
+  import('../app/projects/project/admin/page'),
+);
 const SignIn = React.lazy(() => import('../app/signin/page'));
 const SignInLink = React.lazy(() => import('../app/signin/Link'));
 const SignOut = React.lazy(() => import('../app/SignOut'));
@@ -51,7 +54,10 @@ export default function Router() {
             element={<RC element={<JoinProject />} />}
           />
           <Route path="projects">
-            <Route path=":projectId" element={<RC element={<Project />} />} />
+            <Route path=":projectId">
+              <Route path="admin" element={<RC element={<ProjectAdmin />} />} />
+              <Route index element={<RC element={<Project />} />} />
+            </Route>
             <Route index element={<RC element={<ProjectList />} />} />
           </Route>
           <Route path="profile" element={<RC element={<Profile />} />} />
