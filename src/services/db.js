@@ -344,6 +344,29 @@ export function useProjectMembers(projectId) {
   return docs?.[projectId];
 }
 
+// Hook that returns all join requests for given projectId.
+export function useJoinRequests(projectId) {
+  const key = `joinRequests-${projectId}`;
+  const path = projectId ? 'joinRequests' : undefined;
+  const queryFn = (ref) => query(ref, where('projectId', '==', projectId));
+  useListenCollection(path, queryFn, key);
+  const filterDocs = ([id, doc]) =>
+    id.startsWith(`${path}/`) && doc.projectId === projectId;
+  return useExtractDb(key, filterDocs, path);
+}
+
+export async function deleteJoinRequest(id) {
+  const ref = doc(db, `joinRequests/${id}`);
+  await deleteDoc(ref);
+}
+
+export async function addPersonToProject(projectId, personId, name) {
+  await updateDoc(`projectMembers/${projectId}`, {
+    [`members.${personId}`]: { name },
+    modified: serverTimestamp(),
+  });
+}
+
 export async function createSlot(data) {
   const docRef = await addDoc(collection(db, 'slots'), {
     ...data,

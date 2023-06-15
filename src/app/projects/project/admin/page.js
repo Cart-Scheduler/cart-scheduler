@@ -18,6 +18,7 @@ import { LayoutContainer } from '../../../../layouts/Default';
 import Breadcrumb from '../../../../layouts/Breadcrumb';
 import { addDays, getPrevMonday } from '../../../../services/date';
 import SlotCalendar from '../../../../components/SlotCalendar';
+import JoinRequestManager from './JoinRequestManager';
 import CreateSlotModal from './CreateSlotModal';
 import SlotModal from './SlotModal';
 
@@ -136,6 +137,7 @@ export default function ProjectAdminPage() {
           </Card>
         </Col>
       </Row>
+      <JoinRequestManager projectId={projectId} />
       <SlotModal
         show={showSlotModal}
         onHide={() => setShowSlotModal(false)}
