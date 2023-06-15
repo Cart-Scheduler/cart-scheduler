@@ -66,10 +66,11 @@ $hairline: #DADCE0;
 
 .cal-slot {
   position: absolute;
-  padding-left: 1em;
-  padding-right: 1em;
+  padding-left: .25em;
+  padding-right: .25em;
   z-index: 5;
   width: 100%;
   border-radius: 3px;
+  line-height: 1em;
   cursor: pointer;
 }
