@@ -17,7 +17,7 @@ import {
   updatePersonDoc,
 } from '../../services/db';
 
-const cleanName = (name) => name.trim();
+const cleanName = (name) => (name ?? '').trim();
 
 function ProfileForm() {
   const { t } = useTranslation();
@@ -30,8 +30,12 @@ function ProfileForm() {
   const [gender, setGender] = useState('');
   useEffect(() => {
     if (person) {
-      setName(person.name);
-      setGender(person.gender);
+      if (person.name !== undefined) {
+        setName(person.name);
+      }
+      if (person.gender !== undefined) {
+        setGender(person.gender);
+      }
     }
   }, [person]);
   const nameEmpty = (name ?? '').trim().length === 0;
