@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   addDoc,
@@ -88,8 +88,8 @@ function listenDoc(dispatch, path) {
     // already listening
     return;
   }
-  const ref = doc(db, path);
   dispatch(startLoading(path));
+  const ref = doc(db, path);
   const unsubscribe = onSnapshot(
     ref,
     (doc) => {
@@ -301,6 +301,18 @@ const shortenKeys = (obj, len) =>
     Object.entries(obj).map(([key, value]) => [key.substring(len), value]),
   );
 
+function useHasLoaded(isLoading) {
+  const [loaded, setLoaded] = useState();
+  useEffect(() => {
+    if (loaded === undefined && isLoading) {
+      setLoaded(false);
+    } else if (loaded === false && !isLoading) {
+      setLoaded(true);
+    }
+  }, [loaded, isLoading]);
+  return loaded;
+}
+
 // Hook that extracts data from db state.
 // Filter function gets argument [id, doc] and it should return truthy value
 // to keep the entry. Path argument is for trimming keys in returned object.
@@ -309,6 +321,7 @@ function useExtractDb(key, filterFn, path) {
     db: state.db,
     isLoading: state.db.__loading__[key],
   }));
+  const hasLoaded = useHasLoaded(isLoading);
   return {
     docs: useMemo(() => {
       if (!path) {
@@ -317,6 +330,7 @@ function useExtractDb(key, filterFn, path) {
       return shortenKeys(filterObj(db, filterFn), path.length + 1);
     }, [db, filterFn, path]),
     isLoading,
+    hasLoaded,
   };
 }
 

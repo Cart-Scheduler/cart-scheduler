@@ -1,9 +1,11 @@
+import { Navigate } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { useTranslation } from 'react-i18next';
 import { FaSpinner } from 'react-icons/fa';
 
+import { useMyProjectMembers } from '../services/db';
 import { LayoutContainer } from '../layouts/Default';
 import Breadcrumb from '../layouts/Breadcrumb';
 import Welcome from '../components/Welcome';
@@ -31,6 +33,22 @@ function WorkInProgress() {
   );
 }
 
+function Redirect() {
+  const { docs, isLoading } = useMyProjectMembers();
+  if (isLoading) {
+    return (
+      <h3 className="mb-4">
+        <FaSpinner />
+      </h3>
+    );
+  }
+  const projectIds = Object.keys(docs);
+  if (projectIds.length === 1) {
+    return <Navigate to={`/projects/${projectIds[0]}`} />;
+  }
+  return <Navigate to="/projects" />;
+}
+
 export default function Home() {
   return (
     <LayoutContainer breadcrumb={<MyBreadcrumb />}>
@@ -39,7 +57,7 @@ export default function Home() {
         <Col>
           <Card className="mb-4" style={{ minHeight: '20em' }}>
             <Card.Body>
-              <WorkInProgress />
+              <Redirect />
             </Card.Body>
           </Card>
         </Col>

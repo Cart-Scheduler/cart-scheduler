@@ -5,7 +5,13 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import { FaBars, FaHome, FaSignOutAlt, FaUserCircle } from 'react-icons/fa';
+import {
+  FaBars,
+  FaHome,
+  FaPlus,
+  FaSignOutAlt,
+  FaUserCircle,
+} from 'react-icons/fa';
 
 import { useAuth, usePerson } from '../services/db';
 import Footer from './Footer';
@@ -27,6 +33,11 @@ function MyOffCanvas({ title }) {
           <Nav.Link as={Link} to="/profile">
             <FaUserCircle className={iconClass} /> {t('Profile')}
           </Nav.Link>
+          {/*
+          <Nav.Link as={Link} to="/projects/new">
+            <FaPlus className={iconClass} /> {t('New project')}
+          </Nav.Link>
+          */}
           <Nav.Link as={Link} to="/signout">
             <FaSignOutAlt className={iconClass} /> {t('Sign out')}
           </Nav.Link>
