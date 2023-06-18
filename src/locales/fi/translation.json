@@ -24,7 +24,7 @@
   "Firebase: Error (auth/email-already-in-use).": "Sähköpostiosoitteelle on jo tili.",
   "Firebase: Error (auth/invalid-login-credentials).": "Väärä sähköpostiosoite tai salasana.",
   "Firebase: Error (auth/network-request-failed).": "Verkkovirhe. Lataa sivu uudelleen ja yritä myöhemmin.",
-  "First choose the cart location. The calendar for the selected location is below. You can request a cart shift by pressing a gray box.": "Valitse ensin kärrypaikka. Sen alla näet kalenterin kyseiselle kärrypaikalle. Voit anoa vuoroa painamalla harmaata laatikkoa kalenterissa.",
+  "First choose the cart location. The calendar for the selected location is below. If you don't see the whole week in calendar, scroll it horizontally. You can request a cart shift by pressing a gray box.": "Valitse ensin kärrypaikka. Sen alla näet kalenterin kyseiselle kärrypaikalle. Jos kalenterissa ei näy koko viikkoa, vieritä sitä vaakasuunnassa. Voit anoa vuoroa painamalla harmaata laatikkoa kalenterissa.",
   "Fri": "Pe",
   "Grant": "Hyväksy",
   "has entered his real full name": "on syöttänyt koko nimensä oikein",

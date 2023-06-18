@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
 import { MONTHS, WEEKDAYS, addDays, addMinutes } from '../../services/date';
+import { getNameInitials } from '../../services/string';
 import { filterObj } from '../../services/object';
 
 const DEFAULT_START_HOUR = 8;
@@ -49,7 +50,7 @@ function Hours({ hours }) {
 const getPartners = (slotRequest, personId) => {
   return Object.keys(slotRequest?.persons ?? {})
     .filter((id) => id !== personId)
-    .map((id) => slotRequest.persons[id].name);
+    .map((id) => getNameInitials(slotRequest.persons[id].name));
 };
 
 function Slot({ slot, slotRequest, personId, onClick }) {

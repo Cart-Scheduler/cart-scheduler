@@ -7,6 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import ReactMarkdown from 'react-markdown';
 
 import { LayoutContainer } from '../../../layouts/Default';
 import Breadcrumb from '../../../layouts/Breadcrumb';
@@ -37,12 +38,20 @@ function MyBreadcrumb({ project }) {
   );
 }
 
-function Info() {
+function Info({ info }) {
+  return (
+    <div className="project-info">
+      <ReactMarkdown>{info}</ReactMarkdown>
+    </div>
+  );
+}
+
+function Guide() {
   const { t } = useTranslation();
   return (
     <div className="d-flex p-4 mb-4 bg-gray-100 border-radius-lg text-sm">
       {t(
-        'First choose the cart location. The calendar for the selected location is below. You can request a cart shift by pressing a gray box.',
+        "First choose the cart location. The calendar for the selected location is below. If you don't see the whole week in calendar, scroll it horizontally. You can request a cart shift by pressing a gray box.",
       )}
     </div>
   );
@@ -104,9 +113,10 @@ export default function Project() {
                 </div>
               )}
               <h6>{project?.name}</h6>
+              {project?.info && <Info info={project.info} />}
             </Card.Header>
-            <Card.Body>
-              <Info />
+            <Card.Body className="ps-2 pe-2">
+              <Guide />
               <Tabs
                 activeKey={selectedLocation}
                 onSelect={(loc) => setSelectedLocation(loc)}
