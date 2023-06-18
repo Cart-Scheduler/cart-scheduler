@@ -17,6 +17,17 @@ import { useAuth, usePerson } from '../services/db';
 import Footer from './Footer';
 import NotificationController from '../components/notifications/Controller';
 
+function Version() {
+  if (!process.env.REACT_APP_VERSION) {
+    return null;
+  }
+  return (
+    <div className="text-xs text-muted mt-5">
+      {process.env.REACT_APP_VERSION}
+    </div>
+  );
+}
+
 function MyOffCanvas({ title }) {
   const { t } = useTranslation();
   const iconClass = 'me-2';
@@ -42,6 +53,7 @@ function MyOffCanvas({ title }) {
             <FaSignOutAlt className={iconClass} /> {t('Sign out')}
           </Nav.Link>
         </Nav>
+        <Version />
       </Offcanvas.Body>
     </Navbar.Offcanvas>
   );
