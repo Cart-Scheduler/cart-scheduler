@@ -1,6 +1,11 @@
 $hairline: #DADCE0;
 
+.location-tabs .nav-link {
+  background-color: #f5f5f5;
+}
+
 .location-tabs .nav-link.active {
+  background-color: $white;
   font-weight: 700;
 }
 

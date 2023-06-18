@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -28,7 +29,7 @@ const findSlotRequestId = (slotId, requests) =>
 function MyBreadcrumb({ project }) {
   const { t } = useTranslation();
   return (
-    <Breadcrumb title={project?.name}>
+    <Breadcrumb>
       <Breadcrumb.Item to="/">{t('Home')}</Breadcrumb.Item>
       <Breadcrumb.Item to="/projects">{t('Projects')}</Breadcrumb.Item>
       <Breadcrumb.Item>{project?.name}</Breadcrumb.Item>
@@ -36,8 +37,20 @@ function MyBreadcrumb({ project }) {
   );
 }
 
+function Info() {
+  const { t } = useTranslation();
+  return (
+    <div className="d-flex p-4 mb-4 bg-gray-100 border-radius-lg text-sm">
+      {t(
+        'First choose the cart location. The calendar for the selected location is below. You can request a cart shift by pressing a gray box.',
+      )}
+    </div>
+  );
+}
+
 export default function Project() {
   const { projectId } = useParams();
+  const navigate = useNavigate();
   const [showSlotModal, setShowSlotModal] = useState(false);
   const [starts, setStarts] = useState(getPrevMonday());
   const [showDays, setShowDays] = useState(DEFAULT_SHOW_DAYS);
@@ -79,15 +92,21 @@ export default function Project() {
       <Row>
         <Col>
           <Card className="mb-4">
-            <Card.Header>
+            <Card.Header className="pb-0">
               {isAdmin && (
                 <div className="float-end">
-                  <Link to={`/projects/${projectId}/admin`}>{t('Admin')}</Link>
+                  <Button
+                    size="sm"
+                    onClick={() => navigate(`/projects/${projectId}/admin`)}
+                  >
+                    {t('Admin')}
+                  </Button>
                 </div>
               )}
               <h6>{project?.name}</h6>
             </Card.Header>
             <Card.Body>
+              <Info />
               <Tabs
                 activeKey={selectedLocation}
                 onSelect={(loc) => setSelectedLocation(loc)}

@@ -67,7 +67,7 @@ function Slot({ slot, slotRequest, personId, onClick }) {
   if (slotRequest) {
     className += 'bg-warning bg-gradient';
   } else {
-    className += 'bg-light text-dark';
+    className += 'bg-light text-dark border';
   }
   const partners = getPartners(slotRequest, personId);
   return (
@@ -144,10 +144,10 @@ function DayCol({
 function Navigation({ month, onPrev, onNext }) {
   const { t } = useTranslation();
   return (
-    <div className="d-flex justify-content-between align-items-center cal-nav">
+    <div className="d-flex justify-content-between align-items-center cal-navf">
       <Button
         onClick={onPrev}
-        className="rounded-circle px-3 py-2 text-dark bg-white"
+        className="shadow-none text-dark bg-white text-lg mt-1 mb-2"
       >
         <FaAngleLeft />
       </Button>
@@ -156,7 +156,7 @@ function Navigation({ month, onPrev, onNext }) {
       </div>
       <Button
         onClick={onNext}
-        className="rounded-circle px-3 py-2 text-dark bg-white"
+        className="shadow-none text-dark bg-white text-lg mt-1 mb-2"
       >
         <FaAngleRight />
       </Button>
