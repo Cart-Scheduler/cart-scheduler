@@ -90,7 +90,7 @@ export default function Project() {
   return (
     <LayoutContainer fluid breadcrumb={<MyBreadcrumb project={project} />}>
       <Row>
-        <Col>
+        <Col className="ps-0 pe-0">
           <Card className="mb-4">
             <Card.Header className="pb-0">
               {isAdmin && (
