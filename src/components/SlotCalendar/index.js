@@ -73,7 +73,6 @@ function Slot({ slot, slotRequest, personId, onClick }) {
   const partners = getPartners(slotRequest, personId);
   return (
     <div className={className} style={style} onClick={handleClick}>
-      {JSON.stringify(slot.persons)}
       {partners.length > 0 && <span> + {partners.join(', ')}</span>}
     </div>
   );
