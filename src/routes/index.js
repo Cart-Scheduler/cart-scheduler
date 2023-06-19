@@ -14,6 +14,8 @@ const SignIn = React.lazy(() => import('../app/signin/page'));
 const SignInLink = React.lazy(() => import('../app/signin/Link'));
 const SignOut = React.lazy(() => import('../app/SignOut'));
 const SignUpPassword = React.lazy(() => import('../app/signup/password/page'));
+const PrivacyPolicy = React.lazy(() => import('../app/PrivacyPolicy'));
+const TermsOfUse = React.lazy(() => import('../app/TermsOfUse'));
 
 // The path where user is redirected to after authentication by default
 export const DEFAULT_PATH = '/';
@@ -57,6 +59,14 @@ export default function Router() {
           <Route path="profile" element={<RC element={<Profile />} />} />
           <Route index element={<Home />} />
         </Route>
+        <Route
+          path="privacy-policy"
+          element={<RC isPublic element={<PrivacyPolicy />} />}
+        />
+        <Route
+          path="terms-of-use"
+          element={<RC isPublic element={<TermsOfUse />} />}
+        />
       </Routes>
     </BrowserRouter>
   );
