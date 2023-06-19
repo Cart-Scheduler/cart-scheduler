@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-
+import { Link } from 'react-router-dom';
 export default function Footer() {
   const { t } = useTranslation();
   return (
@@ -18,7 +18,7 @@ export default function Footer() {
               <a href="https://github.com/Cart-Scheduler/Cart-Scheduler">
                 Cart&nbsp;Scheduler
               </a>
-              .
+              . <Link to="/privacy-policy">{t('Privacy Policy')}</Link>.
             </div>
           </Col>
         </Row>

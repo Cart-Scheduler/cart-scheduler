@@ -3,6 +3,8 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
+import Footer from './Footer';
+import { TermsOfUse } from '../app/signin/page';
 
 export default function SignInLayout() {
   return (
@@ -19,6 +21,10 @@ export default function SignInLayout() {
           </Card>
         </Col>
       </Row>
+      <TermsOfUse />
+      <Container className="d-flex justify-content-center align-items-center max-height-vh-100 vh-100">
+        <Footer />
+      </Container>
     </Container>
   );
 }
