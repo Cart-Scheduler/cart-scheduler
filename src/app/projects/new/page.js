@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
 import slugify from 'slugify';
+import { useNavigate } from 'react-router-dom';
 
 import { LayoutContainer } from '../../../layouts/Default';
 import Breadcrumb from '../../../layouts/Breadcrumb';
@@ -30,11 +31,13 @@ export default function CreateProjectModal() {
   const [creating, setCreating] = useState(false);
   const [error, setError] = useState();
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const create = async () => {
     setCreating(true);
     try {
       await createProject({ id: projectId, name });
+      navigate(`/projects/${projectId}`);
     } catch (err) {
       console.error(err);
       setError(err.message);
