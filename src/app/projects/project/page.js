@@ -91,7 +91,8 @@ export default function Project() {
       setSelectedLocation(locations.length > 0 ? locations[0] : undefined);
     }
   }, [selectedLocation, locations]);
-  if (!project) {
+
+  if (!project || !locations) {
     return null;
   }
   const slotRequestId = findSlotRequestId(selectedSlot, slotRequests);
@@ -163,7 +164,9 @@ export default function Project() {
         show={showSlotModal}
         onHide={() => setShowSlotModal(false)}
         projectId={projectId}
-        locationName={project?.locations[selectedLocation]?.name}
+        locationName={
+          project?.locations?.[selectedLocation]?.name || 'Default Location'
+        }
         slotId={selectedSlot}
         slotRequestId={slotRequestId}
         slotRequest={slotRequests[slotRequestId]}
