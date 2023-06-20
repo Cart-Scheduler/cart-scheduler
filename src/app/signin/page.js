@@ -104,8 +104,8 @@ export default function Login() {
 export function TermsOfUse() {
   const { t } = useTranslation();
   return (
-    <div className="small justify-content-center align-items-center text-center pt-3">
-      {t('By signing in, I accept the ')}{' '}
+    <div className="small justify-content-center align-items-center text-center pt-3 mb-4">
+      {t('By signing in, You accept the ')}{' '}
       <Link to="/terms-of-use">{t('Terms of Use')}</Link>.
     </div>
   );

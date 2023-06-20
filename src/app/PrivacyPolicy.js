@@ -96,7 +96,8 @@ function PrivacyPolicyContent() {
         <p className="p-1 mb-3">
           Jos sinulla on kysyttävää tästä tietosuojaselosteesta tai jos haluat
           tehdä pyynnön tietojesi tarkastamiseksi, korjaamiseksi tai
-          poistamiseksi, voit ottaa meihin yhteyttä sähköpostitse: EMAIL
+          poistamiseksi, voit ottaa meihin yhteyttä sähköpostitse:{' '}
+          {process.env.REACT_APP_CONTACT_EMAIL}
         </p>
       </div>
     </div>

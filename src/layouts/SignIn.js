@@ -22,7 +22,7 @@ export default function SignInLayout() {
         </Col>
       </Row>
       <TermsOfUse />
-      <Container className="d-flex justify-content-center align-items-center max-height-vh-100 vh-100">
+      <Container className="d-flex justify-content-center align-items-center">
         <Footer />
       </Container>
     </Container>

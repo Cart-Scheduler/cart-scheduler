@@ -71,7 +71,8 @@ function TermsOfUseContent() {
         </p>
         <p className="p-1 fw-bold mb-0">Yhteystiedot</p>
         <p className="p-1 mb-3">
-          Jos sinulla on kysyttävää käyttöehdoista, ota yhteyttä: EMAIL.
+          Jos sinulla on kysyttävää käyttöehdoista, ota yhteyttä:{' '}
+          {process.env.REACT_APP_CONTACT_EMAIL}
         </p>
       </div>
     </div>
