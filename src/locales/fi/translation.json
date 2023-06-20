@@ -100,5 +100,8 @@
   "check that the email address above is correct": "tarkista, että yllä näkyvä sähköpostiosoite on oikein",
   "check spam": "tarkista roskapostit",
   "contact support": "ota yhteyttä tukeen",
-  "Dear user, we are strongly recommending you to use passwordless logins.": "Hyvä käyttäjä, suosittelemme vahvasti käyttämään salasanatonta kirjautumista."
+  "Dear user, we are strongly recommending you to use passwordless logins.": "Hyvä käyttäjä, suosittelemme vahvasti käyttämään salasanatonta kirjautumista.",
+  "Terms of Use": "Käyttöehdot",
+  "Privacy Policy": "Tietosuojaseloste",
+  "By signing in, You accept the ": "Kirjautumalla sisään hyväksyt "
 }

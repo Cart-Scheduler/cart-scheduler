@@ -12,6 +12,7 @@ import AppleSignIn from './AppleSignIn';
 import GoogleSignIn from './GoogleSignIn';
 import PasswordSignIn from './PasswordSignIn';
 import SendLink from './SendLink';
+import { Link } from 'react-router-dom';
 
 function MethodButton({ className, onClick, children }) {
   let classes = 'btn w-100 px-3 py-3';
@@ -96,6 +97,16 @@ export default function Login() {
         className="mb-3"
         onClick={() => setMethod('password')}
       />
+    </div>
+  );
+}
+
+export function TermsOfUse() {
+  const { t } = useTranslation();
+  return (
+    <div className="small justify-content-center align-items-center text-center pt-3 mb-4">
+      {t('By signing in, You accept the ')}{' '}
+      <Link to="/terms-of-use">{t('Terms of Use')}</Link>.
     </div>
   );
 }
