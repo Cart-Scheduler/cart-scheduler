@@ -24,7 +24,7 @@ function MyBreadcrumb() {
   );
 }
 
-export default function CreateProjectModal({ show, onHide }) {
+export default function CreateProjectModal() {
   const [name, setName] = useState('');
   const [projectId, setProjectId] = useState('');
   const [creating, setCreating] = useState(false);
