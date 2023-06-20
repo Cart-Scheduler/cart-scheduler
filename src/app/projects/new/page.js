@@ -35,7 +35,6 @@ export default function CreateProjectModal({ show, onHide }) {
     setCreating(true);
     try {
       await createProject({ id: projectId, name });
-      onHide();
     } catch (err) {
       console.error(err);
       setError(err.message);
