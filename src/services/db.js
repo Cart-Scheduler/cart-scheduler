@@ -46,13 +46,15 @@ export const roundTimestamp = (value) => Math.floor(value / 1000) * 1000;
 export function serializableClone(obj) {
   const clone = {};
   for (const prop in obj) {
-    let val = obj[prop];
-    if (val instanceof Timestamp) {
-      val = val.toMillis();
-    } else if (!Array.isArray(val) && val instanceof Object) {
-      val = serializableClone(val);
+    if (Object.hasOwn(obj, prop)) {
+      let val = obj[prop];
+      if (val instanceof Timestamp) {
+        val = val.toMillis();
+      } else if (!Array.isArray(val) && val instanceof Object) {
+        val = serializableClone(val);
+      }
+      clone[prop] = val;
     }
-    clone[prop] = val;
   }
   return clone;
 }
@@ -441,6 +443,17 @@ export function useSlotRequests(personId) {
   const queryFn = (ref) => query(ref, where(`persons.${personId}`, '!=', null));
   useListenCollection(path, queryFn, key);
   const filterSlots = ([id, doc]) => id.startsWith(`${path}/`);
+  return useExtractDb(key, filterSlots, path);
+}
+
+// Hook that returns all slotRequests for given projectId.
+export function useSlotRequestsByProject(projectId) {
+  const key = `slotRequests-${projectId}`;
+  const path = projectId ? 'slotRequests' : undefined;
+  const queryFn = (ref) => query(ref, where('projectId', '==', projectId));
+  useListenCollection(path, queryFn, key);
+  const filterSlots = ([id, doc]) =>
+    id.startsWith(`${path}/`) && doc.projectId === projectId;
   return useExtractDb(key, filterSlots, path);
 }
 
