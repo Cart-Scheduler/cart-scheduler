@@ -12,14 +12,16 @@ import {
   useProject,
   useProjectMembers,
   useSlots,
-  useSlotRequests,
+  useSlotRequestsByProject,
 } from '../../../../services/db';
 import { LayoutContainer } from '../../../../layouts/Default';
 import Breadcrumb from '../../../../layouts/Breadcrumb';
 import { addDays, getPrevMonday } from '../../../../services/date';
+import { filterObj } from '../../../../services/object';
 import SlotCalendar from '../../../../components/SlotCalendar';
 import JoinRequestManager from './JoinRequestManager';
 import CreateSlotModal from './CreateSlotModal';
+import SelectedSlotRequests from './SelectedSlotRequests';
 import SlotModal from './SlotModal';
 
 const DEFAULT_SHOW_DAYS = 7;
@@ -51,11 +53,12 @@ export default function ProjectAdminPage() {
   const [selectedSlot, setSelectedSlot] = useState();
   const [selectedTime, setSelectedTime] = useState();
   const [selectedLocation, setSelectedLocation] = useState();
+  const [selectedReqs, setSelectedReqs] = useState({});
 
   const personId = usePersonId();
   const { data: project } = useProject(projectId);
   const { docs: slots } = useSlots(projectId, starts, ends);
-  const { docs: slotRequests } = useSlotRequests(personId);
+  const { docs: slotRequests } = useSlotRequestsByProject(projectId);
   const membersDoc = useProjectMembers(projectId);
 
   const locations = useMemo(() => {
@@ -74,10 +77,27 @@ export default function ProjectAdminPage() {
       setSelectedLocation(locations.length > 0 ? locations[0] : undefined);
     }
   }, [selectedLocation, locations]);
+
+  const filteredReqs = useMemo(
+    () => filterObj(slotRequests, ([id, doc]) => doc.slotId === selectedSlot),
+    [selectedSlot, slotRequests],
+  );
+
   if (!project) {
     return null;
   }
+
   const slotRequestId = findSlotRequestId(selectedSlot, slotRequests);
+
+  const handleRequestToggle = (reqId) => {
+    const newSelected = { ...selectedReqs };
+    if (selectedReqs[reqId]) {
+      delete newSelected[reqId];
+    } else {
+      newSelected[reqId] = true;
+    }
+    setSelectedReqs(newSelected);
+  };
 
   return (
     <LayoutContainer
@@ -137,6 +157,11 @@ export default function ProjectAdminPage() {
           </Card>
         </Col>
       </Row>
+      <SelectedSlotRequests
+        projectId={projectId}
+        slotRequests={selectedReqs}
+        onReset={() => setSelectedReqs({})}
+      />
       <JoinRequestManager projectId={projectId} />
       <SlotModal
         show={showSlotModal}
@@ -146,7 +171,11 @@ export default function ProjectAdminPage() {
         slotRequestId={slotRequestId}
         slotRequest={slotRequests[slotRequestId]}
         slot={slots?.[selectedSlot]}
+        slotRequests={filteredReqs}
+        locationName={project?.locations[selectedLocation]?.name}
         members={membersDoc?.members}
+        selectedRequests={selectedReqs}
+        onRequestToggle={handleRequestToggle}
       />
       <CreateSlotModal
         show={showCreateSlotModal}

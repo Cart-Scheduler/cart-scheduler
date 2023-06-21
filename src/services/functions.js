@@ -10,9 +10,20 @@ export function initFunctions() {
   functions = getFunctions(getApp(), region);
 }
 
-// Creates a new project
-export async function createProject({ id, name }) {
-  const createProject = httpsCallable(functions, 'createProject');
-  const result = await createProject({ id, name });
+async function makeCall(name, params) {
+  const func = httpsCallable(functions, name);
+  const result = await func(params);
   return result.data;
+}
+
+// Accepts slot requests
+export async function acceptSlotRequests(params) {
+  const data = await makeCall('acceptSlotRequests', params);
+  return data;
+}
+
+// Creates a new project
+export async function createProject(params) {
+  const data = await makeCall('createProject', params);
+  return data;
 }

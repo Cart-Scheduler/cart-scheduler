@@ -6,6 +6,7 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Select from 'react-select';
 import { useTranslation } from 'react-i18next';
+import { FaCheck } from 'react-icons/fa';
 
 import Time from '../../../components/Time';
 import { WEEKDAYS } from '../../../services/date';
@@ -72,6 +73,17 @@ function Title({ locationName, slot }) {
       {t(WEEKDAYS[starts.getDay()])} {starts.getDate()}.{starts.getMonth() + 1}.{' '}
       <Time date={starts} /> – <Time date={ends} /> {locationName}
     </Modal.Title>
+  );
+}
+
+function Assigned({ slot }) {
+  const persons = Object.entries(slot.persons);
+  return (
+    <ul>
+      {persons.map(([id, person]) => (
+        <li key={id}>{person.name}</li>
+      ))}
+    </ul>
   );
 }
 
@@ -191,6 +203,8 @@ export default function SlotRequestModal({
     }
   }, [show]);
 
+  const currentIsAssigned = !!slot?.persons?.[personId];
+
   return (
     <Modal show={show} onHide={onHide} size="lg">
       <Modal.Header closeButton>
@@ -198,60 +212,75 @@ export default function SlotRequestModal({
       </Modal.Header>
       <Form onSubmit={handleSubmit}>
         <Modal.Body>
-          {slotRequestId ? (
+          {currentIsAssigned && (
+            <p>
+              <FaCheck className="me-2" />
+              <strong>{t('You have been assigned to this cart shift.')}</strong>
+            </p>
+          )}
+          {!currentIsAssigned && slot?.persons && (
+            <p>{t('Assigned to this cart shift:')}</p>
+          )}
+          {slot?.persons && <Assigned slot={slot} />}
+          {!slot?.persons && slotRequestId && (
             <p>
               {t(
                 'You already have a request for this cart shift. If you want to update existing request, make the changes and press Save. You can cancel your request by pressing Remove request.',
               )}
             </p>
-          ) : (
+          )}
+          {!slot?.persons && !slotRequestId && (
             <p>
               {t(
                 'If you are available for this cart shift, fill the form and press Add request. Adding a request does not mean that your request is accepted. You will be informed about accepted requests.',
               )}
             </p>
           )}
-          <PartnerSelect
-            value={partners}
-            onChange={(val) => {
-              setPartners(val);
-              setTouched(true);
-            }}
-            options={getMembersOptions(members, personId)}
-            isOptionDisabled={() => partners.length >= MAX_PARTNERS}
-          />
+          {!slot?.persons && (
+            <PartnerSelect
+              value={partners}
+              onChange={(val) => {
+                setPartners(val);
+                setTouched(true);
+              }}
+              options={getMembersOptions(members, personId)}
+              isOptionDisabled={() => partners.length >= MAX_PARTNERS}
+            />
+          )}
           {error && <Alert variant="danger">{t(error)}</Alert>}
         </Modal.Body>
-        <Modal.Footer
-          className={slotRequestId ? 'justify-content-between' : ''}
-        >
-          {slotRequestId ? (
-            <>
+        {!slot?.persons && (
+          <Modal.Footer
+            className={slotRequestId ? 'justify-content-between' : ''}
+          >
+            {slotRequestId ? (
+              <>
+                <Button
+                  variant="danger"
+                  disabled={processing}
+                  onClick={handleDeleteRequest}
+                >
+                  {t('Remove request')}
+                </Button>
+                <Button
+                  variant={touched ? 'warning' : 'light'}
+                  onClick={handleUpdateRequest}
+                  disabled={processing || !touched}
+                >
+                  {t('Save')}
+                </Button>
+              </>
+            ) : (
               <Button
-                variant="danger"
+                variant="warning"
+                onClick={handleCreateRequest}
                 disabled={processing}
-                onClick={handleDeleteRequest}
               >
-                {t('Remove request')}
+                {t('Add request')}
               </Button>
-              <Button
-                variant={touched ? 'warning' : 'light'}
-                onClick={handleUpdateRequest}
-                disabled={processing || !touched}
-              >
-                {t('Save')}
-              </Button>
-            </>
-          ) : (
-            <Button
-              variant="warning"
-              onClick={handleCreateRequest}
-              disabled={processing}
-            >
-              {t('Add request')}
-            </Button>
-          )}
-        </Modal.Footer>
+            )}
+          </Modal.Footer>
+        )}
       </Form>
     </Modal>
   );

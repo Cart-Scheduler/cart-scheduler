@@ -4,12 +4,13 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { useTranslation } from 'react-i18next';
+import { FaCheck } from 'react-icons/fa';
 
 import { WEEKDAYS } from '../../../../services/date';
 import { deleteSlot } from '../../../../services/db';
 import Time from '../../../../components/Time';
 
-function Title({ slot }) {
+function Title({ locationName, slot }) {
   const { t } = useTranslation();
   if (!slot) {
     return null;
@@ -19,8 +20,25 @@ function Title({ slot }) {
   return (
     <Modal.Title>
       {t(WEEKDAYS[starts.getDay()])} {starts.getDate()}.{starts.getMonth() + 1}.{' '}
-      <Time date={starts} /> – <Time date={ends} />
+      <Time date={starts} /> – <Time date={ends} /> {locationName}
     </Modal.Title>
+  );
+}
+
+function SlotRequest({ id, slotRequest, selected, onClick }) {
+  const names = Object.values(slotRequest.persons ?? {})
+    .map((person) => person.name)
+    .join(', ');
+  return (
+    <li
+      className="list-group-item border-0 d-flex cursor-pointer request-list-item"
+      onClick={onClick}
+    >
+      <div className={`me-3 ${selected ? 'text-dark' : 'text-white'}`}>
+        <FaCheck />
+      </div>
+      <h6 className="text-dark text-sm">{names}</h6>
+    </li>
   );
 }
 
@@ -32,7 +50,11 @@ export default function SlotModal({
   slotRequestId,
   slotRequest,
   slot,
+  slotRequests,
+  locationName,
   members,
+  selectedRequests,
+  onRequestToggle,
 }) {
   const [processing, setProcessing] = useState(false);
   const [error, setError] = useState();
@@ -77,37 +99,47 @@ export default function SlotModal({
     }
   }, [show]);
 
+  /*
+  const dispatch = useDispatch();
+  const selected = useSelector((state) => state.assign.selected);
+  const isSelected = (reqId) => Object.keys(selected ?? {}).includes(reqId);
+  const handleRequestClick = (reqId) => {
+    dispatch(toggleSelected(reqId));
+  };
+  */
+
   return (
     <Modal show={show} onHide={onHide} size="lg">
       <Modal.Header closeButton>
-        <Title slot={slot} />
+        <Title locationName={locationName} slot={slot} />
       </Modal.Header>
       <Form onSubmit={handleSubmit}>
         <Modal.Body>
-          {slotRequestId ? (
-            <p>
-              {t(
-                'You have already sent a request for this cart shift. If you want to update the request, make the changes and press Update. You can cancel your request by pressing Remove request.',
-              )}
-            </p>
-          ) : (
-            <p>
-              {t(
-                'If you are available for this cart shift, fill the form and press Send request. Sending a request does not mean that your request is accepted. You will be informed about accepted requests.',
-              )}
-            </p>
-          )}
+          <h6 className="text-uppercase text-body text-xs font-weight-bolder mb-3">
+            {t('Requests')} ({Object.keys(slotRequests).length})
+          </h6>
+          <ul className="list-group">
+            {Object.keys(slotRequests).map((reqId) => (
+              <SlotRequest
+                key={reqId}
+                id={reqId}
+                slotRequest={slotRequests[reqId]}
+                selected={selectedRequests[reqId]}
+                onClick={() => onRequestToggle(reqId)}
+              />
+            ))}
+          </ul>
           {error && <Alert variant="danger">{t(error)}</Alert>}
         </Modal.Body>
-        <Modal.Footer
-          className={slotRequestId ? 'justify-content-between' : ''}
-        >
+        <Modal.Footer className="justify-content-between">
+          {/*
           <Button variant="danger" disabled={processing} onClick={handleDelete}>
             {t('Delete')}
           </Button>
           <Button variant="primary" type="submit" disabled={processing}>
             {t('Save')}
           </Button>
+          */}
         </Modal.Footer>
       </Form>
     </Modal>

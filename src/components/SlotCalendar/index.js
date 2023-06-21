@@ -3,12 +3,12 @@ import Button from 'react-bootstrap/Button';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
 import { MONTHS, WEEKDAYS, addDays, addMinutes } from '../../services/date';
-import { getNameInitials } from '../../services/string';
 import { filterObj } from '../../services/object';
+import { HOUR_ROW_HEIGHT } from './constants';
+import Slot from './Slot';
 
 const DEFAULT_START_HOUR = 8;
 const DEFAULT_DAY_HOURS = 10;
-const HOUR_ROW_HEIGHT = 50;
 
 const hourStyle = {
   height: `${HOUR_ROW_HEIGHT}px`,
@@ -45,37 +45,6 @@ function Hours({ hours }) {
     entries.push(<Hour key={i} />);
   }
   return <div>{entries}</div>;
-}
-
-const getPartners = (slotRequest, personId) => {
-  return Object.keys(slotRequest?.persons ?? {})
-    .filter((id) => id !== personId)
-    .map((id) => getNameInitials(slotRequest.persons[id].name));
-};
-
-function Slot({ slot, slotRequest, personId, onClick }) {
-  const start = new Date(slot.starts).getHours() - 8;
-  const duration = (slot.ends - slot.starts) / 3600000;
-  const style = {
-    top: `${start * HOUR_ROW_HEIGHT}px`,
-    height: `${duration * HOUR_ROW_HEIGHT}px`,
-  };
-  const handleClick = (evt) => {
-    evt.stopPropagation();
-    onClick();
-  };
-  let className = 'cal-slot ';
-  if (slotRequest) {
-    className += 'bg-warning bg-gradient';
-  } else {
-    className += 'bg-light text-dark border';
-  }
-  const partners = getPartners(slotRequest, personId);
-  return (
-    <div className={className} style={style} onClick={handleClick}>
-      {partners.length > 0 && <span> + {partners.join(', ')}</span>}
-    </div>
-  );
 }
 
 function DayTitle({ date }) {
