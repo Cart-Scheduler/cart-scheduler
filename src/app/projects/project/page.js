@@ -20,6 +20,7 @@ import {
   useSlotRequests,
 } from '../../../services/db';
 import SlotCalendar from '../../../components/SlotCalendar';
+import AssignmentList from './AssignmentList';
 import SlotRequestModal from './SlotRequestModal';
 
 const DEFAULT_SHOW_DAYS = 7;
@@ -118,6 +119,11 @@ export default function Project() {
             </Card.Header>
             <Card.Body className="ps-2 pe-2">
               <Guide />
+              <AssignmentList
+                personId={personId}
+                slots={slots}
+                project={project}
+              />
               <Tabs
                 activeKey={selectedLocation}
                 onSelect={(loc) => setSelectedLocation(loc)}

@@ -95,6 +95,7 @@
   "You already have a request for this cart shift. If you want to update existing request, make the changes and press Save. You can cancel your request by pressing Remove request.": "Sinulla on jo anomus tälle vuorolle. Jos haluat päivittää olemassaolevaa anomusta, tee muutokset ja paina Tallenna. Voit peruuttaa anomuksen painamalla Poista vuoroanomus.",
   "You are not a member of any project. Please contact a brother who is taking the lead in a cart project.": "Et ole tällä hetkellä minkään kärryprojektin jäsen. Ota yhteyttä kärryprojektia vetävään veljeen.",
   "You have been assigned to this cart shift.": "Tämä on sinun kärryvuorosi.",
+  "Your assignments:": "Hyväksytyt kärryvuorosi:",
   "You will receive an email to address:": "Saat sähköpostin osoitteeseen:",
   "The email contains a link that allows you to sign in without a password.": "Sähköpostista löytyy linkki, jota klikkaamalla pääset kirjautumaan sisään ilman salasanaa.",
   "Wed": "Ke",
