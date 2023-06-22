@@ -436,6 +436,17 @@ export function useSlots(projectId, starts, ends) {
   return useExtractDb(key, filterSlots, path);
 }
 
+// Hook that returns all slots where given personId is assigned.
+export function useMySlots(personId) {
+  const key = 'mySlots';
+  const path = personId ? 'slots' : undefined;
+  const queryFn = (ref) => query(ref, where(`persons.${personId}`, '!=', null));
+  useListenCollection(path, queryFn, key);
+  const filterSlots = ([id, doc]) =>
+    id.startsWith(`${path}/`) && doc.persons?.[personId];
+  return useExtractDb(key, filterSlots, path);
+}
+
 // Hook that returns all slotRequests for given personId.
 export function useSlotRequests(personId) {
   const key = 'mySlotRequests';
