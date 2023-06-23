@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Alert from 'react-bootstrap/Alert';
+import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
@@ -25,19 +26,62 @@ function Title({ locationName, slot }) {
   );
 }
 
-function SlotRequest({ id, slotRequest, selected, onClick }) {
+function SlotCount({ personId, slotsByPerson, draftSlotsByPerson }) {
+  const slotCount = slotsByPerson[personId]?.length ?? 0;
+  const draftCount = draftSlotsByPerson[personId]?.length ?? 0;
+  return (
+    <Badge variant="primary" className="ms-1">
+      {slotCount}
+      {draftCount > 0 && <span> + {draftCount}</span>}
+    </Badge>
+  );
+}
+
+function RequestCount({ personId, reqsByPerson }) {
+  const count = reqsByPerson[personId]?.length ?? 0;
+  return (
+    <Badge variant="warning" className="ms-1 bg-warning">
+      {count}
+    </Badge>
+  );
+}
+
+function SlotRequest({
+  id,
+  slotRequest,
+  selected,
+  slotsByPerson,
+  draftSlotsByPerson,
+  reqsByPerson,
+  onClick,
+}) {
   const names = Object.values(slotRequest.persons ?? {})
     .map((person) => person.name)
     .join(', ');
+
+  const personIds = Object.keys(slotRequest.persons ?? {});
+  const counters = personIds.map((personId) => (
+    <span key={personId}>
+      <SlotCount
+        personId={personId}
+        slotsByPerson={slotsByPerson}
+        draftSlotsByPerson={draftSlotsByPerson}
+      />
+      <RequestCount personId={personId} reqsByPerson={reqsByPerson} />
+    </span>
+  ));
   return (
     <li
-      className="list-group-item border-0 d-flex cursor-pointer request-list-item"
+      className="list-group-item border-0 d-flex cursor-pointer request-list-item bg-gray-100 mb-1"
       onClick={onClick}
     >
       <div className={`me-3 ${selected ? 'text-dark' : 'text-white'}`}>
         <FaCheck />
       </div>
-      <h6 className="text-dark text-sm">{names}</h6>
+      <div>
+        <h6 className="text-dark text-sm mb-0">{names}</h6>
+        <div>{counters}</div>
+      </div>
     </li>
   );
 }
@@ -54,6 +98,9 @@ export default function SlotModal({
   locationName,
   members,
   selectedRequests,
+  slotsByPerson,
+  draftSlotsByPerson,
+  reqsByPerson,
   onRequestToggle,
 }) {
   const [processing, setProcessing] = useState(false);
@@ -125,6 +172,9 @@ export default function SlotModal({
                 id={reqId}
                 slotRequest={slotRequests[reqId]}
                 selected={selectedRequests[reqId]}
+                slotsByPerson={slotsByPerson}
+                draftSlotsByPerson={draftSlotsByPerson}
+                reqsByPerson={reqsByPerson}
                 onClick={() => onRequestToggle(reqId, slotRequests[reqId])}
               />
             ))}

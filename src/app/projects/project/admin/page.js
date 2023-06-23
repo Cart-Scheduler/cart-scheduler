@@ -8,6 +8,10 @@ import Tabs from 'react-bootstrap/Tabs';
 import { useParams } from 'react-router-dom';
 
 import {
+  useRequestIndexes,
+  useSlotIndexes,
+} from '../../../../services/indexing';
+import {
   usePersonId,
   useProject,
   useProjectMembers,
@@ -81,6 +85,22 @@ export default function ProjectAdminPage() {
   const filteredReqs = useMemo(
     () => filterObj(slotRequests, ([id, doc]) => doc.slotId === selectedSlot),
     [selectedSlot, slotRequests],
+  );
+
+  const [aiRange, setAiRange] = useState([
+    new Date(2023, 0, 1).getTime(),
+    new Date(2023, 8, 2).getTime(),
+  ]);
+  const { slotsByPerson, draftSlotsByPerson } = useSlotIndexes(
+    slots,
+    selectedReqs,
+    aiRange,
+  );
+  const { reqsByPerson } = useRequestIndexes(
+    slotRequests,
+    slots,
+    selectedReqs,
+    aiRange,
   );
 
   if (!project) {
@@ -175,6 +195,9 @@ export default function ProjectAdminPage() {
         locationName={project?.locations[selectedLocation]?.name}
         members={membersDoc?.members}
         selectedRequests={selectedReqs}
+        slotsByPerson={slotsByPerson}
+        draftSlotsByPerson={draftSlotsByPerson}
+        reqsByPerson={reqsByPerson}
         onRequestToggle={handleRequestToggle}
       />
       <CreateSlotModal
