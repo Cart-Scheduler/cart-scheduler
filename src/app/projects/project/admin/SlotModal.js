@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
@@ -86,6 +86,14 @@ function SlotRequest({
   );
 }
 
+// helper function for sorting slot requests
+const getLowestCount = (req, data) => {
+  const values = Object.keys(req?.persons ?? {}).map(
+    (pid) => data[pid]?.length ?? 0,
+  );
+  return Math.min(...values);
+};
+
 export default function SlotModal({
   show,
   onHide,
@@ -155,6 +163,22 @@ export default function SlotModal({
   };
   */
 
+  const reqIds = Object.keys(slotRequests);
+  const requestSorter = useCallback(
+    (a, b) => {
+      const aSlotCount = getLowestCount(slotRequests[a], slotsByPerson);
+      const bSlotCount = getLowestCount(slotRequests[b], slotsByPerson);
+      if (aSlotCount === bSlotCount) {
+        const aReqCount = getLowestCount(slotRequests[a], reqsByPerson);
+        const bReqCount = getLowestCount(slotRequests[b], reqsByPerson);
+        return aReqCount - bReqCount;
+      }
+      return aSlotCount - bSlotCount;
+    },
+    [slotRequests, slotsByPerson, reqsByPerson],
+  );
+  reqIds.sort(requestSorter);
+
   return (
     <Modal show={show} onHide={onHide} size="lg">
       <Modal.Header closeButton>
@@ -166,7 +190,7 @@ export default function SlotModal({
             {t('Requests')} ({Object.keys(slotRequests).length})
           </h6>
           <ul className="list-group">
-            {Object.keys(slotRequests).map((reqId) => (
+            {reqIds.map((reqId) => (
               <SlotRequest
                 key={reqId}
                 id={reqId}
