@@ -153,6 +153,7 @@ export default function ProjectAdminPage() {
                       slotRequests={slotRequests}
                       days={showDays}
                       personId={personId}
+                      admin
                       onSlotClick={(slotId) => {
                         setSelectedSlot(slotId);
                         setShowSlotModal(true);

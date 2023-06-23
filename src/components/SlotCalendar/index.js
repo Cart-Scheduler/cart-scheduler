@@ -5,7 +5,7 @@ import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { MONTHS, WEEKDAYS, addDays, addMinutes } from '../../services/date';
 import { filterObj } from '../../services/object';
 import { HOUR_ROW_HEIGHT } from './constants';
-import Slot from './Slot';
+import { AdminSlot, Slot } from './Slot';
 
 const DEFAULT_START_HOUR = 8;
 const DEFAULT_DAY_HOURS = 10;
@@ -67,6 +67,7 @@ function DayCol({
   slotRequests,
   firstHour,
   personId,
+  admin,
   onSlotClick,
   onTimeClick,
 }) {
@@ -76,6 +77,32 @@ function DayCol({
     ([id, slot]) =>
       slot.starts >= starts.getTime() && slot.ends < ends.getTime(),
   );
+
+  const renderSlot = (slotId) => {
+    if (admin) {
+      return (
+        <AdminSlot
+          key={slotId}
+          slotId={slotId}
+          slot={slots[slotId]}
+          slotRequests={slotRequests}
+          personId={personId}
+          onClick={() => onSlotClick(slotId)}
+        />
+      );
+    }
+    const slotRequestId = findSlotRequestId(slotId, slotRequests);
+    return (
+      <Slot
+        key={slotId}
+        slot={slots[slotId]}
+        slotRequestId={slotRequestId}
+        slotRequest={slotRequests[slotRequestId]}
+        personId={personId}
+        onClick={() => onSlotClick(slotId)}
+      />
+    );
+  };
 
   return (
     <div
@@ -92,19 +119,7 @@ function DayCol({
     >
       <DayTitle date={starts} />
       <div className="cal-day-col-content text-white">
-        {Object.keys(filteredSlots).map((slotId) => {
-          const slotRequestId = findSlotRequestId(slotId, slotRequests);
-          return (
-            <Slot
-              key={slotId}
-              slot={filteredSlots[slotId]}
-              slotRequestId={slotRequestId}
-              slotRequest={slotRequests[slotRequestId]}
-              personId={personId}
-              onClick={() => onSlotClick(slotId)}
-            />
-          );
-        })}
+        {Object.keys(filteredSlots).map((id) => renderSlot(id))}
       </div>
     </div>
   );
@@ -141,6 +156,7 @@ export default function SlotCalendar({
   slotRequests,
   days,
   personId,
+  admin,
   onSlotClick,
   onTimeClick,
   onMovePrev,
@@ -176,6 +192,7 @@ export default function SlotCalendar({
               slotRequests={slotRequests}
               firstHour={DEFAULT_START_HOUR}
               personId={personId}
+              admin={admin}
               onSlotClick={onSlotClick}
               onTimeClick={onTimeClick}
             />

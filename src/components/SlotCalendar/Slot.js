@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { FaCheck } from 'react-icons/fa';
 
 import { getNameInitials } from '../../services/string';
@@ -23,17 +24,25 @@ function BigCheck() {
   );
 }
 
-export default function Slot({ slot, slotRequest, personId, onClick }) {
+function SlotContainer({ slot, className, onClick, children }) {
+  const handleClick = (evt) => {
+    evt.stopPropagation();
+    onClick();
+  };
   const start = new Date(slot.starts).getHours() - 8;
   const duration = (slot.ends - slot.starts) / 3600000;
   const style = {
     top: `${start * HOUR_ROW_HEIGHT}px`,
     height: `${duration * HOUR_ROW_HEIGHT}px`,
   };
-  const handleClick = (evt) => {
-    evt.stopPropagation();
-    onClick();
-  };
+  return (
+    <div className={className} style={style} onClick={handleClick}>
+      {children}
+    </div>
+  );
+}
+
+export function Slot({ slot, slotRequest, personId, onClick }) {
   const currentIsAssigned = !!slot.persons?.[personId];
   const assignedNames = getAssignedNames(slot);
   const isHappySlot = assignedNames.length >= HAPPY_SLOT_PERSON_COUNT;
@@ -53,7 +62,7 @@ export default function Slot({ slot, slotRequest, personId, onClick }) {
   }
   const reqPartners = getRequestPartners(slotRequest, personId);
   return (
-    <div className={className} style={style} onClick={handleClick}>
+    <SlotContainer slot={slot} className={className} onClick={onClick}>
       {currentIsAssigned ? (
         <BigCheck />
       ) : (
@@ -64,6 +73,31 @@ export default function Slot({ slot, slotRequest, personId, onClick }) {
           )}
         </>
       )}
-    </div>
+    </SlotContainer>
+  );
+}
+
+export function AdminSlot({ slotId, slot, slotRequests, onClick }) {
+  const isHappySlot =
+    Object.values(slot?.persons ?? {}).length >= HAPPY_SLOT_PERSON_COUNT;
+  let className = 'cal-slot cursor-pointer ';
+  if (isHappySlot) {
+    // this slot has enough assignments
+    className += 'bg-primary bg-gradient';
+  } else {
+    // free slot
+    className += 'bg-light text-dark border';
+  }
+  const requestCount = useMemo(
+    () =>
+      Object.values(slotRequests).filter((req) => req.slotId === slotId).length,
+    [slotId, slotRequests],
+  );
+  return (
+    <SlotContainer slot={slot} className={className} onClick={onClick}>
+      <div className="text-center d-flex justify-content-center align-items-center h-100">
+        {requestCount}
+      </div>
+    </SlotContainer>
   );
 }
