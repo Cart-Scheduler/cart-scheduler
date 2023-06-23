@@ -89,12 +89,12 @@ export default function ProjectAdminPage() {
 
   const slotRequestId = findSlotRequestId(selectedSlot, slotRequests);
 
-  const handleRequestToggle = (reqId) => {
+  const handleRequestToggle = (reqId, req) => {
     const newSelected = { ...selectedReqs };
     if (selectedReqs[reqId]) {
       delete newSelected[reqId];
     } else {
-      newSelected[reqId] = true;
+      newSelected[reqId] = req;
     }
     setSelectedReqs(newSelected);
   };

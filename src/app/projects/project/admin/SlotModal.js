@@ -125,7 +125,7 @@ export default function SlotModal({
                 id={reqId}
                 slotRequest={slotRequests[reqId]}
                 selected={selectedRequests[reqId]}
-                onClick={() => onRequestToggle(reqId)}
+                onClick={() => onRequestToggle(reqId, slotRequests[reqId])}
               />
             ))}
           </ul>
