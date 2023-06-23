@@ -316,8 +316,10 @@ function useHasLoaded(isLoading) {
 }
 
 // Hook that extracts data from db state.
+//
 // Filter function gets argument [id, doc] and it should return truthy value
 // to keep the entry. Path argument is for trimming keys in returned object.
+// Using useCallback hook for filter function is greatly recommended.
 function useExtractDb(key, filterFn, path) {
   const { db, isLoading } = useSelector((state) => ({
     db: state.db,
@@ -366,8 +368,10 @@ export function useJoinRequests(projectId) {
   const path = projectId ? 'joinRequests' : undefined;
   const queryFn = (ref) => query(ref, where('projectId', '==', projectId));
   useListenCollection(path, queryFn, key);
-  const filterDocs = ([id, doc]) =>
-    id.startsWith(`${path}/`) && doc.projectId === projectId;
+  const filterDocs = useCallback(
+    ([id, doc]) => id.startsWith(`${path}/`) && doc.projectId === projectId,
+    [path, projectId],
+  );
   return useExtractDb(key, filterDocs, path);
 }
 
@@ -442,8 +446,10 @@ export function useMySlots(personId) {
   const path = personId ? 'slots' : undefined;
   const queryFn = (ref) => query(ref, where(`persons.${personId}`, '!=', null));
   useListenCollection(path, queryFn, key);
-  const filterSlots = ([id, doc]) =>
-    id.startsWith(`${path}/`) && doc.persons?.[personId];
+  const filterSlots = useCallback(
+    ([id, doc]) => id.startsWith(`${path}/`) && doc.persons?.[personId],
+    [path, personId],
+  );
   return useExtractDb(key, filterSlots, path);
 }
 
@@ -453,7 +459,10 @@ export function useSlotRequests(personId) {
   const path = personId ? 'slotRequests' : undefined;
   const queryFn = (ref) => query(ref, where(`persons.${personId}`, '!=', null));
   useListenCollection(path, queryFn, key);
-  const filterSlots = ([id, doc]) => id.startsWith(`${path}/`);
+  const filterSlots = useCallback(
+    ([id, doc]) => id.startsWith(`${path}/`),
+    [path],
+  );
   return useExtractDb(key, filterSlots, path);
 }
 
@@ -463,8 +472,10 @@ export function useSlotRequestsByProject(projectId) {
   const path = projectId ? 'slotRequests' : undefined;
   const queryFn = (ref) => query(ref, where('projectId', '==', projectId));
   useListenCollection(path, queryFn, key);
-  const filterSlots = ([id, doc]) =>
-    id.startsWith(`${path}/`) && doc.projectId === projectId;
+  const filterSlots = useCallback(
+    ([id, doc]) => id.startsWith(`${path}/`) && doc.projectId === projectId,
+    [path, projectId],
+  );
   return useExtractDb(key, filterSlots, path);
 }
 
