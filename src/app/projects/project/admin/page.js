@@ -23,6 +23,7 @@ import Breadcrumb from '../../../../layouts/Breadcrumb';
 import { addDays, getPrevMonday } from '../../../../services/date';
 import { filterObj } from '../../../../services/object';
 import SlotCalendar from '../../../../components/SlotCalendar';
+import { HAPPY_SLOT_PERSON_COUNT } from '../../../../components/SlotCalendar/constants';
 import JoinRequestManager from './JoinRequestManager';
 import CreateSlotModal from './CreateSlotModal';
 import SelectedSlotRequests from './SelectedSlotRequests';
@@ -101,6 +102,7 @@ export default function ProjectAdminPage() {
     slots,
     selectedReqs,
     aiRange,
+    HAPPY_SLOT_PERSON_COUNT,
   );
 
   if (!project) {

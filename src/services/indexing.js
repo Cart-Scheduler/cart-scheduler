@@ -133,12 +133,26 @@ export function useSlotIndexes(slots, selectedReqs, range) {
   };
 }
 
-export function useRequestIndexes(requests, slots, selectedReqs, range) {
+export function useRequestIndexes(
+  requests,
+  slots,
+  selectedReqs,
+  range,
+  happySlotPersonCount,
+) {
   const [reqsByPerson, setReqsByPerson] = useState({});
-  const rangedReqs = useMemo(
-    () => filterRequestsByRange(requests, slots, range),
-    [requests, slots, range],
-  );
+  const rangedReqs = useMemo(() => {
+    const ranged = filterRequestsByRange(requests, slots, range);
+    // exclude the requests where slot already has enough persons
+    return filterObj(ranged, ([id, req]) => {
+      const slot = slots[req.slotId];
+      if (slot) {
+        const persons = Object.keys(slot.persons ?? {}).length;
+        return persons < happySlotPersonCount;
+      }
+      return false;
+    });
+  }, [requests, slots, range, happySlotPersonCount]);
   useEffect(() => {
     const index = indexRequestsByPerson(rangedReqs);
     setReqsByPerson(index);
