@@ -192,6 +192,7 @@ export default function ProjectAdminPage() {
         slotRequestId={slotRequestId}
         slotRequest={slotRequests[slotRequestId]}
         slot={slots?.[selectedSlot]}
+        slots={slots}
         slotRequests={filteredReqs}
         locationName={project?.locations[selectedLocation]?.name}
         members={membersDoc?.members}
