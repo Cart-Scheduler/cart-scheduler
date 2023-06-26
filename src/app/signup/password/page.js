@@ -5,7 +5,6 @@ import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-import { logSignInError } from '../../../services/analytics';
 import { signUpPassword } from '../../../services/auth';
 
 export const cleanEmail = (email) => email.trim().toLowerCase();
@@ -30,7 +29,6 @@ export default function SignUpPassword({ next, onCancel }) {
     } catch (err) {
       console.error(err);
       setError(err.message);
-      logSignInError(err.code);
     }
     setProcessing(false);
   };
