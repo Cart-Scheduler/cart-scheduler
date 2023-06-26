@@ -17,7 +17,6 @@ import {
   Timestamp,
 } from 'firebase/firestore';
 
-import { logUpdatePerson } from './analytics';
 import { getApp } from './firebase';
 import { filterObj } from './object';
 import {
@@ -293,7 +292,6 @@ export async function updatePersonDoc(personId, data) {
     ...data,
     modified: serverTimestamp(),
   });
-  logUpdatePerson();
 }
 
 // Modifies given object so that "len" characters are extracted from the start
