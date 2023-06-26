@@ -1,5 +1,5 @@
-import { useParams } from 'react-router-dom';
-import { useProject } from '../../services/db';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useProject, useMyProjectMembers } from '../../services/db';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/Row';
 import { createJoinRq } from '../../services/functions';
 import { useTranslation } from 'react-i18next';
 import Alert from 'react-bootstrap/Alert';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { FaPlus } from 'react-icons/fa';
 import { FaCheck } from 'react-icons/fa';
@@ -32,6 +32,19 @@ export default function JoinProject() {
   const { t } = useTranslation();
   const [requestSent, setRequestSent] = useState(false);
   const [error, setError] = useState(null);
+  const { docs: myProjects, isLoading: projectsIsLoading } =
+    useMyProjectMembers();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (
+      !projectsIsLoading &&
+      myProjects &&
+      Object.keys(myProjects).includes(projectId)
+    ) {
+      navigate(`/projects/${projectId}`);
+    }
+  }, [myProjects, projectsIsLoading, navigate, projectId]);
 
   if (isLoading) {
     return <div>Loading...</div>;
