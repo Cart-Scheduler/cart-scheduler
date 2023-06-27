@@ -27,6 +27,7 @@ function EmailSent({ email }) {
         <li>{t('check spam')}</li>
         <li>{t('contact support')}</li>
       </ul>
+      <p>{t('Please note that the link is one-time use.')}</p>
       <BackButton />
     </div>
   );
