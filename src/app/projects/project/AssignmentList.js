@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
+import { useMySlots, useProject } from '../../../services/db';
+import { filterObj } from '../../../services/object';
 import Time from '../../../components/Time';
 import { WEEKDAYS } from '../../../services/date';
 
@@ -16,14 +18,18 @@ function Assignment({ slot, project }) {
   );
 }
 
-export default function Assignments({ personId, slots, project }) {
+export default function Assignments({ personId, projectId }) {
   const { t } = useTranslation();
-  const assignments = Object.entries(slots).filter(
-    ([id, doc]) => doc.persons?.[personId],
+  const { data: project } = useProject(projectId);
+  const { docs: allAssignments } = useMySlots(personId);
+  const assignments = Object.entries(
+    filterObj(allAssignments, ([id, doc]) => doc.projectId === projectId),
   );
-  if (assignments.length === 0) {
+
+  if (!project || assignments.length === 0) {
     return null;
   }
+
   return (
     <div className="ps-3 mb-4">
       {t('Your assignments:')}

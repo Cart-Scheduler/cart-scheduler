@@ -27,3 +27,9 @@ export async function createProject(params) {
   const data = await makeCall('createProject', params);
   return data;
 }
+
+// Creates a join rq
+export async function createJoinRq(params) {
+  const data = await makeCall('createJoinRequest', params);
+  return data;
+}

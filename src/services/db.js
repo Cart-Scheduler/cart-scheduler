@@ -17,7 +17,6 @@ import {
   Timestamp,
 } from 'firebase/firestore';
 
-import { logUpdatePerson } from './analytics';
 import { getApp } from './firebase';
 import { filterObj } from './object';
 import {
@@ -293,7 +292,6 @@ export async function updatePersonDoc(personId, data) {
     ...data,
     modified: serverTimestamp(),
   });
-  logUpdatePerson();
 }
 
 // Modifies given object so that "len" characters are extracted from the start
@@ -316,8 +314,10 @@ function useHasLoaded(isLoading) {
 }
 
 // Hook that extracts data from db state.
+//
 // Filter function gets argument [id, doc] and it should return truthy value
 // to keep the entry. Path argument is for trimming keys in returned object.
+// Using useCallback hook for filter function is greatly recommended.
 function useExtractDb(key, filterFn, path) {
   const { db, isLoading } = useSelector((state) => ({
     db: state.db,
@@ -366,8 +366,10 @@ export function useJoinRequests(projectId) {
   const path = projectId ? 'joinRequests' : undefined;
   const queryFn = (ref) => query(ref, where('projectId', '==', projectId));
   useListenCollection(path, queryFn, key);
-  const filterDocs = ([id, doc]) =>
-    id.startsWith(`${path}/`) && doc.projectId === projectId;
+  const filterDocs = useCallback(
+    ([id, doc]) => id.startsWith(`${path}/`) && doc.projectId === projectId,
+    [path, projectId],
+  );
   return useExtractDb(key, filterDocs, path);
 }
 
@@ -436,13 +438,29 @@ export function useSlots(projectId, starts, ends) {
   return useExtractDb(key, filterSlots, path);
 }
 
+// Hook that returns all slots where given personId is assigned.
+export function useMySlots(personId) {
+  const key = 'mySlots';
+  const path = personId ? 'slots' : undefined;
+  const queryFn = (ref) => query(ref, where(`persons.${personId}`, '!=', null));
+  useListenCollection(path, queryFn, key);
+  const filterSlots = useCallback(
+    ([id, doc]) => id.startsWith(`${path}/`) && doc.persons?.[personId],
+    [path, personId],
+  );
+  return useExtractDb(key, filterSlots, path);
+}
+
 // Hook that returns all slotRequests for given personId.
 export function useSlotRequests(personId) {
   const key = 'mySlotRequests';
   const path = personId ? 'slotRequests' : undefined;
   const queryFn = (ref) => query(ref, where(`persons.${personId}`, '!=', null));
   useListenCollection(path, queryFn, key);
-  const filterSlots = ([id, doc]) => id.startsWith(`${path}/`);
+  const filterSlots = useCallback(
+    ([id, doc]) => id.startsWith(`${path}/`),
+    [path],
+  );
   return useExtractDb(key, filterSlots, path);
 }
 
@@ -452,8 +470,10 @@ export function useSlotRequestsByProject(projectId) {
   const path = projectId ? 'slotRequests' : undefined;
   const queryFn = (ref) => query(ref, where('projectId', '==', projectId));
   useListenCollection(path, queryFn, key);
-  const filterSlots = ([id, doc]) =>
-    id.startsWith(`${path}/`) && doc.projectId === projectId;
+  const filterSlots = useCallback(
+    ([id, doc]) => id.startsWith(`${path}/`) && doc.projectId === projectId,
+    [path, projectId],
+  );
   return useExtractDb(key, filterSlots, path);
 }
 

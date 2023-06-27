@@ -8,6 +8,10 @@ import Tabs from 'react-bootstrap/Tabs';
 import { useParams } from 'react-router-dom';
 
 import {
+  useRequestIndexes,
+  useSlotIndexes,
+} from '../../../../services/indexing';
+import {
   usePersonId,
   useProject,
   useProjectMembers,
@@ -19,6 +23,7 @@ import Breadcrumb from '../../../../layouts/Breadcrumb';
 import { addDays, getPrevMonday } from '../../../../services/date';
 import { filterObj } from '../../../../services/object';
 import SlotCalendar from '../../../../components/SlotCalendar';
+import { HAPPY_SLOT_PERSON_COUNT } from '../../../../components/SlotCalendar/constants';
 import JoinRequestManager from './JoinRequestManager';
 import CreateSlotModal from './CreateSlotModal';
 import SelectedSlotRequests from './SelectedSlotRequests';
@@ -83,18 +88,35 @@ export default function ProjectAdminPage() {
     [selectedSlot, slotRequests],
   );
 
+  const [aiRange, setAiRange] = useState([
+    new Date(2023, 0, 1).getTime(),
+    new Date(2023, 8, 2).getTime(),
+  ]);
+  const { slotsByPerson, draftSlotsByPerson } = useSlotIndexes(
+    slots,
+    selectedReqs,
+    aiRange,
+  );
+  const { reqsByPerson } = useRequestIndexes(
+    slotRequests,
+    slots,
+    selectedReqs,
+    aiRange,
+    HAPPY_SLOT_PERSON_COUNT,
+  );
+
   if (!project) {
     return null;
   }
 
   const slotRequestId = findSlotRequestId(selectedSlot, slotRequests);
 
-  const handleRequestToggle = (reqId) => {
+  const handleRequestToggle = (reqId, req) => {
     const newSelected = { ...selectedReqs };
     if (selectedReqs[reqId]) {
       delete newSelected[reqId];
     } else {
-      newSelected[reqId] = true;
+      newSelected[reqId] = req;
     }
     setSelectedReqs(newSelected);
   };
@@ -133,6 +155,7 @@ export default function ProjectAdminPage() {
                       slotRequests={slotRequests}
                       days={showDays}
                       personId={personId}
+                      admin
                       onSlotClick={(slotId) => {
                         setSelectedSlot(slotId);
                         setShowSlotModal(true);
@@ -171,10 +194,14 @@ export default function ProjectAdminPage() {
         slotRequestId={slotRequestId}
         slotRequest={slotRequests[slotRequestId]}
         slot={slots?.[selectedSlot]}
+        slots={slots}
         slotRequests={filteredReqs}
         locationName={project?.locations[selectedLocation]?.name}
         members={membersDoc?.members}
         selectedRequests={selectedReqs}
+        slotsByPerson={slotsByPerson}
+        draftSlotsByPerson={draftSlotsByPerson}
+        reqsByPerson={reqsByPerson}
         onRequestToggle={handleRequestToggle}
       />
       <CreateSlotModal

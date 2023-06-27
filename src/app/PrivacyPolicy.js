@@ -14,12 +14,12 @@ function MyBreadcrumb() {
 function PrivacyPolicyContent() {
   return (
     <div className="p-4">
-      <h3 className="mb-3">Tietosuojaseloste</h3>
+      <h3 className="mb-3">Tietosuojakäytäntö</h3>
       <div className="p-2">
         <p className="p-1 mb-4">
           Tervetuloa {process.env.REACT_APP_TITLE} -sivustolle. Me kunnioitamme
           yksityisyyttäsi ja pyrimme suojelemaan henkilötietojasi. <br></br>{' '}
-          Tässä tietosuojaselosteessa kerromme, miten keräämme, käytämme ja
+          Tässä tietosuojakäytännössä kerromme, miten keräämme, käytämme ja
           suojaamme henkilötietojasi Euroopan Unionin <br></br> yleisen
           tietosuoja-asetuksen (GDPR) mukaisesti.
         </p>
@@ -88,15 +88,15 @@ function PrivacyPolicyContent() {
         </p>
         <p className="p-1 fw-bold mb-0">Muutokset tietosuojakäytäntöön</p>
         <p className="p-1 mb-3">
-          Voimme päivittää tätä tietosuojaselostetta tarpeen mukaan. Kehotamme
-          sinua tarkistamaan tämän tietosuojaselosteen säännöllisesti. Muutokset
-          tulevat voimaan, kun ne on julkaistu tällä sivulla.
+          Voimme päivittää tätä tietosuojakäytäntöä tarpeen mukaan, joten
+          kehotamme sinua tarkistamaan sitä säännöllisesti. Muutokset tulevat
+          voimaan, kun ne on julkaistu tällä sivulla.
         </p>
         <p className="p-1 fw-bold mb-0">Yhteystiedot</p>
         <p className="p-1 mb-3">
-          Jos sinulla on kysyttävää tästä tietosuojaselosteesta tai jos haluat
-          tehdä pyynnön tietojesi tarkastamiseksi, korjaamiseksi tai
-          poistamiseksi, voit ottaa meihin yhteyttä sähköpostitse:{' '}
+          Jos sinulla on kysyttävää tietosuojakäytännöstä tai jos haluat tehdä
+          pyynnön tietojesi tarkastamiseksi, korjaamiseksi tai poistamiseksi,
+          voit ottaa meihin yhteyttä sähköpostitse:{' '}
           {process.env.REACT_APP_CONTACT_EMAIL}
         </p>
       </div>

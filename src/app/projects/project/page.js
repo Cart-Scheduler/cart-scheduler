@@ -119,11 +119,7 @@ export default function Project() {
             </Card.Header>
             <Card.Body className="ps-2 pe-2">
               <Guide />
-              <AssignmentList
-                personId={personId}
-                slots={slots}
-                project={project}
-              />
+              <AssignmentList personId={personId} projectId={projectId} />
               <Tabs
                 activeKey={selectedLocation}
                 onSelect={(loc) => setSelectedLocation(loc)}

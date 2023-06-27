@@ -54,3 +54,28 @@ export function getPrevMonday(date) {
   prevMonday.setHours(0, 0, 0, 0);
   return prevMonday;
 }
+
+// Returns time distance of two slots.
+// If slots are consecutive, returns 0.
+// If slots are overlapping, returns -1.
+export function calcSlotDistance(a, b) {
+  // check if slots are overlapping
+  if (
+    (a.starts >= b.starts && a.starts < b.ends) ||
+    (a.ends > b.starts && a.ends <= b.ends)
+  ) {
+    return -1;
+  }
+  // check if slots are consecutive
+  if (a.starts === b.ends || a.ends === b.starts) {
+    return 0;
+  }
+  // calc time distance
+  if (a.ends < b.starts) {
+    return b.starts - a.ends;
+  } else if (b.ends < a.starts) {
+    return a.starts - b.ends;
+  }
+  // slots overlap
+  return -1;
+}
