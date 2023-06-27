@@ -16,6 +16,7 @@ import {
 import { useAuth, usePerson } from '../services/db';
 import Footer from './Footer';
 import NotificationController from '../components/notifications/Controller';
+import TimezoneChecker from '../components/TimezoneChecker';
 
 function Version() {
   if (!process.env.REACT_APP_VERSION) {
@@ -86,6 +87,7 @@ export function LayoutContainer({ fluid, breadcrumb, children }) {
     <>
       <MyNavbar breadcrumb={breadcrumb} />
       <Container fluid={fluid} className="py-4">
+        <TimezoneChecker />
         {children}
         <Footer />
       </Container>
