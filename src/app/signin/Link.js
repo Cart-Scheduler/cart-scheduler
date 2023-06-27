@@ -66,10 +66,22 @@ function EmailForm({ onFinish }) {
 
 function Error({ error }) {
   const { t } = useTranslation();
+
+  let message;
+  switch (error.code) {
+    case 'auth/invalid-action-code':
+      message = t(
+        'The email link can be used only once. Please send a new link.',
+      );
+      break;
+    default:
+      message = `${t('Error code')}: ${error.code}`;
+  }
+
   return (
     <div>
       <Alert variant="danger" className="text-white">
-        <strong>{t('Error code')}:</strong> {error.code}
+        <strong>{message}</strong>
       </Alert>
       <div className="text-center">
         <BackButton />
