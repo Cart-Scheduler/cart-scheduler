@@ -77,7 +77,7 @@ export default function JoinProject() {
                 </div>
                 <h5 className="mb-4">{project?.name}</h5>
                 {error && (
-                  <Alert variant="danger" className="my-2">
+                  <Alert variant="danger" className="my-2 text-white">
                     {t('Failed to join project')}
                   </Alert>
                 )}
