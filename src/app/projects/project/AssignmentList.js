@@ -22,9 +22,19 @@ export default function Assignments({ personId, projectId }) {
   const { t } = useTranslation();
   const { data: project } = useProject(projectId);
   const { docs: allAssignments } = useMySlots(personId);
+
+  const currentTimestamp = new Date().getTime(); // current time
+
   const assignments = Object.entries(
-    filterObj(allAssignments, ([id, doc]) => doc.projectId === projectId),
+    filterObj(
+      allAssignments,
+      ([id, doc]) =>
+        doc.projectId === projectId && doc.ends >= currentTimestamp,
+    ),
   );
+
+  // sort by date
+  assignments.sort((a, b) => a[1].starts - b[1].starts);
 
   if (!project || assignments.length === 0) {
     return null;
