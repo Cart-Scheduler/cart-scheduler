@@ -25,7 +25,7 @@ export default function Assignments({ personId, projectId }) {
 
   const currentTimestamp = new Date().getTime(); // current time
 
-  let assignments = Object.entries(
+  const assignments = Object.entries(
     filterObj(
       allAssignments,
       ([id, doc]) =>
