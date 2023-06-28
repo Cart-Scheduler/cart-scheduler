@@ -23,20 +23,18 @@ export default function Assignments({ personId, projectId }) {
   const { data: project } = useProject(projectId);
   const { docs: allAssignments } = useMySlots(personId);
 
-  const currentTimestamp = new Date(); // current time
+  const currentTimestamp = new Date().getTime(); // current time
 
   let assignments = Object.entries(
     filterObj(
       allAssignments,
       ([id, doc]) =>
-        doc.projectId === projectId && new Date(doc.ends) >= currentTimestamp,
+        doc.projectId === projectId && doc.ends >= currentTimestamp,
     ),
   );
 
   // sort by date
-  assignments = assignments.sort(
-    (a, b) => new Date(a[1].starts) - new Date(b[1].starts),
-  );
+  assignments.sort((a, b) => a[1].starts - b[1].starts);
 
   if (!project || assignments.length === 0) {
     return null;
