@@ -36,35 +36,25 @@ function PrivacyPolicyContent() {
           säilytetään ainoastaan niin kauan kuin on tarpeellista.
         </p>
 
-        <p className="p-1 fw-bold mb-0">Tietojen kerääminen ja käyttö</p>
+        <p className="p-1 fw-bold mb-0">
+          Tietojen kerääminen ja käyttö sekä kolmannen osapuolen palvelut
+        </p>
         <p className="p-1 mb-3">
           Keräämme ja käytämme tietojasi palvelumme parantamiseen ja
           personoimiseen. Tämä sisältää tiedot, kuten nimen, sukunimen,
           sähköpostiosoitteen ja sukupuolen. Käytämme tätä tietoa yhteydenpitoon
-          ja käyttäjäkokemuksen parantamiseen.
-        </p>
-        <p className="p-1 fw-bold mb-0">Kolmannen osapuolen palvelut</p>
-        <p className="p-1 mb-3">
-          Käytämme{' '}
+          ja käyttäjäkokemuksen parantamiseen. Lisäksi käyttämämme teknologia,
+          kuten{' '}
           <a
             href="https://firebase.google.com/terms"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Google Firebasea
-          </a>{' '}
-          ja{' '}
-          <a
-            href="https://www.google.com/analytics/terms/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Google Analyticsia
-          </a>{' '}
-          palvelumme parantamiseksi ja ymmärtääksemme paremmin, kuinka
-          sivustoamme käytetään. Nämä palvelut saattavat kerätä tietoja, kuten
-          IP-osoitteen tai selaimen tiedot, mutta ne eivät jaa tai käytä näitä
-          tietoja muuhun kuin palvelun tarjoamiseen.
+            Google Firebase
+          </a>
+          , saattavaa kerätä teknisiä tietoja, kuten IP-osoitteen tai
+          laitetiedot, tarpeen mukaan. Nämä tiedot käytetään ainoastaan palvelun
+          tarjoamiseen ja sen toiminnan parantamiseen.
         </p>
         <p className="p-1 fw-bold mb-0">Evästeet</p>
         <p className="p-1 mb-3">
