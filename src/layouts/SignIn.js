@@ -6,6 +6,8 @@ import Row from 'react-bootstrap/Row';
 import Footer from './Footer';
 import { TermsOfUse } from '../app/signin/page';
 
+import CookieConsent from '../components/CookieConsent';
+
 export default function SignInLayout() {
   return (
     <Container className="pt-2 pt-sm-5 pb-4 pb-sm-5">
@@ -22,6 +24,7 @@ export default function SignInLayout() {
         </Col>
       </Row>
       <TermsOfUse />
+      <CookieConsent />
       <Container className="d-flex justify-content-center align-items-center">
         <Footer />
       </Container>
