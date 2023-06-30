@@ -17,6 +17,7 @@ import { useAuth, usePerson } from '../services/db';
 import Footer from './Footer';
 import NotificationController from '../components/notifications/Controller';
 import TimezoneChecker from '../components/TimezoneChecker';
+import CookieConsent from '../components/CookieConsent';
 
 function Version() {
   if (!process.env.REACT_APP_VERSION) {
@@ -103,6 +104,7 @@ export default function DefaultLayout() {
       <main className="main-content position-relative border-radius-lg max-height-vh-100 h-100">
         <NotificationController />
         <Outlet />
+        <CookieConsent />
       </main>
     </>
   );
