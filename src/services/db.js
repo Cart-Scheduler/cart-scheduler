@@ -268,12 +268,19 @@ export function useUid() {
   return useSelector((state) => state.auth.user?.uid);
 }
 
-// Hook that returns current user document.
+// Hook that starts listening current user document.
 export function useListenUser() {
   const uid = useUid();
   const path = uid ? `users/${uid}` : undefined;
   useListenDoc(path);
-  return useSelector((state) => state.db[path]);
+}
+
+// Hook that returns error related to fetching current user document.
+export function useUserDocError() {
+  const uid = useUid();
+  const path = uid ? `users/${uid}` : undefined;
+  const error = useSelector((state) => state.db.__errors__[path]);
+  return { error, uid };
 }
 
 // Hook that returns current person id.
@@ -284,12 +291,19 @@ export function usePersonId() {
   });
 }
 
-// Hook that returns current person document.
+// Hook that starts listening current person document.
 export function useListenPerson() {
   const personId = usePersonId();
   const path = personId ? `persons/${personId}` : undefined;
   useListenDoc(path);
-  return useSelector((state) => state.db[path]);
+}
+
+// Hook that returns error related to fetching current person document.
+export function usePersonDocError() {
+  const personId = usePersonId();
+  const path = personId ? `persons/${personId}` : undefined;
+  const error = useSelector((state) => state.db.__errors__[path]);
+  return { error, personId };
 }
 
 export async function updatePersonDoc(personId, data) {
@@ -484,24 +498,30 @@ export function useSlotRequestsByProject(projectId) {
   return useExtractDb(key, filterSlots, path);
 }
 
-// Returns a project document that has already been fetched.
-export function useDoc(path) {
-  useListenDoc(path);
+function useExtractDbDoc(path) {
   return useSelector((state) => {
     return {
+      error: state.db.__errors__[path],
       isLoading: state.db.__loading__[path],
       data: state.db[path],
     };
   });
 }
 
+// Person document should be listened, so read Redux state.
 export function usePerson() {
   const personId = usePersonId();
   const path = personId ? `persons/${personId}` : undefined;
-  return useDoc(path);
+  return useExtractDbDoc(path);
 }
 
-// Returns a project document that has already been fetched.
+// Listens to a document and returns document data.
+export function useDoc(path) {
+  useListenDoc(path);
+  return useExtractDbDoc(path);
+}
+
+// Listens to project document and returns data.
 export function useProject(id) {
   return useDoc(`projects/${id}`);
 }

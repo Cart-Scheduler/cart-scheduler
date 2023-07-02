@@ -13,7 +13,13 @@ import {
   FaUserCircle,
 } from 'react-icons/fa';
 
-import { useAuth, usePerson } from '../services/db';
+import {
+  useAuth,
+  usePerson,
+  usePersonDocError,
+  useUserDocError,
+} from '../services/db';
+import DbError from '../components/DbError';
 import Footer from './Footer';
 import NotificationController from '../components/notifications/Controller';
 import TimezoneChecker from '../components/TimezoneChecker';
@@ -82,11 +88,39 @@ function MyNavbar({ breadcrumb }) {
   );
 }
 
+// Displays errors related to fetching user or person document.
+function UserDocErrorChecker() {
+  const { error: userError, uid } = useUserDocError();
+  const { error: personError, personId } = usePersonDocError();
+  if (userError) {
+    return (
+      <DbError
+        error={{
+          message: userError.message,
+          code: `${userError.code} - uid ${uid}`,
+        }}
+      />
+    );
+  }
+  if (personError) {
+    return (
+      <DbError
+        error={{
+          message: personError.message,
+          code: `${personError.code} - person ${personId}`,
+        }}
+      />
+    );
+  }
+  return null;
+}
+
 export function LayoutContainer({ fluid, breadcrumb, children }) {
   return (
     <>
       <MyNavbar breadcrumb={breadcrumb} />
       <Container fluid={fluid} className="py-4">
+        <UserDocErrorChecker />
         <TimezoneChecker />
         {children}
         <Footer />
