@@ -24,6 +24,7 @@ import {
   startLoading,
   removeDoc as removeDbDoc,
   setChangedDocs,
+  setDbError,
 } from '../redux/slices/db';
 
 let db;
@@ -99,6 +100,8 @@ function listenDoc(dispatch, path) {
       );
     },
     (error) => {
+      const { code, message } = error;
+      dispatch(setDbError({ key: path, code, message }));
       console.error(error);
     },
   );
@@ -132,6 +135,8 @@ function listenCollection(dispatch, path, queryFunc, key) {
       dispatch(setChangedDocs({ removed, changed, key }));
     },
     (error) => {
+      const { code, message } = error;
+      dispatch(setDbError({ key, code, message }));
       console.error(error);
     },
   );
@@ -263,12 +268,19 @@ export function useUid() {
   return useSelector((state) => state.auth.user?.uid);
 }
 
-// Hook that returns current user document.
+// Hook that starts listening current user document.
 export function useListenUser() {
   const uid = useUid();
   const path = uid ? `users/${uid}` : undefined;
   useListenDoc(path);
-  return useSelector((state) => state.db[path]);
+}
+
+// Hook that returns error related to fetching current user document.
+export function useUserDocError() {
+  const uid = useUid();
+  const path = uid ? `users/${uid}` : undefined;
+  const error = useSelector((state) => state.db.__errors__[path]);
+  return { error, uid };
 }
 
 // Hook that returns current person id.
@@ -279,12 +291,19 @@ export function usePersonId() {
   });
 }
 
-// Hook that returns current person document.
+// Hook that starts listening current person document.
 export function useListenPerson() {
   const personId = usePersonId();
   const path = personId ? `persons/${personId}` : undefined;
   useListenDoc(path);
-  return useSelector((state) => state.db[path]);
+}
+
+// Hook that returns error related to fetching current person document.
+export function usePersonDocError() {
+  const personId = usePersonId();
+  const path = personId ? `persons/${personId}` : undefined;
+  const error = useSelector((state) => state.db.__errors__[path]);
+  return { error, personId };
 }
 
 export async function updatePersonDoc(personId, data) {
@@ -319,8 +338,9 @@ function useHasLoaded(isLoading) {
 // to keep the entry. Path argument is for trimming keys in returned object.
 // Using useCallback hook for filter function is greatly recommended.
 function useExtractDb(key, filterFn, path) {
-  const { db, isLoading } = useSelector((state) => ({
+  const { db, error, isLoading } = useSelector((state) => ({
     db: state.db,
+    error: state.db.__errors__[key],
     isLoading: state.db.__loading__[key],
   }));
   const hasLoaded = useHasLoaded(isLoading);
@@ -331,6 +351,7 @@ function useExtractDb(key, filterFn, path) {
       }
       return shortenKeys(filterObj(db, filterFn), path.length + 1);
     }, [db, filterFn, path]),
+    error,
     isLoading,
     hasLoaded,
   };
@@ -477,24 +498,30 @@ export function useSlotRequestsByProject(projectId) {
   return useExtractDb(key, filterSlots, path);
 }
 
-// Returns a project document that has already been fetched.
-export function useDoc(path) {
-  useListenDoc(path);
+function useExtractDbDoc(path) {
   return useSelector((state) => {
     return {
+      error: state.db.__errors__[path],
       isLoading: state.db.__loading__[path],
       data: state.db[path],
     };
   });
 }
 
+// Person document should be listened, so read Redux state.
 export function usePerson() {
   const personId = usePersonId();
   const path = personId ? `persons/${personId}` : undefined;
-  return useDoc(path);
+  return useExtractDbDoc(path);
 }
 
-// Returns a project document that has already been fetched.
+// Listens to a document and returns document data.
+export function useDoc(path) {
+  useListenDoc(path);
+  return useExtractDbDoc(path);
+}
+
+// Listens to project document and returns data.
 export function useProject(id) {
   return useDoc(`projects/${id}`);
 }
