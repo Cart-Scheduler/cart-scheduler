@@ -7,6 +7,7 @@ import { FaTimes } from 'react-icons/fa';
 import { useMyProjectMembers } from '../../services/db';
 import { LayoutContainer } from '../../layouts/Default';
 import Breadcrumb from '../../layouts/Breadcrumb';
+import DbError from '../../components/DbError';
 import Spinner from '../../components/Spinner';
 import ProjectCard from './ProjectCard';
 
@@ -44,9 +45,10 @@ function NoProjects() {
 }
 
 export default function Projects() {
-  const { docs, isLoading, hasLoaded } = useMyProjectMembers();
+  const { docs, error, isLoading, hasLoaded } = useMyProjectMembers();
   return (
     <LayoutContainer breadcrumb={<MyBreadcrumb />}>
+      <DbError error={error} />
       {hasLoaded && Object.keys(docs ?? {}).length === 0 ? (
         <NoProjects />
       ) : (

@@ -2,9 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 import { reset } from '../actions';
 
 const initialState = {
-  // Loading flags.
+  // Error and loading flags.
   // Use double underscores in the start and end to because it cannot be
   // a collection ID.
+  __errors__: {},
   __loading__: {},
 };
 
@@ -30,6 +31,10 @@ export const slice = createSlice({
       }
       delete state.__loading__[key];
     },
+    setDbError: (state, action) => {
+      const { code, message, key } = action.payload;
+      state.__errors__[key] = { code, message };
+    },
     removeDoc: (state, action) => {
       delete state[action.payload];
     },
@@ -39,6 +44,6 @@ export const slice = createSlice({
   },
 });
 
-export const { setDoc, setChangedDocs, startLoading, removeDoc } =
+export const { setDoc, setChangedDocs, setDbError, startLoading, removeDoc } =
   slice.actions;
 export default slice.reducer;

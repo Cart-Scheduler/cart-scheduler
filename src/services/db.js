@@ -24,6 +24,7 @@ import {
   startLoading,
   removeDoc as removeDbDoc,
   setChangedDocs,
+  setDbError,
 } from '../redux/slices/db';
 
 let db;
@@ -99,6 +100,8 @@ function listenDoc(dispatch, path) {
       );
     },
     (error) => {
+      const { code, message } = error;
+      dispatch(setDbError({ key: path, code, message }));
       console.error(error);
     },
   );
@@ -132,6 +135,8 @@ function listenCollection(dispatch, path, queryFunc, key) {
       dispatch(setChangedDocs({ removed, changed, key }));
     },
     (error) => {
+      const { code, message } = error;
+      dispatch(setDbError({ key, code, message }));
       console.error(error);
     },
   );
@@ -319,8 +324,9 @@ function useHasLoaded(isLoading) {
 // to keep the entry. Path argument is for trimming keys in returned object.
 // Using useCallback hook for filter function is greatly recommended.
 function useExtractDb(key, filterFn, path) {
-  const { db, isLoading } = useSelector((state) => ({
+  const { db, error, isLoading } = useSelector((state) => ({
     db: state.db,
+    error: state.db.__errors__[key],
     isLoading: state.db.__loading__[key],
   }));
   const hasLoaded = useHasLoaded(isLoading);
@@ -331,6 +337,7 @@ function useExtractDb(key, filterFn, path) {
       }
       return shortenKeys(filterObj(db, filterFn), path.length + 1);
     }, [db, filterFn, path]),
+    error,
     isLoading,
     hasLoaded,
   };
