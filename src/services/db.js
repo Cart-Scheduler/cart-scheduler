@@ -42,11 +42,20 @@ export const dateToTimestamp = (date) =>
 // Rounds given value by flooring milliseconds.
 export const roundTimestamp = (value) => Math.floor(value / 1000) * 1000;
 
+// Wrapper function for Object.hasOwn.
+const hasProp = (obj, prop) => {
+  if (Object.hasOwn) {
+    // not all browsers have Object.hasOwn
+    return Object.hasOwn(obj, prop);
+  }
+  return obj.hasOwnProperty(prop);
+};
+
 // Deep clones given object but converts Firestore.Timestamp to primitive number.
 export function serializableClone(obj) {
   const clone = {};
   for (const prop in obj) {
-    if (Object.hasOwn(obj, prop)) {
+    if (hasProp(obj, prop)) {
       let val = obj[prop];
       if (val instanceof Timestamp) {
         val = val.toMillis();
