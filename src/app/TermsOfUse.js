@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 function MyBreadcrumb() {
   const { t } = useTranslation();
   return (
-    <Breadcrumb title={t('Terms of Use')} theme="light">
+    <Breadcrumb theme="light">
       <Breadcrumb.Item to="/">{t('Home')}</Breadcrumb.Item>
       <Breadcrumb.Item>{t('Terms of Use')}</Breadcrumb.Item>
     </Breadcrumb>
