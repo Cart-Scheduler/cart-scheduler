@@ -9,7 +9,7 @@ import Breadcrumb from '../layouts/Breadcrumb';
 function MyBreadcrumb() {
   const { t } = useTranslation();
   return (
-    <Breadcrumb title={t('Privacy Policy')} theme="light">
+    <Breadcrumb theme="light">
       <Breadcrumb.Item to="/">{t('Home')}</Breadcrumb.Item>
       <Breadcrumb.Item>{t('Privacy Policy')}</Breadcrumb.Item>
     </Breadcrumb>
