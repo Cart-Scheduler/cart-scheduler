@@ -1,4 +1,4 @@
-@import "./calendar";
+@import './calendar';
 
 // simple min-height helper classes
 .mh-10 {
@@ -29,6 +29,25 @@
 }
 
 .project-info p {
-  font-size: .875rem;
+  font-size: 0.875rem;
   margin-bottom: 0;
+}
+
+// breadcrumb theming
+.breadcrumb-theme-light {
+  a,
+  h6,
+  .breadcrumb-item,
+  .breadcrumb-item + .breadcrumb-item::before {
+    color: $dark;
+  }
+}
+
+.breadcrumb-theme-dark {
+  a,
+  h6,
+  .breadcrumb-item,
+  .breadcrumb-item + .breadcrumb-item::before {
+    color: $white;
+  }
 }
