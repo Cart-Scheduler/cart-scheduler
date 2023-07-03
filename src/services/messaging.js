@@ -15,10 +15,17 @@ import { setDocId, setToken } from '../redux/slices/fcm';
 let messaging;
 
 export function initMessaging() {
-  messaging = getMessaging(getApp());
-  onMessage(messaging, (payload) => {
-    console.debug('Message received', payload);
-  });
+  try {
+    messaging = getMessaging(getApp());
+    onMessage(messaging, (payload) => {
+      console.debug('Message received', payload);
+    });
+  } catch (err) {
+    // Error when initializing messaging API.
+    // For example when browser does not support service workers, we catch an
+    // exception here.
+    console.error(err);
+  }
 }
 
 function useGetToken() {
@@ -40,7 +47,9 @@ function useGetToken() {
         console.error(err);
       }
     };
-    run();
+    if (messaging) {
+      run();
+    }
   }, [dispatch]);
   return useSelector((state) => state.fcm.token);
 }
@@ -67,7 +76,7 @@ export function useRegistrationToken() {
   const dispatch = useDispatch();
   const [initialized, setInitialized] = useState(false);
   useEffect(() => {
-    if (!initialized && uid && token) {
+    if (messaging && !initialized && uid && token) {
       // run this only once
       setInitialized(true);
       const run = async () => {
@@ -98,7 +107,7 @@ export function useDeleteRegistrationToken() {
   const [deleted, setDeleted] = useState(false);
   const { docId } = useSelector((state) => state.fcm);
   useEffect(() => {
-    if (docId) {
+    if (messaging && docId) {
       const run = async () => {
         try {
           await deleteRegistrationToken(docId);
