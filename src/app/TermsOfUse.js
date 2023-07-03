@@ -9,12 +9,17 @@ import { Link } from 'react-router-dom';
 
 function MyBreadcrumb() {
   const { t } = useTranslation();
-  return <Breadcrumb title={t('Terms of Use')}></Breadcrumb>;
+  return (
+    <Breadcrumb theme="light">
+      <Breadcrumb.Item to="/">{t('Home')}</Breadcrumb.Item>
+      <Breadcrumb.Item>{t('Terms of Use')}</Breadcrumb.Item>
+    </Breadcrumb>
+  );
 }
 
 function TermsOfUseContent() {
   return (
-    <div className="p-4">
+    <div className="p-1">
       <h3 className="mb-3">Käyttöehdot</h3>
       <div className="p-2">
         <p className="p-1 mb-4">

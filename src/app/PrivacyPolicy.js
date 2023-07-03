@@ -8,12 +8,17 @@ import Breadcrumb from '../layouts/Breadcrumb';
 
 function MyBreadcrumb() {
   const { t } = useTranslation();
-  return <Breadcrumb title={t('Privacy Policy')}></Breadcrumb>;
+  return (
+    <Breadcrumb theme="light">
+      <Breadcrumb.Item to="/">{t('Home')}</Breadcrumb.Item>
+      <Breadcrumb.Item>{t('Privacy Policy')}</Breadcrumb.Item>
+    </Breadcrumb>
+  );
 }
 
 function PrivacyPolicyContent() {
   return (
-    <div className="p-4">
+    <div className="p-1">
       <h3 className="mb-3">Tietosuojakäytäntö</h3>
       <div className="p-2">
         <p className="p-1 mb-4">
