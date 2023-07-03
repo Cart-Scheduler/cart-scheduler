@@ -322,12 +322,27 @@ export async function updatePersonDoc(personId, data) {
   });
 }
 
+// not all browsers support Object.fromEntries
+const shortenKeysLegacy = (obj, len) => {
+  const result = {};
+  const keys = Object.keys(obj);
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i].substring(len);
+    result[key] = obj[keys[i]];
+  }
+  return result;
+};
+
 // Modifies given object so that "len" characters are extracted from the start
 // of each key.
-const shortenKeys = (obj, len) =>
-  Object.fromEntries(
-    Object.entries(obj).map(([key, value]) => [key.substring(len), value]),
-  );
+const shortenKeys = (obj, len) => {
+  if (Object.fromEntries) {
+    return Object.fromEntries(
+      Object.entries(obj).map(([key, value]) => [key.substring(len), value]),
+    );
+  }
+  return shortenKeysLegacy(obj, len);
+};
 
 function useHasLoaded(isLoading) {
   const [loaded, setLoaded] = useState();
