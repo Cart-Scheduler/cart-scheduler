@@ -1,6 +1,6 @@
 {
   "name": "cart-scheduler",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
