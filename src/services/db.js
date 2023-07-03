@@ -42,11 +42,20 @@ export const dateToTimestamp = (date) =>
 // Rounds given value by flooring milliseconds.
 export const roundTimestamp = (value) => Math.floor(value / 1000) * 1000;
 
+// Wrapper function for Object.hasOwn.
+const hasProp = (obj, prop) => {
+  if (Object.hasOwn) {
+    // not all browsers have Object.hasOwn
+    return Object.hasOwn(obj, prop);
+  }
+  return obj.hasOwnProperty(prop);
+};
+
 // Deep clones given object but converts Firestore.Timestamp to primitive number.
 export function serializableClone(obj) {
   const clone = {};
   for (const prop in obj) {
-    if (Object.hasOwn(obj, prop)) {
+    if (hasProp(obj, prop)) {
       let val = obj[prop];
       if (val instanceof Timestamp) {
         val = val.toMillis();
@@ -313,12 +322,27 @@ export async function updatePersonDoc(personId, data) {
   });
 }
 
+// not all browsers support Object.fromEntries
+const shortenKeysLegacy = (obj, len) => {
+  const result = {};
+  const keys = Object.keys(obj);
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i].substring(len);
+    result[key] = obj[keys[i]];
+  }
+  return result;
+};
+
 // Modifies given object so that "len" characters are extracted from the start
 // of each key.
-const shortenKeys = (obj, len) =>
-  Object.fromEntries(
-    Object.entries(obj).map(([key, value]) => [key.substring(len), value]),
-  );
+const shortenKeys = (obj, len) => {
+  if (Object.fromEntries) {
+    return Object.fromEntries(
+      Object.entries(obj).map(([key, value]) => [key.substring(len), value]),
+    );
+  }
+  return shortenKeysLegacy(obj, len);
+};
 
 function useHasLoaded(isLoading) {
   const [loaded, setLoaded] = useState();
