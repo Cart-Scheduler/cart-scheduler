@@ -8,6 +8,9 @@ import Select from 'react-select';
 import { useTranslation } from 'react-i18next';
 import { FaCheck } from 'react-icons/fa';
 
+import { createMembersArray } from '../../../services/string';
+import { useMemo } from 'react';
+
 import Time from '../../../components/Time';
 import { WEEKDAYS } from '../../../services/date';
 import {
@@ -19,14 +22,6 @@ import {
 } from '../../../services/db';
 
 const MAX_PARTNERS = 3;
-
-const getMembersOptions = (members, personId) =>
-  Object.entries(members ?? {})
-    .filter(([id]) => id !== personId)
-    .map(([id, member]) => ({
-      value: id,
-      label: member.name,
-    }));
 
 function PartnerSelect(props) {
   const { t } = useTranslation();
@@ -105,6 +100,11 @@ export default function SlotRequestModal({
   const [processing, setProcessing] = useState(false);
   const [error, setError] = useState();
   const { t } = useTranslation();
+
+  const memberOptions = useMemo(
+    () => createMembersArray(members, personId),
+    [members, personId],
+  );
 
   const create = async () => {
     setProcessing(true);
@@ -243,7 +243,7 @@ export default function SlotRequestModal({
                 setPartners(val);
                 setTouched(true);
               }}
-              options={getMembersOptions(members, personId)}
+              options={memberOptions}
               isOptionDisabled={() => partners.length >= MAX_PARTNERS}
             />
           )}
