@@ -8,7 +8,7 @@ import Select from 'react-select';
 import { useTranslation } from 'react-i18next';
 import { FaCheck } from 'react-icons/fa';
 
-import { createMembersArray } from '../../../services/string';
+import { createMembersArray, nameSorter } from '../../../services/string';
 import { useMemo } from 'react';
 
 import Time from '../../../components/Time';
@@ -73,6 +73,8 @@ function Title({ locationName, slot }) {
 
 function Assigned({ slot }) {
   const persons = Object.entries(slot.persons);
+  persons.sort((a, b) => nameSorter(a[1].name, b[1].name));
+
   return (
     <ul>
       {persons.map(([id, person]) => (

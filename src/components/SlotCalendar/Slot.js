@@ -1,19 +1,24 @@
 import { useMemo } from 'react';
 import { FaCheck } from 'react-icons/fa';
 
+import { nameSorter } from '../../services/string';
+
 import { getNameInitials } from '../../services/string';
 import { HAPPY_SLOT_PERSON_COUNT, HOUR_ROW_HEIGHT } from './constants';
 
 const getAssignedNames = (slot) => {
-  return Object.values(slot?.persons ?? {}).map((person) =>
-    getNameInitials(person.name),
-  );
+  return Object.values(slot?.persons ?? {})
+    .map((person) => person.name)
+    .sort(nameSorter)
+    .map((name) => getNameInitials(name));
 };
 
 const getRequestPartners = (slotRequest, personId) => {
   return Object.keys(slotRequest?.persons ?? {})
     .filter((id) => id !== personId)
-    .map((id) => getNameInitials(slotRequest.persons[id].name));
+    .map((id) => slotRequest.persons[id].name)
+    .sort(nameSorter)
+    .map((name) => getNameInitials(name));
 };
 
 function BigCheck() {
