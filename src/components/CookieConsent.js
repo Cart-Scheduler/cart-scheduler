@@ -37,7 +37,7 @@ export default function CookieConsent() {
         <Offcanvas.Body>
           <div className="mb-4">
             {t(
-              'To provide you with the best possible experience, we use cookies and similar technologies. By continuing to use our site, you agree to the use of cookies as described in our ',
+              'This website uses cookies and similar technologies. By continuing to use this site, you agree to the use of these technologies as described in',
             )}{' '}
             <Link to="/privacy-policy">{t('Privacy Policy')}</Link>.
           </div>
