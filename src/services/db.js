@@ -4,6 +4,7 @@ import {
   addDoc,
   collection,
   deleteDoc,
+  deleteField,
   doc,
   getCountFromServer,
   getDoc,
@@ -443,6 +444,14 @@ export async function createSlot(data) {
 export async function deleteSlot(id) {
   const ref = doc(db, `slots/${id}`);
   await deleteDoc(ref);
+}
+
+// Deletes assigned person from slot.
+export async function deleteSlotPerson(slotId, personId) {
+  await updateDoc(`slots/${slotId}`, {
+    [`persons.${personId}`]: deleteField(),
+    modified: serverTimestamp(),
+  });
 }
 
 // Hook that returns filtered slot documents.
