@@ -5,7 +5,13 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+
+import { FaTrashAlt } from 'react-icons/fa';
+import { FaEdit } from 'react-icons/fa';
+import { FaPlus } from 'react-icons/fa';
+import { FaTimes } from 'react-icons/fa';
 
 import {
   useRequestIndexes,
@@ -66,6 +72,9 @@ export default function ProjectAdminPage() {
   const { docs: slotRequests } = useSlotRequestsByProject(projectId);
   const membersDoc = useProjectMembers(projectId);
 
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+
   const locations = useMemo(() => {
     if (project?.locations) {
       const ids = Object.keys(project.locations);
@@ -121,6 +130,11 @@ export default function ProjectAdminPage() {
     setSelectedReqs(newSelected);
   };
 
+  const iconStyle = {
+    bottom: '1.2px',
+    right: '4px',
+  };
+
   return (
     <LayoutContainer
       fluid
@@ -130,6 +144,14 @@ export default function ProjectAdminPage() {
         <Col>
           <Card className="mb-4">
             <Card.Header>
+              <div className="float-end">
+                <Button
+                  size="sm"
+                  onClick={() => navigate(`/projects/${projectId}`)}
+                >
+                  {t('Close')}
+                </Button>
+              </div>
               <h6>{project?.name}</h6>
             </Card.Header>
             <Card.Body>
@@ -146,6 +168,22 @@ export default function ProjectAdminPage() {
                     eventKey={locationId}
                     title={project.locations[locationId].name}
                   >
+                    <div className="text-center">
+                      <Button variant="danger" size="sm" className="me-2">
+                        <FaTrashAlt
+                          className="position-relative"
+                          style={iconStyle}
+                        />
+                        {t('Delete')}
+                      </Button>
+                      <Button size="sm" className="me-2">
+                        <FaEdit
+                          className="position-relative"
+                          style={iconStyle}
+                        />
+                        {t('Edit')}
+                      </Button>
+                    </div>
                     <SlotCalendar
                       starts={starts}
                       ends={ends}
@@ -175,6 +213,13 @@ export default function ProjectAdminPage() {
                     />
                   </Tab>
                 ))}
+                <Tab
+                  eventKey="add"
+                  title={<FaPlus />}
+                  disabled={selectedLocation === 'add'}
+                >
+                  {/* code for adding a new tab */}
+                </Tab>
               </Tabs>
             </Card.Body>
           </Card>
