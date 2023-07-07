@@ -12,9 +12,10 @@ import Stack from 'react-bootstrap/Stack';
 import { useTranslation } from 'react-i18next';
 import { FaCheck, FaExclamation, FaExclamationTriangle } from 'react-icons/fa';
 
-import { WEEKDAYS, calcSlotDistance } from '../../../../services/date';
-import { deleteSlot } from '../../../../services/db';
-import Time from '../../../../components/Time';
+import { WEEKDAYS, calcSlotDistance } from '../../../../../services/date';
+import { deleteSlot } from '../../../../../services/db';
+import Time from '../../../../../components/Time';
+import AssignmentList from './AssignmentList';
 
 function Title({ locationName, slot }) {
   const { t } = useTranslation();
@@ -305,6 +306,11 @@ export default function SlotModal({
     }
   }, [show]);
 
+  // for debugging
+  useEffect(() => {
+    console.debug('slotId', slotId);
+  }, [slotId]);
+
   /*
   const dispatch = useDispatch();
   const selected = useSelector((state) => state.assign.selected);
@@ -337,6 +343,7 @@ export default function SlotModal({
       </Modal.Header>
       <Form onSubmit={handleSubmit}>
         <Modal.Body>
+          <AssignmentList slotId={slotId} slot={slot} />
           <h6 className="text-uppercase text-body text-xs font-weight-bolder mb-3">
             {t('Requests')} ({Object.keys(slotRequests).length})
           </h6>
