@@ -341,41 +341,39 @@ export default function SlotModal({
       <Modal.Header closeButton>
         <Title locationName={locationName} slot={slot} />
       </Modal.Header>
-      <Form onSubmit={handleSubmit}>
-        <Modal.Body>
-          <AssignmentList slotId={slotId} slot={slot} />
-          <h6 className="text-uppercase text-body text-xs font-weight-bolder mb-3">
-            {t('Requests')} ({Object.keys(slotRequests).length})
-          </h6>
-          <ul className="list-group">
-            {reqIds.map((reqId) => (
-              <SlotRequest
-                key={reqId}
-                id={reqId}
-                slotRequest={slotRequests[reqId]}
-                selected={selectedRequests[reqId]}
-                slot={slot}
-                slots={slots}
-                slotsByPerson={slotsByPerson}
-                draftSlotsByPerson={draftSlotsByPerson}
-                reqsByPerson={reqsByPerson}
-                onClick={() => onRequestToggle(reqId, slotRequests[reqId])}
-              />
-            ))}
-          </ul>
-          {error && <Alert variant="danger">{t(error)}</Alert>}
-        </Modal.Body>
-        <Modal.Footer className="justify-content-between">
-          {/*
-          <Button variant="danger" disabled={processing} onClick={handleDelete}>
-            {t('Delete')}
-          </Button>
-          <Button variant="primary" type="submit" disabled={processing}>
-            {t('Save')}
-          </Button>
-          */}
-        </Modal.Footer>
-      </Form>
+      <Modal.Body>
+        <AssignmentList slotId={slotId} slot={slot} members={members} />
+        <h6 className="text-uppercase text-body text-xs font-weight-bolder mb-3">
+          {t('Requests')} ({Object.keys(slotRequests).length})
+        </h6>
+        <ul className="list-group">
+          {reqIds.map((reqId) => (
+            <SlotRequest
+              key={reqId}
+              id={reqId}
+              slotRequest={slotRequests[reqId]}
+              selected={selectedRequests[reqId]}
+              slot={slot}
+              slots={slots}
+              slotsByPerson={slotsByPerson}
+              draftSlotsByPerson={draftSlotsByPerson}
+              reqsByPerson={reqsByPerson}
+              onClick={() => onRequestToggle(reqId, slotRequests[reqId])}
+            />
+          ))}
+        </ul>
+        {error && <Alert variant="danger">{t(error)}</Alert>}
+      </Modal.Body>
+      {/*
+      <Modal.Footer className="justify-content-between">
+        <Button variant="danger" disabled={processing} onClick={handleDelete}>
+          {t('Delete')}
+        </Button>
+        <Button variant="primary" type="submit" disabled={processing}>
+          {t('Save')}
+        </Button>
+      </Modal.Footer>
+      */}
     </Modal>
   );
 }

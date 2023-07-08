@@ -446,10 +446,10 @@ export async function deleteSlot(id) {
   await deleteDoc(ref);
 }
 
-// Deletes assigned person from slot.
-export async function deleteSlotPerson(slotId, personId) {
+// Updates persons field in slot. Replaces the field content.
+export async function updateSlotPersons(slotId, persons) {
   await updateDoc(`slots/${slotId}`, {
-    [`persons.${personId}`]: deleteField(),
+    persons,
     modified: serverTimestamp(),
   });
 }

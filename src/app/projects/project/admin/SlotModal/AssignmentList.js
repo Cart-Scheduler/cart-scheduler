@@ -1,42 +1,74 @@
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import Select from 'react-select';
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
-import { deleteSlotPerson } from '../../../../../services/db';
+import { updateSlotPersons } from '../../../../../services/db';
+import { createMembersArray, nameSorter } from '../../../../../services/string';
 
-function Assignment({ slotId, personId, person }) {
-  const removePerson = async () => {
+export default function AssignmentList({ slotId, slot, members, onComplete }) {
+  const { t } = useTranslation();
+  const [selected, setSelected] = useState([]);
+  const [touched, setTouched] = useState(false);
+  const options = useMemo(() => createMembersArray(members), [members]);
+
+  useEffect(() => {
+    const newSelected = [];
+    const personIds = Object.keys(slot?.persons ?? {}).sort((a, b) =>
+      nameSorter(slot.persons[a]?.name || '', slot.persons[b]?.name || ''),
+    );
+    personIds.forEach((personId) => {
+      newSelected.push({
+        value: personId,
+        label: slot.persons[personId]?.name || '',
+      });
+    });
+    setSelected(newSelected);
+  }, [slot?.persons]);
+
+  const handleSubmit = async (evt) => {
+    evt.preventDefault();
+    evt.stopPropagation();
+
     try {
-      await deleteSlotPerson(slotId, personId);
+      const newPersons = {};
+      selected.forEach(({ value, label }) => {
+        newPersons[value] = { name: label };
+      });
+      await updateSlotPersons(slotId, newPersons);
+      setTouched(false);
     } catch (err) {
       console.error(err);
     }
   };
   return (
-    <li className="list-group-item border-0 d-flex align-items-center">
-      {person?.name}
-      <Button onClick={removePerson}>Remove</Button>
-    </li>
-  );
-}
-
-export default function AssignmentList({ slotId, slot }) {
-  const { t } = useTranslation();
-  const assignments = Object.entries(slot?.persons ?? {});
-  return (
-    <div className="mb-3">
+    <Form onSubmit={handleSubmit} className="mb-3">
       <h6 className="text-uppercase text-body text-xs font-weight-bolder mb-3">
-        {t('Accepted')} ({Object.keys(assignments).length})
+        {t('Accepted')}
       </h6>
-      <ul className="list-group">
-        {assignments.map(([personId, person]) => (
-          <Assignment
-            key={personId}
-            slotId={slotId}
-            personId={personId}
-            person={person}
-          />
-        ))}
-      </ul>
-    </div>
+      <Form.Group className="mb-2">
+        <Select
+          value={selected}
+          onChange={(value) => {
+            setSelected(value);
+            setTouched(true);
+          }}
+          options={options}
+          isMulti
+          placeholder={t('Select...')}
+          noOptionsMessage={() => t('No options')}
+        />
+      </Form.Group>
+      <Form.Group className="text-end">
+        <Button
+          variant={touched ? 'primary' : 'light'}
+          type="submit"
+          disabled={!touched}
+        >
+          {t('Save')}
+        </Button>
+      </Form.Group>
+    </Form>
   );
 }
