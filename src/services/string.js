@@ -18,6 +18,19 @@ export function createMembersArray(members, personId) {
   return membersArray;
 }
 
+const CHARACTERS =
+  'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+// Returns a string that contains random characters and has given length.
+export function genRandomString(len) {
+  let str = '';
+  for (let i = 0; i < len; i++) {
+    const index = Math.floor(Math.random() * CHARACTERS.length);
+    str += CHARACTERS[index];
+  }
+  return str;
+}
+
 export function nameSorter(a, b) {
   let [aLastName, aFirstName] = a.toLowerCase().split(' ').reverse();
   let [bLastName, bFirstName] = b.toLowerCase().split(' ').reverse();

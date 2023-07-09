@@ -1,11 +1,15 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 import { updateSlotPersons } from '../../../../../services/db';
-import { createMembersArray, nameSorter } from '../../../../../services/string';
+import {
+  createMembersArray,
+  genRandomString,
+  nameSorter,
+} from '../../../../../services/string';
 
 export default function AssignmentList({ slotId, slot, members, onComplete }) {
   const { t } = useTranslation();
@@ -33,8 +37,13 @@ export default function AssignmentList({ slotId, slot, members, onComplete }) {
 
     try {
       const newPersons = {};
-      selected.forEach(({ value, label }) => {
-        newPersons[value] = { name: label };
+      selected.forEach(({ value, label, __isNew__ }) => {
+        if (__isNew__) {
+          // user created a new name that does not exist in members
+          newPersons[`_ext_${genRandomString(6)}`] = { name: label };
+        } else {
+          newPersons[value] = { name: label };
+        }
       });
       await updateSlotPersons(slotId, newPersons);
       setTouched(false);
@@ -48,7 +57,7 @@ export default function AssignmentList({ slotId, slot, members, onComplete }) {
         {t('Accepted')}
       </h6>
       <Form.Group className="mb-2">
-        <Select
+        <CreatableSelect
           value={selected}
           onChange={(value) => {
             setSelected(value);
@@ -58,6 +67,7 @@ export default function AssignmentList({ slotId, slot, members, onComplete }) {
           isMulti
           placeholder={t('Select...')}
           noOptionsMessage={() => t('No options')}
+          formatCreateLabel={(val) => `${t('Add name')} "${val}"`}
         />
       </Form.Group>
       <Form.Group className="text-end">
