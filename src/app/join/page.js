@@ -76,7 +76,11 @@ export default function JoinProject() {
                 <Button
                   variant="primary"
                   size="small"
-                  onClick={() => navigate('/profile')}
+                  onClick={() =>
+                    navigate('/profile', {
+                      state: { from: `/join/${projectId}` },
+                    })
+                  }
                   className="mb-4"
                 >
                   {t('Update profile')}
