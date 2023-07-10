@@ -15,6 +15,8 @@ import { LayoutContainer } from '../../layouts/Default';
 import Breadcrumb from '../../layouts/Breadcrumb';
 import Collapse from 'react-bootstrap/Collapse';
 
+import { usePerson } from '../../services/db';
+
 function MyBreadcrumb() {
   const { t } = useTranslation();
   return (
@@ -35,6 +37,7 @@ export default function JoinProject() {
   const { docs: myProjects, isLoading: projectsIsLoading } =
     useMyProjectMembers();
   const navigate = useNavigate();
+  const { data: person } = usePerson();
 
   useEffect(() => {
     if (
@@ -65,42 +68,58 @@ export default function JoinProject() {
       <Row className="text-center">
         <Col sm={11} md={10} lg={9} className="mx-auto">
           <Card className="mb-6">
-            <Card.Body className="d-flex justify-content-center align-items-center h-100">
-              <div className="text-center w-100">
-                <div className="mb-4">
+            {!person?.name ? (
+              <div className="px-4 mt-4">
+                <p className="small mb-3">
+                  {t('Please update your name to be able to join the project.')}
+                </p>
+                <Button
+                  variant="primary"
+                  size="small"
+                  onClick={() => navigate('/profile')}
+                  className="mb-4"
+                >
+                  {t('Update profile')}
+                </Button>
+              </div>
+            ) : (
+              <Card.Body className="d-flex justify-content-center align-items-center h-100">
+                <div className="text-center w-100">
+                  <div className="mb-4">
+                    <Collapse in={!requestSent}>
+                      <FaPlus />
+                    </Collapse>
+                    <Collapse in={requestSent}>
+                      <FaCheck />
+                    </Collapse>
+                  </div>
+                  <h5 className="mb-4">{project?.name}</h5>
+                  {error && (
+                    <Alert variant="danger" className="my-2 text-white">
+                      {t('Failed to join project')}
+                    </Alert>
+                  )}
+                  {requestSent && (
+                    <p className="small muted my-2">
+                      {t(
+                        'Thank you! Please wait until your request is processed. If accepted, the project will appear.',
+                      )}
+                    </p>
+                  )}
                   <Collapse in={!requestSent}>
-                    <FaPlus />
-                  </Collapse>
-                  <Collapse in={requestSent}>
-                    <FaCheck />
+                    <div className="my-2">
+                      <Button
+                        variant="primary"
+                        size="lg"
+                        onClick={handleJoinProjectClick}
+                      >
+                        {t('Send Request')}
+                      </Button>
+                    </div>
                   </Collapse>
                 </div>
-                <h5 className="mb-4">{project?.name}</h5>
-                {error && (
-                  <Alert variant="danger" className="my-2 text-white">
-                    {t('Failed to join project')}
-                  </Alert>
-                )}
-                {requestSent && (
-                  <p className="small muted my-2">
-                    {t(
-                      'Thank you! Please wait until your request is processed. If accepted, the project will appear.',
-                    )}
-                  </p>
-                )}
-                <Collapse in={!requestSent}>
-                  <div className="my-2">
-                    <Button
-                      variant="primary"
-                      size="lg"
-                      onClick={handleJoinProjectClick}
-                    >
-                      {t('Send Request')}
-                    </Button>
-                  </div>
-                </Collapse>
-              </div>
-            </Card.Body>
+              </Card.Body>
+            )}
           </Card>
         </Col>
       </Row>
