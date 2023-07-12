@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useProject, useMyProjectMembers } from '../../services/db';
 import Button from 'react-bootstrap/Button';
+import { Spinner } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -36,6 +37,7 @@ export default function JoinProject() {
   const [error, setError] = useState(null);
   const { docs: myProjects, isLoading: projectsIsLoading } =
     useMyProjectMembers();
+  const [isLoadingRequest, setIsLoadingRequest] = useState(false);
   const navigate = useNavigate();
   const { data: person } = usePerson();
 
@@ -54,12 +56,15 @@ export default function JoinProject() {
   }
 
   const handleJoinProjectClick = async () => {
+    setIsLoadingRequest(true);
     try {
       await createJoinRq({ projectId });
       setRequestSent(true);
     } catch (error) {
       console.error(error);
       setError(error.message);
+    } finally {
+      setIsLoadingRequest(false);
     }
   };
 
@@ -116,8 +121,24 @@ export default function JoinProject() {
                         variant="primary"
                         size="lg"
                         onClick={handleJoinProjectClick}
+                        disabled={isLoadingRequest}
                       >
-                        {t('Send Request')}
+                        {isLoadingRequest ? (
+                          <>
+                            <Spinner
+                              as="span"
+                              animation="border"
+                              size="sm"
+                              role="status"
+                              aria-hidden="true"
+                            />
+                            <span className="visually-hidden">
+                              {t('Loading...')}
+                            </span>
+                          </>
+                        ) : (
+                          t('Send Request')
+                        )}
                       </Button>
                     </div>
                   </Collapse>
