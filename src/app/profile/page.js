@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -22,6 +22,7 @@ const cleanName = (name) => (name ?? '').trim();
 function ProfileForm() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
   const auth = useAuth();
   const personId = usePersonId();
   const { data: person } = usePerson();
@@ -48,7 +49,8 @@ function ProfileForm() {
         name: cleanName(name),
         gender,
       });
-      navigate('/');
+      const from = location.state?.from || '/';
+      navigate(from);
     } catch (err) {
       console.error(err);
     }
