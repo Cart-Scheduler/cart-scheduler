@@ -62,12 +62,11 @@ export default function Router() {
           <Route path="projects">
             <Route path="new" element={<RC element={<CreateProject />} />} />
             <Route path=":projectId">
-              <Route path="admin" element={<RC element={<ProjectAdmin />} />} />
-              <Route index element={<RC element={<Project />} />} />
               <Route path="admin">
                 <Route path="members" element={<RC element={<Members />} />} />
                 <Route index element={<RC element={<ProjectAdmin />} />} />
               </Route>
+              <Route index element={<RC element={<Project />} />} />
             </Route>
             <Route index element={<RC element={<ProjectList />} />} />
           </Route>
