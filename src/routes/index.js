@@ -64,10 +64,10 @@ export default function Router() {
             <Route path=":projectId">
               <Route path="admin" element={<RC element={<ProjectAdmin />} />} />
               <Route index element={<RC element={<Project />} />} />
-              <Route
-                path="/projects/:projectId/admin/members"
-                element={<RC element={<Members />} />}
-              />
+              <Route path="admin">
+                <Route path="members" element={<RC element={<Members />} />} />
+                <Route index element={<RC element={<ProjectAdmin />} />} />
+              </Route>
             </Route>
             <Route index element={<RC element={<ProjectList />} />} />
           </Route>
