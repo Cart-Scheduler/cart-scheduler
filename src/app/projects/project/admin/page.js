@@ -24,7 +24,6 @@ import { addDays, getPrevMonday } from '../../../../services/date';
 import { filterObj } from '../../../../services/object';
 import SlotCalendar from '../../../../components/SlotCalendar';
 import { HAPPY_SLOT_PERSON_COUNT } from '../../../../components/SlotCalendar/constants';
-import JoinRequestManager from './JoinRequestManager';
 import CreateSlotModal from './CreateSlotModal';
 import SelectedSlotRequests from './SelectedSlotRequests';
 import SlotModal from './SlotModal';
@@ -185,7 +184,7 @@ export default function ProjectAdminPage() {
         slotRequests={selectedReqs}
         onReset={() => setSelectedReqs({})}
       />
-      <JoinRequestManager projectId={projectId} />
+
       <SlotModal
         show={showSlotModal}
         onHide={() => setShowSlotModal(false)}

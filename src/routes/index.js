@@ -64,6 +64,10 @@ export default function Router() {
             <Route path=":projectId">
               <Route path="admin" element={<RC element={<ProjectAdmin />} />} />
               <Route index element={<RC element={<Project />} />} />
+              <Route
+                path="/projects/:projectId/admin/members"
+                element={<RC element={<Members />} />}
+              />
             </Route>
             <Route index element={<RC element={<ProjectList />} />} />
           </Route>
@@ -77,10 +81,6 @@ export default function Router() {
         <Route
           path="terms-of-use"
           element={<RC isPublic element={<TermsOfUse />} />}
-        />
-        <Route
-          path="/projects/:projectId/admin/members"
-          element={<RC element={<Members />} />}
         />
       </Routes>
     </BrowserRouter>

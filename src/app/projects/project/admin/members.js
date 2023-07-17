@@ -5,9 +5,16 @@ import { useState } from 'react';
 import Breadcrumb from '../../../../layouts/Breadcrumb';
 import { LayoutContainer } from '../../../../layouts/Default';
 import { Card } from 'react-bootstrap';
+import { nameSorter } from '../../../../services/string';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { useTranslation } from 'react-i18next';
+import {
+  useJoinRequests,
+  addPersonToProject,
+  deleteJoinRequest,
+} from '../../../../services/db';
+
 import {
   deleteField,
   doc,
@@ -29,6 +36,42 @@ function MyBreadcrumb({ projectId, project }) {
   );
 }
 
+function JoinRequest({ projectId, id, joinRequest }) {
+  const { t } = useTranslation();
+  const grant = async () => {
+    try {
+      await addPersonToProject(
+        projectId,
+        joinRequest.personId,
+        joinRequest.name,
+      );
+      await deleteJoinRequest(id);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  const deny = async () => {
+    try {
+      await deleteJoinRequest(id);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  return (
+    <li className="list-group-item border-0 d-flex justify-content-between">
+      <div>{joinRequest.name}</div>
+      <div>
+        <Button variant="success" className="me-3" onClick={grant}>
+          {t('Grant')}
+        </Button>
+        <Button variant="danger" onClick={deny}>
+          {t('Deny')}
+        </Button>
+      </div>
+    </li>
+  );
+}
+
 export default function ProjectAdminMembers() {
   const { projectId } = useParams();
   const { data: project } = useProject(projectId);
@@ -39,7 +82,11 @@ export default function ProjectAdminMembers() {
   const [showModal, setShowModal] = useState(false);
 
   const { t } = useTranslation();
-
+  const joinRequestDocs = useJoinRequests(projectId);
+  const joinRequests = joinRequestDocs?.docs
+    ? Object.entries(joinRequestDocs.docs)
+    : [];
+  joinRequests.sort((a, b) => a[1].created - b[1].created);
   const handleMemberToggle = (memberId) => {
     setSelectedMembers((prevState) => ({
       ...prevState,
@@ -80,14 +127,37 @@ export default function ProjectAdminMembers() {
     >
       <Row>
         <Col>
+          {joinRequests.length > 0 && (
+            <Card className="mb-3">
+              <Card.Header>
+                <h6>
+                  {t('Join requests')} ({joinRequests.length})
+                </h6>
+              </Card.Header>
+              <Card.Body>
+                <ul className="list-group">
+                  {joinRequests.map(([id, doc]) => (
+                    <JoinRequest
+                      key={id}
+                      projectId={projectId}
+                      id={id}
+                      joinRequest={doc}
+                    />
+                  ))}
+                </ul>
+              </Card.Body>
+            </Card>
+          )}
+
           <Card className="mb-3">
             <Card.Header>
               <h6>{project?.name}</h6>
             </Card.Header>
             <Card.Body>
               <ListGroup className="mb-3">
-                {Object.entries(membersDoc.members).map(
-                  ([memberId, memberData]) => (
+                {Object.entries(membersDoc.members)
+                  .sort((a, b) => nameSorter(a[1].name, b[1].name))
+                  .map(([memberId, memberData]) => (
                     <ListGroup.Item key={memberId}>
                       <Form.Check
                         type="checkbox"
@@ -97,9 +167,9 @@ export default function ProjectAdminMembers() {
                         onChange={() => handleMemberToggle(memberId)}
                       />
                     </ListGroup.Item>
-                  ),
-                )}
+                  ))}
               </ListGroup>
+
               <Modal.Footer>
                 <Button
                   variant="danger"
