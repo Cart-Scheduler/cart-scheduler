@@ -21,7 +21,7 @@ const SignUpPassword = React.lazy(() => import('../app/signup/password/page'));
 const PrivacyPolicy = React.lazy(() => import('../app/PrivacyPolicy'));
 const TermsOfUse = React.lazy(() => import('../app/TermsOfUse'));
 const Members = React.lazy(() =>
-  import('../app/projects/project/admin/members'),
+  import('../app/projects/project/admin/members/page'),
 );
 
 // The path where user is redirected to after authentication by default

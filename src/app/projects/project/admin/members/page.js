@@ -1,26 +1,22 @@
-import { useNavigate, useParams } from 'react-router-dom';
-import { useProject, useProjectMembers } from '../../../../services/db';
-import { Button, ListGroup, Form, Modal } from 'react-bootstrap';
 import { useState } from 'react';
-import Breadcrumb from '../../../../layouts/Breadcrumb';
-import { LayoutContainer } from '../../../../layouts/Default';
+import { useParams } from 'react-router-dom';
+import { Button, ListGroup, Form, Modal } from 'react-bootstrap';
 import { Card } from 'react-bootstrap';
-import { nameSorter } from '../../../../services/string';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { useTranslation } from 'react-i18next';
+
+import Breadcrumb from '../../../../../layouts/Breadcrumb';
+import { LayoutContainer } from '../../../../../layouts/Default';
 import {
-  useJoinRequests,
   addPersonToProject,
   deleteJoinRequest,
-} from '../../../../services/db';
-
-import {
-  deleteField,
-  doc,
-  getFirestore,
-  updateDoc as updateDocFirestore,
-} from 'firebase/firestore';
+  removePersonsFromProject,
+  useJoinRequests,
+  useProject,
+  useProjectMembers,
+} from '../../../../../services/db';
+import { nameSorter } from '../../../../../services/string';
 
 function MyBreadcrumb({ projectId, project }) {
   const { t } = useTranslation();
@@ -75,7 +71,6 @@ function JoinRequest({ projectId, id, joinRequest }) {
 export default function ProjectAdminMembers() {
   const { projectId } = useParams();
   const { data: project } = useProject(projectId);
-  const navigate = useNavigate();
 
   const membersDoc = useProjectMembers(projectId);
   const [selectedMembers, setSelectedMembers] = useState({});
@@ -95,18 +90,12 @@ export default function ProjectAdminMembers() {
   };
 
   const handleRemoveSelected = async () => {
-    const db = getFirestore();
-    const docRef = doc(db, 'projectMembers', projectId);
-
-    let updateData = {};
-    for (let memberId in selectedMembers) {
-      if (selectedMembers[memberId]) {
-        updateData[`members.${memberId}`] = deleteField();
-      }
-    }
-
+    const personIds = Object.keys(selectedMembers).filter(
+      (id) => selectedMembers[id],
+    );
+    console.debug('personIds', personIds);
     try {
-      await updateDocFirestore(docRef, updateData);
+      await removePersonsFromProject(projectId, personIds);
       setSelectedMembers({});
       setShowModal(false);
     } catch (error) {
@@ -179,9 +168,6 @@ export default function ProjectAdminMembers() {
                   className="me-2"
                 >
                   {t('Remove')}
-                </Button>
-                <Button variant="primary" onClick={() => navigate(-1)}>
-                  {t('Back')}
                 </Button>
               </Modal.Footer>
             </Card.Body>

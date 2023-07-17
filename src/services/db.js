@@ -431,6 +431,16 @@ export async function addPersonToProject(projectId, personId, name) {
   });
 }
 
+export async function removePersonsFromProject(projectId, personIds) {
+  const data = {
+    modified: serverTimestamp(),
+  };
+  for (let i = 0; i < personIds.length; i++) {
+    data[`members.${personIds[i]}`] = deleteField();
+  }
+  await updateDoc(`projectMembers/${projectId}`, data);
+}
+
 export async function createSlot(data) {
   const docRef = await addDoc(collection(db, 'slots'), {
     ...data,
