@@ -128,6 +128,7 @@ export default function ProjectAdminMembers() {
       <Row>
         <Col>
           {joinRequests.length > 0 && (
+            // Join request card
             <Card className="mb-3">
               <Card.Header>
                 <h6>
