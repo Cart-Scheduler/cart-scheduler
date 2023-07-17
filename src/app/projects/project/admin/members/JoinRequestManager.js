@@ -1,14 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
 
 import {
   addPersonToProject,
   deleteJoinRequest,
   useJoinRequests,
-} from '../../../../services/db';
+} from '../../../../../services/db';
 
 function JoinRequest({ projectId, id, joinRequest }) {
   const { t } = useTranslation();
@@ -49,34 +47,30 @@ function JoinRequest({ projectId, id, joinRequest }) {
 export default function JoinRequestManager({ projectId }) {
   const { t } = useTranslation();
   const { docs } = useJoinRequests(projectId);
-  if (!docs) {
+  if (!docs || Object.keys(docs).length === 0) {
     return null;
   }
   const joinRequests = Object.entries(docs);
   joinRequests.sort((a, b) => a[1].created - b[1].created);
   return (
-    <Row>
-      <Col>
-        <Card className="mb-4">
-          <Card.Header>
-            <h6>
-              {t('Join requests')} ({joinRequests.length})
-            </h6>
-          </Card.Header>
-          <Card.Body>
-            <ul className="list-group">
-              {joinRequests.map(([id, doc]) => (
-                <JoinRequest
-                  key={id}
-                  projectId={projectId}
-                  id={id}
-                  joinRequest={doc}
-                />
-              ))}
-            </ul>
-          </Card.Body>
-        </Card>
-      </Col>
-    </Row>
+    <Card className="mb-4">
+      <Card.Header>
+        <h6>
+          {t('Join requests')} ({joinRequests.length})
+        </h6>
+      </Card.Header>
+      <Card.Body>
+        <ul className="list-group">
+          {joinRequests.map(([id, doc]) => (
+            <JoinRequest
+              key={id}
+              projectId={projectId}
+              id={id}
+              joinRequest={doc}
+            />
+          ))}
+        </ul>
+      </Card.Body>
+    </Card>
   );
 }
