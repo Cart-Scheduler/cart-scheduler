@@ -1,14 +1,14 @@
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useProject, useMyProjectMembers } from '../../services/db';
+import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
-import { Spinner } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import Spinner from 'react-bootstrap/Spinner';
 import { createJoinRq } from '../../services/functions';
 import { useTranslation } from 'react-i18next';
-import Alert from 'react-bootstrap/Alert';
-import React, { useState, useEffect } from 'react';
 
 import { FaPlus } from 'react-icons/fa';
 import { FaCheck } from 'react-icons/fa';
