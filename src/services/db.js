@@ -441,6 +441,14 @@ export async function removePersonsFromProject(projectId, personIds) {
   await updateDoc(`projectMembers/${projectId}`, data);
 }
 
+export async function updateProjectMembers(projectId, members) {
+  const data = {
+    modified: serverTimestamp(),
+    ...members,
+  };
+  await updateDoc(`projectMembers/${projectId}`, data);
+}
+
 export async function createSlot(data) {
   const docRef = await addDoc(collection(db, 'slots'), {
     ...data,

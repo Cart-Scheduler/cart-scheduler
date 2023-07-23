@@ -1,16 +1,19 @@
-import { useState } from 'react';
+import { forwardRef, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { Button, ListGroup, Form, Modal } from 'react-bootstrap';
-import { Card } from 'react-bootstrap';
+import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
+import Dropdown from 'react-bootstrap/Dropdown';
 import Row from 'react-bootstrap/Row';
 import { useTranslation } from 'react-i18next';
+import { FaEllipsisV, FaUserAlt } from 'react-icons/fa';
 
 import Breadcrumb from '../../../../../layouts/Breadcrumb';
 import JoinRequestManager from './JoinRequestManager';
 import { LayoutContainer } from '../../../../../layouts/Default';
 import {
   removePersonsFromProject,
+  updateProjectMembers,
+  usePersonId,
   useProject,
   useProjectMembers,
 } from '../../../../../services/db';
@@ -25,47 +28,156 @@ function MyBreadcrumb({ projectId, project }) {
       <Breadcrumb.Item to={`/projects/${projectId}`}>
         {project?.name}
       </Breadcrumb.Item>
-      <Breadcrumb.Item>{t('Admin')}</Breadcrumb.Item>
+      <Breadcrumb.Item to={`/projects/${projectId}/admin`}>
+        {t('Admin')}
+      </Breadcrumb.Item>
+      <Breadcrumb.Item>{t('Members')}</Breadcrumb.Item>
     </Breadcrumb>
   );
 }
 
-export default function ProjectAdminMembers() {
-  const { projectId } = useParams();
-  const { data: project } = useProject(projectId);
+const MemberMenuToggle = forwardRef(({ children, onClick }, ref) => (
+  <button
+    ref={ref}
+    className="btn btn-link text-secondary mb-0"
+    onClick={onClick}
+  >
+    {children}
+  </button>
+));
 
-  const membersDoc = useProjectMembers(projectId);
-  const [selectedMembers, setSelectedMembers] = useState({});
-  const [showModal, setShowModal] = useState(false);
-
+function MemberMenu({ projectId, personId, member }) {
   const { t } = useTranslation();
-  const handleMemberToggle = (memberId) => {
-    setSelectedMembers((prevState) => ({
-      ...prevState,
-      [memberId]: !prevState[memberId],
-    }));
-  };
-
-  const handleRemoveSelected = async () => {
-    const personIds = Object.keys(selectedMembers).filter(
-      (id) => selectedMembers[id],
-    );
-    console.debug('personIds', personIds);
+  const handleRemove = async () => {
     try {
-      await removePersonsFromProject(projectId, personIds);
-      setSelectedMembers({});
-      setShowModal(false);
-    } catch (error) {
-      console.error('Failed to update project members:', error);
+      await removePersonsFromProject(projectId, [personId]);
+    } catch (err) {
+      console.error(err);
     }
   };
+  const setAdmin = async (isAdmin) => {
+    try {
+      const newMember = { ...member };
+      if (isAdmin) {
+        newMember.admin = true;
+      } else {
+        delete newMember.admin;
+      }
+      await updateProjectMembers(projectId, {
+        [`members.${personId}`]: newMember,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  return (
+    <Dropdown>
+      <Dropdown.Toggle as={MemberMenuToggle} id={`member-${personId}-menu`}>
+        <FaEllipsisV />
+      </Dropdown.Toggle>
+      <Dropdown.Menu>
+        {member.admin ? (
+          <Dropdown.Item as="button" onClick={() => setAdmin(false)}>
+            {t('Dismiss as admin')}
+          </Dropdown.Item>
+        ) : (
+          <Dropdown.Item as="button" onClick={() => setAdmin(true)}>
+            {t('Make admin')}
+          </Dropdown.Item>
+        )}
+        <Dropdown.Item as="button" onClick={handleRemove}>
+          {t('Remove')}
+        </Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
+  );
+}
+
+function Member({ projectId, personId, member, isCurrent }) {
+  const { t } = useTranslation();
+  return (
+    <tr>
+      <td>
+        <div className="d-flex px-2">
+          <div className="me-2">
+            <FaUserAlt />
+          </div>
+          <div className="my-auto">
+            <h6 className="mb-0 text-sm">{member.name}</h6>
+          </div>
+        </div>
+      </td>
+      <td className="align-middle text-center text-sm">
+        {member.admin && (
+          <span className="badge badge-sm bg-gradient-success">
+            {t('ROLE.ADMIN')}
+          </span>
+        )}
+      </td>
+      <td className="align-middle text-end">
+        {!isCurrent && (
+          <MemberMenu
+            projectId={projectId}
+            personId={personId}
+            member={member}
+          />
+        )}
+      </td>
+    </tr>
+  );
+}
+
+function MemberList({ projectId }) {
+  const { t } = useTranslation();
+  const { data: project } = useProject(projectId);
+
+  const currentPersonId = usePersonId();
+  const membersDoc = useProjectMembers(projectId);
+
+  const members = useMemo(
+    () =>
+      Object.entries(membersDoc?.members ?? {})
+        .sort((a, b) => nameSorter(a[1].name, b[1].name))
+        .sort((a, b) => !!b[1].admin - !!a[1].admin)
+        .sort((a, b) => (a[0] === currentPersonId ? -1 : 1)),
+    [membersDoc?.members, currentPersonId],
+  );
 
   if (!membersDoc?.members || !project) {
     return null;
   }
 
-  const isButtonDisabled = Object.values(selectedMembers).every((val) => !val);
+  return (
+    <Card className="mb-3">
+      <Card.Header className="pb-1">
+        <h6>
+          {t('Members')} ({members.length})
+        </h6>
+      </Card.Header>
+      <Card.Body className="px-0 pt-0 pb-2">
+        <div className="table-rsponsive">
+          <table className="table table-responsive align-items-center justify-content-center mb-0">
+            <tbody>
+              {members.map(([personId, member]) => (
+                <Member
+                  key={personId}
+                  projectId={projectId}
+                  personId={personId}
+                  member={member}
+                  isCurrent={personId === currentPersonId}
+                />
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Card.Body>
+    </Card>
+  );
+}
 
+export default function ProjectMembers() {
+  const { projectId } = useParams();
+  const { data: project } = useProject(projectId);
   return (
     <LayoutContainer
       fluid
@@ -74,65 +186,9 @@ export default function ProjectAdminMembers() {
       <Row>
         <Col>
           <JoinRequestManager projectId={projectId} />
-          <Card className="mb-3">
-            <Card.Header>
-              <h6>{project?.name}</h6>
-            </Card.Header>
-            <Card.Body>
-              <ListGroup className="mb-3">
-                {Object.entries(membersDoc.members)
-                  .sort((a, b) => nameSorter(a[1].name, b[1].name))
-                  .map(([memberId, memberData]) => (
-                    <ListGroup.Item key={memberId}>
-                      <Form.Check
-                        type="checkbox"
-                        id={`member-${memberId}`}
-                        label={memberData.name}
-                        checked={!!selectedMembers[memberId]}
-                        onChange={() => handleMemberToggle(memberId)}
-                      />
-                    </ListGroup.Item>
-                  ))}
-              </ListGroup>
-
-              <Modal.Footer>
-                <Button
-                  variant="danger"
-                  onClick={() => setShowModal(true)}
-                  disabled={isButtonDisabled}
-                  className="me-2"
-                >
-                  {t('Remove')}
-                </Button>
-              </Modal.Footer>
-            </Card.Body>
-          </Card>
+          <MemberList projectId={projectId} />
         </Col>
       </Row>
-
-      <Modal
-        show={showModal}
-        onHide={() => setShowModal(false)}
-        backdrop="static"
-        keyboard={false}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>{t('Confirmation')}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {t(
-            'Are you sure you want to remove selected user(s) from the project?',
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="danger" onClick={handleRemoveSelected}>
-            {t('Remove')}
-          </Button>
-          <Button variant="outline-primary" onClick={() => setShowModal(false)}>
-            {t('Cancel')}
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </LayoutContainer>
   );
 }
