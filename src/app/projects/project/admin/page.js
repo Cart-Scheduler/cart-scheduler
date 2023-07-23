@@ -1,17 +1,20 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import Badge from 'react-bootstrap/Badge';
+import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import { useParams } from 'react-router-dom';
 
 import {
   useRequestIndexes,
   useSlotIndexes,
 } from '../../../../services/indexing';
 import {
+  useJoinRequests,
   usePersonId,
   useProject,
   useProjectMembers,
@@ -47,8 +50,17 @@ function MyBreadcrumb({ projectId, project }) {
   );
 }
 
+function RequestBadge({ projectId }) {
+  const { docs } = useJoinRequests(projectId);
+  if (!docs || docs.length === 0) {
+    return null;
+  }
+  return <Badge bg="danger">{docs.length}</Badge>;
+}
+
 export default function ProjectAdminPage() {
   const { projectId } = useParams();
+  const navigate = useNavigate();
   const [showSlotModal, setShowSlotModal] = useState(false);
   const [showCreateSlotModal, setShowCreateSlotModal] = useState(false);
   const [starts, setStarts] = useState(getPrevMonday());
@@ -58,6 +70,7 @@ export default function ProjectAdminPage() {
   const [selectedTime, setSelectedTime] = useState();
   const [selectedLocation, setSelectedLocation] = useState();
   const [selectedReqs, setSelectedReqs] = useState({});
+  const { t } = useTranslation();
 
   const personId = usePersonId();
   const { data: project } = useProject(projectId);
@@ -129,6 +142,16 @@ export default function ProjectAdminPage() {
         <Col>
           <Card className="mb-4">
             <Card.Header>
+              <div className="float-end">
+                <Button
+                  size="sm"
+                  onClick={() =>
+                    navigate(`/projects/${projectId}/admin/members`)
+                  }
+                >
+                  {t('Members')} <RequestBadge projectId={projectId} />
+                </Button>
+              </div>
               <h6>{project?.name}</h6>
             </Card.Header>
             <Card.Body>
