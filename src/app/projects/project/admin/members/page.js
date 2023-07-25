@@ -18,6 +18,7 @@ import {
   useProjectMembers,
 } from '../../../../../services/db';
 import { nameSorter } from '../../../../../services/string';
+import Invite from './Invite';
 
 function MyBreadcrumb({ projectId, project }) {
   const { t } = useTranslation();
@@ -155,21 +156,19 @@ function MemberList({ projectId }) {
         </h6>
       </Card.Header>
       <Card.Body className="px-0 pt-0 pb-2">
-        <div className="table-rsponsive">
-          <table className="table table-responsive align-items-center justify-content-center mb-0">
-            <tbody>
-              {members.map(([personId, member]) => (
-                <Member
-                  key={personId}
-                  projectId={projectId}
-                  personId={personId}
-                  member={member}
-                  isCurrent={personId === currentPersonId}
-                />
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <table className="table align-items-center justify-content-center mb-0">
+          <tbody>
+            {members.map(([personId, member]) => (
+              <Member
+                key={personId}
+                projectId={projectId}
+                personId={personId}
+                member={member}
+                isCurrent={personId === currentPersonId}
+              />
+            ))}
+          </tbody>
+        </table>
       </Card.Body>
     </Card>
   );
@@ -186,6 +185,7 @@ export default function ProjectMembers() {
       <Row>
         <Col>
           <JoinRequestManager projectId={projectId} />
+          <Invite projectId={projectId} />
           <MemberList projectId={projectId} />
         </Col>
       </Row>
