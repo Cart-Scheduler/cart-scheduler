@@ -20,6 +20,7 @@ export default function CreateSlotModal({
   const [creating, setCreating] = useState(false);
   const [error, setError] = useState();
   const [duration, setDuration] = useState(DEFAULT_DURATION);
+  const [direct, setDirect] = useState(false);
   const { t } = useTranslation();
 
   const create = async () => {
@@ -27,7 +28,11 @@ export default function CreateSlotModal({
     setError();
     try {
       const ends = addMinutes(starts, parseInt(duration));
-      await createSlot({ projectId, locationId, starts, ends });
+      const data = { projectId, locationId, starts, ends };
+      if (direct) {
+        data.direct = true;
+      }
+      await createSlot(data);
       onHide();
     } catch (err) {
       console.error(err);
@@ -58,6 +63,13 @@ export default function CreateSlotModal({
               required
             />
           </Form.Group>
+          <Form.Check
+            type="switch"
+            id="direct-switch"
+            label={t('Direct reservation')}
+            checked={direct}
+            onChange={() => setDirect((val) => !val)}
+          />
           {error && <Alert variant="danger">{t(error)}</Alert>}
         </Modal.Body>
         <Modal.Footer>
