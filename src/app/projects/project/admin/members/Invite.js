@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
@@ -15,9 +15,20 @@ const genInviteLink = (projectId) => {
   return url;
 };
 
+function useCopyFlag() {
+  const [copied, setCopied] = useState(false);
+  useEffect(() => {
+    if (copied) {
+      const timer = setTimeout(() => setCopied(false), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [copied]);
+  return [copied, setCopied];
+}
+
 export default function Invite({ projectId }) {
   const { t } = useTranslation();
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useCopyFlag();
   const link = genInviteLink(projectId);
   const copySupported = navigator?.clipboard?.writeText !== undefined;
   const copy = async () => {
