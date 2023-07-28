@@ -52,6 +52,9 @@ export default function AssignmentEditor({
       });
       await updateSlotPersons(slotId, newPersons);
       setTouched(false);
+      if (onComplete) {
+        onComplete();
+      }
     } catch (err) {
       console.error(err);
     }

@@ -21,6 +21,7 @@ import {
 } from '../../../services/db';
 import SlotCalendar from '../../../components/SlotCalendar';
 import AssignmentList from './AssignmentList';
+import ReservationModal from './ReservationModal';
 import SlotRequestModal from './SlotRequestModal';
 
 const DEFAULT_SHOW_DAYS = 7;
@@ -62,6 +63,7 @@ export default function Project() {
   const { projectId } = useParams();
   const navigate = useNavigate();
   const [showSlotModal, setShowSlotModal] = useState(false);
+  const [showReservationModal, setShowReservationModal] = useState(false);
   const [starts, setStarts] = useState(getPrevMonday());
   const [showDays, setShowDays] = useState(DEFAULT_SHOW_DAYS);
   const [ends, setEnds] = useState(addDays(starts, showDays));
@@ -144,7 +146,11 @@ export default function Project() {
                       personId={personId}
                       onSlotClick={(slotId) => {
                         setSelectedSlot(slotId);
-                        setShowSlotModal(true);
+                        if (slots?.[slotId]?.direct) {
+                          setShowReservationModal(true);
+                        } else {
+                          setShowSlotModal(true);
+                        }
                       }}
                       onMovePrev={() => {
                         setStarts(addDays(starts, 0 - showDays));
@@ -172,6 +178,17 @@ export default function Project() {
         slotId={selectedSlot}
         slotRequestId={slotRequestId}
         slotRequest={slotRequests[slotRequestId]}
+        slot={slots?.[selectedSlot]}
+        members={membersDoc?.members}
+      />
+      <ReservationModal
+        show={showReservationModal}
+        onHide={() => setShowReservationModal(false)}
+        projectId={projectId}
+        locationName={
+          project?.locations?.[selectedLocation]?.name || 'Default Location'
+        }
+        slotId={selectedSlot}
         slot={slots?.[selectedSlot]}
         members={membersDoc?.members}
       />
