@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
-import Collapse from 'react-bootstrap/Collapse';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Select from 'react-select';
@@ -11,6 +10,7 @@ import { FaCheck } from 'react-icons/fa';
 import { createMembersArray, nameSorter } from '../../../services/string';
 import { useMemo } from 'react';
 
+import NameMissing from '../../../components/NameMissing';
 import Time from '../../../components/Time';
 import { WEEKDAYS } from '../../../services/date';
 import {
@@ -25,7 +25,6 @@ const MAX_PARTNERS = 3;
 
 function PartnerSelect(props) {
   const { t } = useTranslation();
-  const [showHelp, setShowHelp] = useState(false);
   return (
     <Form.Group>
       <Form.Label>{t('Partners')}</Form.Label>
@@ -35,23 +34,7 @@ function PartnerSelect(props) {
         isMulti
         {...props}
       />
-      <Form.Text
-        muted
-        onClick={() => setShowHelp(!showHelp)}
-        className="text-decoration-underline cursor-pointer dropdown-toggle"
-      >
-        {t("Can't find the name?")}
-      </Form.Text>
-      <Collapse in={showHelp}>
-        <div id="help-partners" className="mt-2">
-          {t('Make sure that your partner...')}
-          <ol>
-            <li>{t('has signed into this website')}</li>
-            <li>{t('has entered his real full name')}</li>
-            <li>{t('is accepted member of this project')}</li>
-          </ol>
-        </div>
-      </Collapse>
+      <NameMissing />
     </Form.Group>
   );
 }
