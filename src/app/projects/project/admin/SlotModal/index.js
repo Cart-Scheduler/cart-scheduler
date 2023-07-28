@@ -1,9 +1,7 @@
 import { useCallback, useEffect, useId, useState } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import Badge from 'react-bootstrap/Badge';
-import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
@@ -12,10 +10,10 @@ import Stack from 'react-bootstrap/Stack';
 import { useTranslation } from 'react-i18next';
 import { FaCheck, FaExclamation, FaExclamationTriangle } from 'react-icons/fa';
 
+import AssignmentEditor from '../../AssignmentEditor';
 import { WEEKDAYS, calcSlotDistance } from '../../../../../services/date';
 import { deleteSlot } from '../../../../../services/db';
 import Time from '../../../../../components/Time';
-import AssignmentList from './AssignmentList';
 
 function Title({ locationName, slot }) {
   const { t } = useTranslation();
@@ -342,7 +340,7 @@ export default function SlotModal({
         <Title locationName={locationName} slot={slot} />
       </Modal.Header>
       <Modal.Body>
-        <AssignmentList slotId={slotId} slot={slot} members={members} />
+        <AssignmentEditor slotId={slotId} slot={slot} members={members} />
         <h6 className="text-uppercase text-body text-xs font-weight-bolder mb-3">
           {t('Requests')} ({Object.keys(slotRequests).length})
         </h6>

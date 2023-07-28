@@ -4,14 +4,19 @@ import CreatableSelect from 'react-select/creatable';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-import { updateSlotPersons } from '../../../../../services/db';
+import { updateSlotPersons } from '../../../services/db';
 import {
   createMembersArray,
   genRandomString,
   nameSorter,
-} from '../../../../../services/string';
+} from '../../../services/string';
 
-export default function AssignmentList({ slotId, slot, members, onComplete }) {
+export default function AssignmentEditor({
+  slotId,
+  slot,
+  members,
+  onComplete,
+}) {
   const { t } = useTranslation();
   const [selected, setSelected] = useState([]);
   const [touched, setTouched] = useState(false);
