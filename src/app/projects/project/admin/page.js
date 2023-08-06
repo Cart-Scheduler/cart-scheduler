@@ -27,6 +27,7 @@ import { addDays, getPrevMonday } from '../../../../services/date';
 import { filterObj } from '../../../../services/object';
 import SlotCalendar from '../../../../components/SlotCalendar';
 import { HAPPY_SLOT_PERSON_COUNT } from '../../../../components/SlotCalendar/constants';
+import CreateLocation from './CreateLocation';
 import CreateSlotModal from './CreateSlotModal';
 import SelectedSlotRequests from './SelectedSlotRequests';
 import SlotModal from './SlotModal';
@@ -91,7 +92,7 @@ export default function ProjectAdminPage() {
 
   useEffect(() => {
     if (!selectedLocation) {
-      setSelectedLocation(locations.length > 0 ? locations[0] : undefined);
+      setSelectedLocation(locations.length > 0 ? locations[0] : 'add');
     }
   }, [selectedLocation, locations]);
 
@@ -159,7 +160,7 @@ export default function ProjectAdminPage() {
                 activeKey={selectedLocation}
                 onSelect={(loc) => setSelectedLocation(loc)}
                 id="location-tabs-admin"
-                className="location-tabs mb-3"
+                className="location-tabs location-tabs-admin mb-3"
                 justify
               >
                 {locations.map((locationId) => (
@@ -197,6 +198,17 @@ export default function ProjectAdminPage() {
                     />
                   </Tab>
                 ))}
+                <Tab
+                  eventKey="add"
+                  title="+"
+                  tabAttrs={{ title: t('New location') }}
+                >
+                  <CreateLocation
+                    projectId={projectId}
+                    project={project}
+                    onCreated={(loc) => setSelectedLocation(loc)}
+                  />
+                </Tab>
               </Tabs>
             </Card.Body>
           </Card>

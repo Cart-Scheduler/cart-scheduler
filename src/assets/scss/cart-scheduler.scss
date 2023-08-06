@@ -51,3 +51,8 @@
     color: $white;
   }
 }
+
+// small width for add new location tab +
+.location-tabs-admin li:last-child {
+  flex-grow: 0;
+}
