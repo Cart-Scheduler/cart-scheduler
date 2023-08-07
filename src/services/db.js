@@ -456,6 +456,16 @@ export async function updateProject(projectId, data) {
   });
 }
 
+export async function deleteProjectLocations(projectId, locationIds) {
+  const data = {
+    modified: serverTimestamp(),
+  };
+  for (let i = 0; i < locationIds.length; i++) {
+    data[`locations.${locationIds[i]}`] = deleteField();
+  }
+  await updateDoc(`projects/${projectId}`, data);
+}
+
 export async function createSlot(data) {
   const docRef = await addDoc(collection(db, 'slots'), {
     ...data,

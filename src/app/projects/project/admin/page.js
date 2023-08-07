@@ -1,13 +1,15 @@
-import { useEffect, useMemo, useState } from 'react';
+import { forwardRef, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
+import Dropdown from 'react-bootstrap/Dropdown';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import { FaEllipsisV } from 'react-icons/fa';
 
 import {
   useRequestIndexes,
@@ -29,10 +31,13 @@ import SlotCalendar from '../../../../components/SlotCalendar';
 import { HAPPY_SLOT_PERSON_COUNT } from '../../../../components/SlotCalendar/constants';
 import CreateLocation from './CreateLocation';
 import CreateSlotModal from './CreateSlotModal';
+import EditLocationModal from './EditLocationModal';
+import RemoveLocationModal from './RemoveLocationModal';
 import SelectedSlotRequests from './SelectedSlotRequests';
 import SlotModal from './SlotModal';
 
 const DEFAULT_SHOW_DAYS = 7;
+const LOCATION_ID_ADD = 'add';
 
 const findSlotRequestId = (slotId, requests) =>
   Object.keys(requests).find((id) => requests[id].slotId === slotId);
@@ -59,11 +64,23 @@ function RequestBadge({ projectId }) {
   return <Badge bg="danger">{docs.length}</Badge>;
 }
 
+const LocationMenuToggle = forwardRef(({ children, onClick }, ref) => (
+  <button
+    ref={ref}
+    className="btn btn-link text-secondary mb-0"
+    onClick={onClick}
+  >
+    {children}
+  </button>
+));
+
 export default function ProjectAdminPage() {
   const { projectId } = useParams();
   const navigate = useNavigate();
   const [showSlotModal, setShowSlotModal] = useState(false);
   const [showCreateSlotModal, setShowCreateSlotModal] = useState(false);
+  const [showEditLocationModal, setShowEditLocationModal] = useState(false);
+  const [showRemoveLocationModal, setShowRemoveLocationModal] = useState(false);
   const [starts, setStarts] = useState(getPrevMonday());
   const [showDays, setShowDays] = useState(DEFAULT_SHOW_DAYS);
   const [ends, setEnds] = useState(addDays(starts, showDays));
@@ -91,10 +108,16 @@ export default function ProjectAdminPage() {
   }, [project]);
 
   useEffect(() => {
-    if (!selectedLocation) {
-      setSelectedLocation(locations.length > 0 ? locations[0] : 'add');
-    }
-  }, [selectedLocation, locations]);
+    setSelectedLocation((loc) => {
+      if (project?.locations && loc === undefined) {
+        if (locations.length > 0) {
+          return locations[0];
+        }
+        return LOCATION_ID_ADD;
+      }
+      return loc;
+    });
+  }, [locations, project]);
 
   const filteredReqs = useMemo(
     () => filterObj(slotRequests, ([id, doc]) => doc.slotId === selectedSlot),
@@ -134,6 +157,19 @@ export default function ProjectAdminPage() {
     setSelectedReqs(newSelected);
   };
 
+  const selectAnotherLocation = () => {
+    if (locations && locations.length > 0) {
+      const idx = locations.indexOf(selectedLocation);
+      if (locations.length === 1) {
+        setSelectedLocation(LOCATION_ID_ADD);
+      } else if (idx === locations.length - 1) {
+        setSelectedLocation(locations[idx - 1]);
+      } else {
+        setSelectedLocation(locations[idx + 1]);
+      }
+    }
+  };
+
   return (
     <LayoutContainer
       fluid
@@ -169,6 +205,30 @@ export default function ProjectAdminPage() {
                     eventKey={locationId}
                     title={project.locations[locationId].name}
                   >
+                    <div className="text-end">
+                      <Dropdown>
+                        <Dropdown.Toggle
+                          as={LocationMenuToggle}
+                          id={`loc-${locationId}-menu`}
+                        >
+                          <FaEllipsisV />
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                          <Dropdown.Item
+                            as="button"
+                            onClick={() => setShowEditLocationModal(true)}
+                          >
+                            {t('Modify location')}
+                          </Dropdown.Item>
+                          <Dropdown.Item
+                            as="button"
+                            onClick={() => setShowRemoveLocationModal(true)}
+                          >
+                            {t('Remove')}
+                          </Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </div>
                     <SlotCalendar
                       starts={starts}
                       ends={ends}
@@ -199,7 +259,7 @@ export default function ProjectAdminPage() {
                   </Tab>
                 ))}
                 <Tab
-                  eventKey="add"
+                  eventKey={LOCATION_ID_ADD}
                   title="+"
                   tabAttrs={{ title: t('New location') }}
                 >
@@ -244,6 +304,24 @@ export default function ProjectAdminPage() {
         projectId={projectId}
         locationId={selectedLocation}
         starts={selectedTime}
+      />
+      <EditLocationModal
+        show={showEditLocationModal}
+        onHide={() => setShowEditLocationModal(false)}
+        projectId={projectId}
+        project={project}
+        locationId={selectedLocation}
+      />
+      <RemoveLocationModal
+        show={showRemoveLocationModal}
+        onHide={() => setShowRemoveLocationModal(false)}
+        projectId={projectId}
+        project={project}
+        locationId={selectedLocation}
+        onDeleted={() => {
+          selectAnotherLocation();
+          setShowRemoveLocationModal(false);
+        }}
       />
     </LayoutContainer>
   );
