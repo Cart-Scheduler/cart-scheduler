@@ -9,7 +9,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import { FaEllipsisV } from 'react-icons/fa';
+import { FaEllipsisV, FaUsers } from 'react-icons/fa';
 
 import {
   useRequestIndexes,
@@ -185,8 +185,10 @@ export default function ProjectAdminPage() {
                   onClick={() =>
                     navigate(`/projects/${projectId}/admin/members`)
                   }
+                  title={t('Members')}
                 >
-                  {t('Members')} <RequestBadge projectId={projectId} />
+                  <FaUsers size={24} />
+                  <RequestBadge projectId={projectId} />
                 </Button>
               </div>
               <h6>{project?.name}</h6>
