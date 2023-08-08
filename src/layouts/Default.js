@@ -52,11 +52,9 @@ function MyOffCanvas({ title }) {
           <Nav.Link as={Link} to="/profile">
             <FaUserCircle className={iconClass} /> {t('Profile')}
           </Nav.Link>
-          {/*
           <Nav.Link as={Link} to="/projects/new">
             <FaPlus className={iconClass} /> {t('New project')}
           </Nav.Link>
-          */}
           <Nav.Link as={Link} to="/signout">
             <FaSignOutAlt className={iconClass} /> {t('Sign out')}
           </Nav.Link>
