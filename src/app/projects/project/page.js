@@ -48,13 +48,17 @@ function Info({ info }) {
   );
 }
 
-function Guide() {
+function Guide({ project }) {
   const { t } = useTranslation();
+  let txt = t(
+    "First choose the cart location. The calendar for the selected location is below. If you don't see the whole week in calendar, scroll it horizontally. You can request a cart shift by pressing a gray box.",
+  );
+  if (!project?.locations) {
+    txt = t('This project does not have any cart locations yet.');
+  }
   return (
     <div className="d-flex p-4 mb-4 bg-gray-100 border-radius-lg text-sm">
-      {t(
-        "First choose the cart location. The calendar for the selected location is below. If you don't see the whole week in calendar, scroll it horizontally. You can request a cart shift by pressing a gray box.",
-      )}
+      {txt}
     </div>
   );
 }
@@ -120,50 +124,52 @@ export default function Project() {
               {project?.info && <Info info={project.info} />}
             </Card.Header>
             <Card.Body className="ps-2 pe-2">
-              <Guide />
+              <Guide project={project} />
               <AssignmentList personId={personId} projectId={projectId} />
-              <Tabs
-                activeKey={selectedLocation}
-                onSelect={(loc) => setSelectedLocation(loc)}
-                id="location-tabs"
-                className="location-tabs mb-3"
-                justify
-              >
-                {locations.map((locationId) => (
-                  <Tab
-                    key={locationId}
-                    eventKey={locationId}
-                    title={project.locations[locationId].name}
-                  >
-                    <SlotCalendar
-                      starts={starts}
-                      ends={ends}
-                      project={project}
-                      locationId={locationId}
-                      slots={slots}
-                      slotRequests={slotRequests}
-                      days={showDays}
-                      personId={personId}
-                      onSlotClick={(slotId) => {
-                        setSelectedSlot(slotId);
-                        if (slots?.[slotId]?.direct) {
-                          setShowReservationModal(true);
-                        } else {
-                          setShowSlotModal(true);
-                        }
-                      }}
-                      onMovePrev={() => {
-                        setStarts(addDays(starts, 0 - showDays));
-                        setEnds(addDays(ends, 0 - showDays));
-                      }}
-                      onMoveNext={() => {
-                        setStarts(addDays(starts, showDays));
-                        setEnds(addDays(ends, showDays));
-                      }}
-                    />
-                  </Tab>
-                ))}
-              </Tabs>
+              {project.locations && (
+                <Tabs
+                  activeKey={selectedLocation}
+                  onSelect={(loc) => setSelectedLocation(loc)}
+                  id="location-tabs"
+                  className="location-tabs mb-3"
+                  justify
+                >
+                  {locations.map((locationId) => (
+                    <Tab
+                      key={locationId}
+                      eventKey={locationId}
+                      title={project.locations[locationId].name}
+                    >
+                      <SlotCalendar
+                        starts={starts}
+                        ends={ends}
+                        project={project}
+                        locationId={locationId}
+                        slots={slots}
+                        slotRequests={slotRequests}
+                        days={showDays}
+                        personId={personId}
+                        onSlotClick={(slotId) => {
+                          setSelectedSlot(slotId);
+                          if (slots?.[slotId]?.direct) {
+                            setShowReservationModal(true);
+                          } else {
+                            setShowSlotModal(true);
+                          }
+                        }}
+                        onMovePrev={() => {
+                          setStarts(addDays(starts, 0 - showDays));
+                          setEnds(addDays(ends, 0 - showDays));
+                        }}
+                        onMoveNext={() => {
+                          setStarts(addDays(starts, showDays));
+                          setEnds(addDays(ends, showDays));
+                        }}
+                      />
+                    </Tab>
+                  ))}
+                </Tabs>
+              )}
             </Card.Body>
           </Card>
         </Col>
