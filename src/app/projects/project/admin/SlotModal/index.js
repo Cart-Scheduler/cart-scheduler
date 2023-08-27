@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useId, useState } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import Badge from 'react-bootstrap/Badge';
+import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Modal from 'react-bootstrap/Modal';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -334,6 +335,8 @@ export default function SlotModal({
   );
   reqIds.sort(requestSorter);
 
+  const canDelete = slot && Object.keys(slot.persons ?? {}).length === 0;
+
   return (
     <Modal show={show} onHide={onHide} size="lg">
       <Modal.Header closeButton>
@@ -362,6 +365,13 @@ export default function SlotModal({
         </ul>
         {error && <Alert variant="danger">{t(error)}</Alert>}
       </Modal.Body>
+      {canDelete && (
+        <Modal.Footer className="justify-content-between">
+          <Button variant="danger" disabled={processing} onClick={handleDelete}>
+            {t('Delete slot')}
+          </Button>
+        </Modal.Footer>
+      )}
       {/*
       <Modal.Footer className="justify-content-between">
         <Button variant="danger" disabled={processing} onClick={handleDelete}>
