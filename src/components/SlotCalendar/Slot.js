@@ -34,7 +34,8 @@ function SlotContainer({ slot, className, onClick, children }) {
     evt.stopPropagation();
     onClick();
   };
-  const start = new Date(slot.starts).getHours() - 8;
+  const date = new Date(slot.starts);
+  const start = date.getHours() - 8 + date.getMinutes() / 60;
   const duration = (slot.ends - slot.starts) / 3600000;
   const style = {
     top: `${start * HOUR_ROW_HEIGHT}px`,
