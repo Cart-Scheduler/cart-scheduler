@@ -42,7 +42,14 @@ export function addMinutes(date, minutes) {
   return next;
 }
 
-// Return a new Date object that is previous Monday with time 00:00:00 in
+// Returns string in format "HH:MM".
+export function formatTime(hours, minutes) {
+  const h = hours.toString().padStart(2, '0');
+  const m = minutes.toString().padStart(2, '0');
+  return `${h}:${m}`;
+}
+
+// Returns a new Date object that is previous Monday with time 00:00:00 in
 // current timezone. If given date is already Monday, then same date is used.
 // If given date is undefined, current date is used.
 export function getPrevMonday(date) {
@@ -78,4 +85,17 @@ export function calcSlotDistance(a, b) {
   }
   // slots overlap
   return -1;
+}
+
+// Returns a new Date object that has same date as given
+// object but time is set from given string that must be
+// in format "HH:MM".
+export function setTimeFromStr(date, timeStr) {
+  const d = new Date(date);
+  const hours = parseInt(timeStr.substr(0, 2));
+  const mins = parseInt(timeStr.substr(3));
+  d.setHours(hours);
+  d.setMinutes(mins);
+  d.setSeconds(0, 0);
+  return d;
 }
