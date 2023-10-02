@@ -3,7 +3,8 @@ import Button from 'react-bootstrap/Button';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
 import { MONTHS, WEEKDAYS, addDays, addMinutes } from '../../services/date';
-import { filterObj, filterSlotsByRange } from '../../services/object';
+import { filterObj } from '../../services/object';
+import { filterSlotsByRange } from '../../services/slot';
 import { HOUR_ROW_HEIGHT } from './constants';
 import { AdminSlot, Slot } from './Slot';
 

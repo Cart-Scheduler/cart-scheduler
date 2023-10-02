@@ -20,9 +20,9 @@ function MonthName({ month }) {
   const [year, mon] = splitMonth(month);
   const { t } = useTranslation();
   return (
-    <h4 className="header-title">
+    <div className="p-0 m-0 mt-1">
       {t(MONTHS[mon])} {year}
-    </h4>
+    </div>
   );
 }
 
@@ -64,9 +64,17 @@ function Day({ date, status, isToday, isSelected, onClick, loading }) {
   );
 }
 
-function Week({ dates, selected, today, onDaySelect, loading }) {
+function Week({ dates, selected, today, starts, ends, onDaySelect, loading }) {
+  const weekStart = dates[0]?.date?.getTime();
+  const weekEnd = dates[dates.length - 1]?.date?.getTime();
+  const weekSelected =
+    (starts.getTime() >= weekStart && starts.getTime() < weekEnd) ||
+    (ends.getTime() > weekStart && ends.getTime() < weekEnd);
   return (
-    <div className="calendar-week">
+    <div
+      className={`calendar-week
+      ${weekSelected ? 'calendar-week-selected' : ''}`}
+    >
       {dates.map((day) => (
         <Day
           key={day.date.getTime()}
@@ -79,7 +87,7 @@ function Week({ dates, selected, today, onDaySelect, loading }) {
   );
 }
 
-function Month({ month, selected, today, onDaySelect }) {
+function Month({ month, selected, today, starts, ends, onDaySelect }) {
   const [year, mon] = splitMonth(month);
 
   let date = startOfWeek(startOfMonth(new Date(year, mon, 1)), {
@@ -107,18 +115,20 @@ function Month({ month, selected, today, onDaySelect }) {
       dates={week}
       selected={selected}
       today={today}
+      starts={starts}
+      ends={ends}
       onDaySelect={onDaySelect}
     />
   ));
 }
 
-export default function Calendar({ selected, onDaySelect }) {
+export default function Calendar({ starts, ends, selected, onDaySelect }) {
   const today = new Date();
   const [month, setMonth] = useState(
     () => today.getFullYear() * 12 + today.getMonth(),
   );
   return (
-    <div className="border rounded">
+    <div className="border rounded month-calendar">
       <MonthHeader
         month={month}
         onPrev={() => setMonth(month - 1)}
@@ -128,6 +138,8 @@ export default function Calendar({ selected, onDaySelect }) {
         <Month
           month={month}
           today={today}
+          starts={starts}
+          ends={ends}
           selected={selected}
           onDaySelect={onDaySelect}
         />

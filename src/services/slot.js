@@ -1,11 +1,15 @@
-import Button from 'react-bootstrap/Button';
-import { FaCopy, FaPaste } from 'react-icons/fa';
-import { useTranslation } from 'react-i18next';
-
-import { createSlot } from '../../../../services/db';
-import { filterSlotsByRange } from '../../../../services/slot';
+import { createSlot } from './db';
+import { filterObj } from './object';
 
 const clipboard = [];
+
+// Filters objects by date range.
+export const filterSlotsByRange = (slots, starts, ends) =>
+  filterObj(
+    slots,
+    ([id, slot]) =>
+      slot.starts >= starts.getTime() && slot.ends < ends.getTime(),
+  );
 
 // Returns a copy of given slot data for clipboard.
 const copySlotData = (starts, slot) => ({
@@ -15,6 +19,7 @@ const copySlotData = (starts, slot) => ({
   duration: slot.ends - slot.starts,
 });
 
+// Copies slot information to the internal clipboard.
 export async function copySlots(slots, starts, ends) {
   clipboard.splice(0, clipboard.length);
   const rangedSlots = filterSlotsByRange(slots, starts, ends);
@@ -22,18 +27,6 @@ export async function copySlots(slots, starts, ends) {
     clipboard.push(copySlotData(starts, slot));
   });
   console.debug(`${clipboard.length} slots copied to clipboard.`);
-}
-
-export function CopySlotsButton({ starts, ends, slots }) {
-  const { t } = useTranslation();
-  const handleClick = () => {
-    copySlots(slots, starts, ends);
-  };
-  return (
-    <Button onClick={handleClick} title={t('Copy')} variant="light">
-      <FaCopy />
-    </Button>
-  );
 }
 
 // Returns true if starts-ends range does not contain any slots.
@@ -51,6 +44,7 @@ const isFree = (starts, ends, slots) => {
   return true;
 };
 
+// Creates new slots with data from the internal clipboard.
 export async function pasteSlots(projectId, locationId, slots, starts) {
   const allSlots = Object.values(slots);
   const promises = [];
@@ -77,16 +71,4 @@ export async function pasteSlots(projectId, locationId, slots, starts) {
   } catch (err) {
     console.error(err);
   }
-}
-
-export function PasteSlotsButton({ projectId, locationId, slots, starts }) {
-  const { t } = useTranslation();
-  const handleClick = async () => {
-    await pasteSlots(projectId, locationId, slots, starts);
-  };
-  return (
-    <Button onClick={handleClick} title={t('Paste')} variant="light">
-      <FaPaste />
-    </Button>
-  );
 }

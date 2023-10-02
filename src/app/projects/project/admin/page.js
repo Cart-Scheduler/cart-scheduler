@@ -29,10 +29,10 @@ import { LayoutContainer } from '../../../../layouts/Default';
 import Breadcrumb from '../../../../layouts/Breadcrumb';
 import { addDays, getPrevMonday } from '../../../../services/date';
 import { filterObj } from '../../../../services/object';
+import { copySlots, pasteSlots } from '../../../../services/slot';
 import SlotCalendar from '../../../../components/SlotCalendar';
 import { HAPPY_SLOT_PERSON_COUNT } from '../../../../components/SlotCalendar/constants';
 import MonthCalendar from './MonthCalendar';
-import { CopySlotsButton, PasteSlotsButton } from './CopySlots';
 import CreateLocation from './CreateLocation';
 import CreateSlotModal from './CreateSlotModal';
 import EditLocationModal from './EditLocationModal';
@@ -236,6 +236,20 @@ export default function ProjectAdminPage() {
                           </Dropdown.Item>
                           <Dropdown.Item
                             as="button"
+                            onClick={() => copySlots(slots, starts, ends)}
+                          >
+                            {t('Copy slots')}
+                          </Dropdown.Item>
+                          <Dropdown.Item
+                            as="button"
+                            onClick={() =>
+                              pasteSlots(projectId, locationId, slots, starts)
+                            }
+                          >
+                            {t('Paste slots')}
+                          </Dropdown.Item>
+                          <Dropdown.Item
+                            as="button"
                             onClick={() => setShowRemoveLocationModal(true)}
                           >
                             {t('Remove')}
@@ -243,45 +257,44 @@ export default function ProjectAdminPage() {
                         </Dropdown.Menu>
                       </Dropdown>
                     </div>
-                    <MonthCalendar onDaySelect={handleMonthDaySelect} />
-                    <CopySlotsButton
-                      starts={starts}
-                      ends={ends}
-                      slots={slots}
-                    />
-                    <PasteSlotsButton
-                      projectId={projectId}
-                      locationId={locationId}
-                      starts={starts}
-                      slots={slots}
-                    />
-                    <SlotCalendar
-                      starts={starts}
-                      ends={ends}
-                      project={project}
-                      locationId={locationId}
-                      slots={slots}
-                      slotRequests={slotRequests}
-                      days={showDays}
-                      personId={personId}
-                      admin
-                      onSlotClick={(slotId) => {
-                        setSelectedSlot(slotId);
-                        setShowSlotModal(true);
-                      }}
-                      onTimeClick={(time) => {
-                        setSelectedTime(time);
-                        setShowCreateSlotModal(true);
-                      }}
-                      onMovePrev={() => {
-                        setStarts(addDays(starts, 0 - showDays));
-                        setEnds(addDays(ends, 0 - showDays));
-                      }}
-                      onMoveNext={() => {
-                        setStarts(addDays(starts, showDays));
-                        setEnds(addDays(ends, showDays));
-                      }}
-                    />
+                    <Row>
+                      <Col md={6} xl={3}>
+                        <MonthCalendar
+                          starts={starts}
+                          ends={ends}
+                          onDaySelect={handleMonthDaySelect}
+                        />
+                      </Col>
+                      <Col md={12} xl={9}>
+                        <SlotCalendar
+                          starts={starts}
+                          ends={ends}
+                          project={project}
+                          locationId={locationId}
+                          slots={slots}
+                          slotRequests={slotRequests}
+                          days={showDays}
+                          personId={personId}
+                          admin
+                          onSlotClick={(slotId) => {
+                            setSelectedSlot(slotId);
+                            setShowSlotModal(true);
+                          }}
+                          onTimeClick={(time) => {
+                            setSelectedTime(time);
+                            setShowCreateSlotModal(true);
+                          }}
+                          onMovePrev={() => {
+                            setStarts(addDays(starts, 0 - showDays));
+                            setEnds(addDays(ends, 0 - showDays));
+                          }}
+                          onMoveNext={() => {
+                            setStarts(addDays(starts, showDays));
+                            setEnds(addDays(ends, showDays));
+                          }}
+                        />
+                      </Col>
+                    </Row>
                   </Tab>
                 ))}
                 <Tab

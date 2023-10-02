@@ -16,11 +16,3 @@ export const filterObj = (obj, fn) => {
   }
   return filterObjLegacy(obj, fn);
 };
-
-// Filters objects by date range.
-export const filterSlotsByRange = (slots, starts, ends) =>
-  filterObj(
-    slots,
-    ([id, slot]) =>
-      slot.starts >= starts.getTime() && slot.ends < ends.getTime(),
-  );
