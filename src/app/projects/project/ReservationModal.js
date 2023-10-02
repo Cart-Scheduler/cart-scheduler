@@ -29,12 +29,18 @@ export default function ReservationModal({
   locationName,
   members,
 }) {
+  const { t } = useTranslation();
   return (
     <Modal show={show} onHide={onHide} size="lg">
       <Modal.Header closeButton>
         <Title locationName={locationName} slot={slot} />
       </Modal.Header>
       <Modal.Body>
+        <p>
+          {t(
+            'Select persons for this shift. You can remove a person by pressing the x after the name. Press Save after the changes.',
+          )}
+        </p>
         <AssignmentEditor
           slotId={slotId}
           slot={slot}

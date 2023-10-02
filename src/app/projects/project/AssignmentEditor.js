@@ -4,12 +4,24 @@ import CreatableSelect from 'react-select/creatable';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-import { updateSlotPersons } from '../../../services/db';
+import { updateSlotPersons, usePersonId } from '../../../services/db';
 import {
   createMembersArray,
   genRandomString,
   nameSorter,
 } from '../../../services/string';
+
+// Moves the option with given person id to be the first option.
+const movePersonFirst = (options, personId) => {
+  for (let i = 0; i < options.length; i++) {
+    if (personId && options[i].value === personId) {
+      const tmp = options[i];
+      options.splice(i, 1);
+      options.unshift(tmp);
+      break;
+    }
+  }
+};
 
 export default function AssignmentEditor({
   slotId,
@@ -20,7 +32,12 @@ export default function AssignmentEditor({
   const { t } = useTranslation();
   const [selected, setSelected] = useState([]);
   const [touched, setTouched] = useState(false);
-  const options = useMemo(() => createMembersArray(members), [members]);
+  const personId = usePersonId();
+  const options = useMemo(() => {
+    const arr = createMembersArray(members);
+    movePersonFirst(arr, personId);
+    return arr;
+  }, [members, personId]);
 
   useEffect(() => {
     const newSelected = [];
@@ -61,10 +78,12 @@ export default function AssignmentEditor({
   };
   return (
     <Form onSubmit={handleSubmit} className="mb-3">
+      {/*
       <h6 className="text-uppercase text-body text-xs font-weight-bolder mb-3">
-        {t('Accepted')}
+        {slot?.direct ? t('Persons in shift') : t('Accepted')}
       </h6>
-      <Form.Group className="mb-2">
+      */}
+      <Form.Group className="mb-3">
         <CreatableSelect
           value={selected}
           onChange={(value) => {
@@ -83,6 +102,7 @@ export default function AssignmentEditor({
           variant={touched ? 'primary' : 'light'}
           type="submit"
           disabled={!touched}
+          className="mb-0"
         >
           {t('Save')}
         </Button>

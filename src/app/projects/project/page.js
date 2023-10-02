@@ -51,7 +51,7 @@ function Info({ info }) {
 function Guide({ project }) {
   const { t } = useTranslation();
   let txt = t(
-    "First choose the cart location. The calendar for the selected location is below. If you don't see the whole week in calendar, scroll it horizontally. You can request a cart shift by pressing a gray box.",
+    "First choose the cart location. The calendar for the selected location is below. If you don't see the whole week in calendar, scroll it horizontally. You can request or reserve a cart shift by pressing a gray box.",
   );
   if (!project?.locations) {
     txt = t('This project does not have any cart locations yet.');
