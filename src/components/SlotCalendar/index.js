@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
 import { MONTHS, WEEKDAYS, addDays, addMinutes } from '../../services/date';
-import { filterObj } from '../../services/object';
+import { filterObj, filterSlotsByRange } from '../../services/object';
 import { HOUR_ROW_HEIGHT } from './constants';
 import { AdminSlot, Slot } from './Slot';
 
@@ -72,11 +72,7 @@ function DayCol({
   onTimeClick,
 }) {
   const ends = addDays(starts, 1);
-  const filteredSlots = filterObj(
-    slots,
-    ([id, slot]) =>
-      slot.starts >= starts.getTime() && slot.ends < ends.getTime(),
-  );
+  const filteredSlots = filterSlotsByRange(slots, starts, ends);
 
   const renderSlot = (slotId) => {
     if (admin) {
