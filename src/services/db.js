@@ -482,9 +482,10 @@ export async function deleteSlot(id) {
 }
 
 // Updates persons field in slot. Replaces the field content.
-export async function updateSlotPersons(slotId, persons) {
+export async function updateSlotPersons(slotId, persons, editor) {
   await updateDoc(`slots/${slotId}`, {
     persons,
+    editor,
     modified: serverTimestamp(),
   });
 }

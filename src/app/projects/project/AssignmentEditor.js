@@ -67,7 +67,7 @@ export default function AssignmentEditor({
           newPersons[value] = { name: label };
         }
       });
-      await updateSlotPersons(slotId, newPersons);
+      await updateSlotPersons(slotId, newPersons, personId);
       setTouched(false);
       if (onComplete) {
         onComplete();
