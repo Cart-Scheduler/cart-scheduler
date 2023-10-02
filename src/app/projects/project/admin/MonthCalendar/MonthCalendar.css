@@ -1,0 +1,44 @@
+.calendar-month-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+.calendar-week {
+  display: flex;
+  margin-bottom: 0.5em;
+}
+
+.calendar-day {
+  display: flex;
+  height: 2em;
+  align-items: center;
+  justify-content: center;
+  flex-basis: 15%;
+  background-color: transparent;
+  border: 1px solid transparent;
+  outline: 0;
+  cursor: pointer;
+}
+
+.calendar-day:hover {
+  z-index: 1;
+  border: 1px solid red;
+  border-radius: 0.5rem;
+  border-color: white;
+}
+
+.calendar-day-today {
+  font-weight: bold;
+  border-radius: 0.5em;
+  background-color: brown;
+  color: white;
+}
+
+.btn-nav {
+  width: 15%;
+  max-width: 5em;
+  height: 3em;
+  border-width: 0;
+}

@@ -24,6 +24,9 @@ export const WEEKDAYS = [
   'Sun',
 ];
 
+// Returns first day of week.
+export const getWeekStart = () => 1;
+
 // Returns a new Date object with time 00:00:00 in current timezone that is
 // days away from given date.
 export function addDays(date, days) {

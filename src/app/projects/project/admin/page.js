@@ -10,11 +10,13 @@ import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { FaEllipsisV, FaUsers } from 'react-icons/fa';
+import startOfWeek from 'date-fns/startOfWeek';
 
 import {
   useRequestIndexes,
   useSlotIndexes,
 } from '../../../../services/indexing';
+import { getWeekStart } from '../../../../services/date';
 import {
   useJoinRequests,
   usePersonId,
@@ -29,6 +31,8 @@ import { addDays, getPrevMonday } from '../../../../services/date';
 import { filterObj } from '../../../../services/object';
 import SlotCalendar from '../../../../components/SlotCalendar';
 import { HAPPY_SLOT_PERSON_COUNT } from '../../../../components/SlotCalendar/constants';
+import MonthCalendar from './MonthCalendar';
+import { CopySlotsButton, PasteSlotsButton } from './CopySlots';
 import CreateLocation from './CreateLocation';
 import CreateSlotModal from './CreateSlotModal';
 import EditLocationModal from './EditLocationModal';
@@ -170,6 +174,14 @@ export default function ProjectAdminPage() {
     }
   };
 
+  const handleMonthDaySelect = (date) => {
+    const newStarts = startOfWeek(date, {
+      weekStartsOn: getWeekStart(),
+    });
+    setStarts(newStarts);
+    setEnds(addDays(newStarts, showDays));
+  };
+
   return (
     <LayoutContainer
       fluid
@@ -231,6 +243,18 @@ export default function ProjectAdminPage() {
                         </Dropdown.Menu>
                       </Dropdown>
                     </div>
+                    <MonthCalendar onDaySelect={handleMonthDaySelect} />
+                    <CopySlotsButton
+                      starts={starts}
+                      ends={ends}
+                      slots={slots}
+                    />
+                    <PasteSlotsButton
+                      projectId={projectId}
+                      locationId={locationId}
+                      starts={starts}
+                      slots={slots}
+                    />
                     <SlotCalendar
                       starts={starts}
                       ends={ends}
