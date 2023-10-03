@@ -5,16 +5,18 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Footer from './Footer';
 import { TermsOfUse } from '../app/signin/page';
-
 import CookieConsent from '../components/CookieConsent';
+
+// Import CSS
+import './SignInLayout.css';
 
 export default function SignInLayout() {
   return (
-    <Container className="pt-2 pt-sm-5 pb-4 pb-sm-5">
-      <Row className="justify-content-center">
+    <Container className="pt-2 pt-sm-5 pb-4 pb-sm-5 animate">
+      <Row className="justify-content-center animate">
         <Col md={8} lg={6} xl={5} xxl={4}>
-          <Card>
-            <Card.Header className="pt-4 pb-4 text-center text-white bg-primary text-uppercase text-bold">
+          <Card className="animate">
+            <Card.Header className="pt-4 pb-4 text-center text-white bg-gradient-primary text-uppercase text-bold">
               {process.env.REACT_APP_TITLE}
             </Card.Header>
             <Card.Body className="p-4">
@@ -23,9 +25,13 @@ export default function SignInLayout() {
           </Card>
         </Col>
       </Row>
-      <TermsOfUse />
-      <CookieConsent />
-      <Container className="d-flex justify-content-center align-items-center">
+      <div className="animate">
+        <TermsOfUse />
+      </div>
+      <div className="animate">
+        <CookieConsent />
+      </div>
+      <Container className="d-flex justify-content-center align-items-center animate">
         <Footer />
       </Container>
     </Container>
