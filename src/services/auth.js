@@ -9,6 +9,7 @@ import {
   signInWithEmailLink,
   sendSignInLinkToEmail,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signInWithRedirect,
   signOut as signOutFirebase,
   GoogleAuthProvider,
@@ -99,14 +100,33 @@ export function useCheckRedirectResult() {
 
 // https://firebase.google.com/docs/auth/web/redirect-best-practices
 
-export function googleSignIn() {
+// Returns true if popup sign-in for Google should be used.
+// When running in localhost the authentication with redirect
+// can have problems so it's better to use popup.
+const shouldUsePopup = () => {
+  const param = new URLSearchParams(window.location.search).get('popup');
+  if (param !== null) {
+    return param === '1';
+  }
+  return process.env.NODE_ENV === 'development';
+};
+
+export async function googleSignIn() {
   const provider = new GoogleAuthProvider();
 
   // scopes that we want to request from Google API
   provider.addScope('email');
   provider.addScope('profile');
 
-  signInWithRedirect(auth, provider);
+  if (shouldUsePopup()) {
+    try {
+      await signInWithPopup(auth, provider);
+    } catch (err) {
+      console.error(err);
+    }
+  } else {
+    signInWithRedirect(auth, provider);
+  }
 }
 
 // Query parameter key to be used for next path information while using
