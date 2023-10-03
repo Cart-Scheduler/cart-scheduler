@@ -167,6 +167,34 @@ export default function SlotRequestModal({
     setProcessing(false);
   };
 
+  const handleJoinSlot = async () => {
+    setProcessing(true);
+    setError();
+
+    try {
+      // check if the slot isn't already full
+      if (Object.keys(slot?.persons || {}).length < MAX_PARTNERS) {
+        await createSlotRequest({
+          projectId,
+          slotId,
+          persons: {
+            [personId]: {
+              name: person.name,
+            },
+          },
+        });
+        onHide();
+      } else {
+        throw new Error(t('The slot is already full'));
+      }
+    } catch (err) {
+      console.error(err);
+      setError(err.message);
+    }
+
+    setProcessing(false);
+  };
+
   // when slot request gets updated, update partners
   useEffect(() => {
     if (slotRequest?.persons) {
@@ -214,6 +242,22 @@ export default function SlotRequestModal({
               )}
             </p>
           )}
+          {slot?.persons && !slot?.persons[personId] && (
+            <Modal.Footer>
+              <Button
+                className="mb-0"
+                variant="warning"
+                onClick={handleJoinSlot}
+                disabled={
+                  processing ||
+                  Object.keys(slot?.persons || {}).length >= MAX_PARTNERS
+                }
+              >
+                {t('Add request')}
+              </Button>
+            </Modal.Footer>
+          )}
+
           {!slot?.persons && !slotRequestId && (
             <p>
               {t(
