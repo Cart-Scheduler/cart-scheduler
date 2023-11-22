@@ -139,8 +139,8 @@ function MemberList({ projectId }) {
     () =>
       Object.entries(membersDoc?.members ?? {})
         .sort((a, b) => nameSorter(a[1].name, b[1].name))
-        .sort((a, b) => !!b[1].admin - !!a[1].admin)
-        .sort((a, b) => (a[0] === currentPersonId ? -1 : 1)),
+        .sort((a, b) => (a[1].admin ? -1 : 0))
+        .sort((a, b) => (a[0] === currentPersonId ? -1 : 0)),
     [membersDoc?.members, currentPersonId],
   );
 
