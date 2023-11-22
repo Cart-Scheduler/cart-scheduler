@@ -4,9 +4,11 @@ import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { useTranslation } from 'react-i18next';
+import punycode from 'punycode';
 
 const genInviteLink = (projectId) => {
-  const { hostname, port, protocol } = window.location;
+  let { hostname, port, protocol } = window.location;
+  hostname = punycode.toUnicode(hostname);
   let url = `${protocol}//${hostname}`;
   if (port) {
     url += ':' + port;
