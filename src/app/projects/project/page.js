@@ -49,12 +49,23 @@ function Info({ info }) {
 }
 
 function Guide({ project }) {
+  // build help guide text depending on how many locations we have
   const { t } = useTranslation();
-  let txt = t(
-    "First choose the cart location. The calendar for the selected location is below. If you don't see the whole week in calendar, scroll it horizontally. You can request or reserve a cart shift by pressing a gray box.",
+  const locationText = t(
+    'First choose the cart location. The calendar for the selected location is below.',
   );
+  const calendarText = t(
+    "If you don't see the whole week in calendar, scroll it horizontally. You can request or reserve a cart shift by pressing a gray box.",
+  );
+  let txt;
   if (!project?.locations) {
     txt = t('This project does not have any cart locations yet.');
+  } else if (Object.keys(project.locations).length > 1) {
+    // multiple locations
+    txt = `${locationText} ${calendarText}`;
+  } else {
+    // single location
+    txt = calendarText;
   }
   return (
     <div className="d-flex p-4 mb-4 bg-gray-100 border-radius-lg text-sm">
