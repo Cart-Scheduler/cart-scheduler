@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
+import isSameDay from 'date-fns/isSameDay';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
 import { MONTHS, WEEKDAYS, addDays, addMinutes } from '../../services/date';
@@ -48,13 +49,14 @@ function Hours({ hours }) {
   return <div>{entries}</div>;
 }
 
-function DayTitle({ date }) {
+function DayTitle({ date, isToday }) {
   const { t } = useTranslation();
   return (
     <div className="cal-day-col-title w-100 text-center">
-      {t(WEEKDAYS[date.getDay()])}
-      <br />
-      {date.getDate()}
+      <div>{t(WEEKDAYS[date.getDay()])}</div>
+      <div className={`${isToday ? 'cal-day-col-title-today' : ''}`}>
+        {date.getDate()}
+      </div>
     </div>
   );
 }
@@ -68,6 +70,7 @@ function DayCol({
   slotRequests,
   firstHour,
   personId,
+  isToday,
   admin,
   onSlotClick,
   onTimeClick,
@@ -114,7 +117,7 @@ function DayCol({
         }
       }}
     >
-      <DayTitle date={starts} />
+      <DayTitle date={starts} isToday={isToday} />
       <div className="cal-day-col-content text-white">
         {Object.keys(filteredSlots).map((id) => renderSlot(id))}
       </div>
@@ -159,6 +162,8 @@ export default function SlotCalendar({
   onMovePrev,
   onMoveNext,
 }) {
+  const today = new Date();
+
   const dayStarts = [];
   for (let i = 0; i < days; i++) {
     dayStarts.push(addDays(starts, i));
@@ -190,6 +195,7 @@ export default function SlotCalendar({
               firstHour={DEFAULT_START_HOUR}
               personId={personId}
               admin={admin}
+              isToday={isSameDay(today, dayStart)}
               onSlotClick={onSlotClick}
               onTimeClick={onTimeClick}
             />

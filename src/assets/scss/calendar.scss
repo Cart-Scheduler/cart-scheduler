@@ -61,6 +61,18 @@ $hairline: #DADCE0;
   top: -3.75em;
 }
 
+.cal-day-col-title-today {
+  background-color: $primary;
+  width: 2em;
+  height: 2em;
+  line-height: 2em;
+  margin-top: -0.2em;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 100%;
+  color: $white;
+}
+
 .cal-day-col-content {
   position: relative;
   width: calc(100% - 1em);
