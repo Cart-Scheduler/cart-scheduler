@@ -31,7 +31,16 @@ function JoinRequest({ projectId, id, joinRequest }) {
   };
   return (
     <li className="list-group-item border-0 d-flex justify-content-between">
-      <div>{joinRequest.name}</div>
+      <div className="lh-sm">
+        <div>
+          <strong>{joinRequest.name}</strong>
+        </div>
+        {joinRequest.email && (
+          <div className="text-muted">
+            <small>{joinRequest.email}</small>
+          </div>
+        )}
+      </div>
       <div>
         <Button variant="success" className="me-3" onClick={grant}>
           {t('Grant')}
