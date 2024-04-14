@@ -12,6 +12,7 @@ import { LayoutContainer } from '../../../layouts/Default';
 import Breadcrumb from '../../../layouts/Breadcrumb';
 import { createProject } from '../../../services/functions';
 
+const cleanName = (name) => (name ?? '').trim();
 const makeId = (name) => slugify(name, { lower: true });
 
 function MyBreadcrumb() {
@@ -36,7 +37,10 @@ export default function CreateProjectModal() {
   const create = async () => {
     setCreating(true);
     try {
-      await createProject({ id: projectId, name });
+      await createProject({
+        id: projectId,
+        name: cleanName(name),
+      });
       navigate(`/projects/${projectId}`);
     } catch (err) {
       console.error(err);
