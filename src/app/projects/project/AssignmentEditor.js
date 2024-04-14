@@ -62,7 +62,7 @@ export default function AssignmentEditor({
       selected.forEach(({ value, label, __isNew__ }) => {
         if (__isNew__) {
           // user created a new name that does not exist in members
-          newPersons[`_ext_${genRandomString(6)}`] = { name: label };
+          newPersons[`_ext_${genRandomString(6)}`] = { name: label.trim() };
         } else {
           newPersons[value] = { name: label };
         }
