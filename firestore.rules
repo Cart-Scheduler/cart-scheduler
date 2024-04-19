@@ -1,0 +1,100 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // HELPER FUNCTIONS
+    // ----------------
+    // Returns user's person id
+    function currentPersonId() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.personId;
+    }
+    function getMembers(projectId) {
+      return get(/databases/$(database)/documents/projectMembers/$(projectId)).data.members;
+    }
+    // Returns true if current person is member of given project
+    function isMember(projectId) {
+      return request.auth != null && getMembers(projectId)[currentPersonId()] != null;
+    }
+    // Returns true if current person is admin of given project
+    function isAdmin(projectId) {
+      return request.auth != null && getMembers(projectId)[currentPersonId()].admin == true;
+    }
+    // Returns true if request does not change given fields
+    function doesNotChange(fields) {
+      return !request.resource.data.diff(resource.data).affectedKeys().hasAny(fields);
+    }
+
+    // PERMISSIONS
+    // -----------
+    match /fcmTokens/{docId} {
+      // allow reading and deleting own documents
+      allow read, delete: if request.auth != null && resource.data.uid == request.auth.uid;
+      // allow creating and updating own documents
+      allow create, update: if request.auth != null && request.resource.data.uid == request.auth.uid;
+    }
+    match /joinRequests/{joinRequestId} {
+      // allow reading and deleting own requests and for project admins
+      allow read, delete: if request.auth != null && (resource.data.personId == currentPersonId() || isAdmin(resource.data.projectId));
+      // allow creating and updating if authenticated and using own personId in field
+      allow update: if request.auth != null && request.resource.data.personId == currentPersonId();
+      // docs can be created only via admin sdk
+      allow create: if false;
+    }
+    match /persons/{personId} {
+      // allow user to edit person if their user document has matching 'personId' value
+      allow read, update: if request.auth != null && currentPersonId() == personId;
+      // do not allow creating or deleting
+      allow create, delete: if false;
+    }
+    match /projectMembers/{projectId} {
+      // members doc can be read only by members
+      allow read: if request.auth != null && resource.data.members[currentPersonId()] != null;
+      // member list can be created only by admin sdk
+      allow create: if false;
+      // allow admins to update
+      allow delete, update: if request.auth != null && resource.data.members[currentPersonId()].admin == true;
+    }
+    match /projects/{projectId} {
+      // any authenticated user can read projects
+      allow get: if request.auth != null;
+      // but no listing for security reasons
+      allow list: if false;
+      // new projects can be created only by admin sdk
+      allow create: if false;
+      // allow admins to update
+      allow delete, update: if isAdmin(projectId);
+    }
+    match /slotRequests/{slotRequestId} {
+      // allow reading for persons who are in map or is project admin
+      allow read: if resource.data.persons[currentPersonId()] != null || isAdmin(resource.data.projectId);
+      // - only persons who are in the map are allowed to update
+      // - projectId and slotId cannot be changed
+      allow update: if resource.data.persons[currentPersonId()] != null && doesNotChange(['projectId', 'slotId']);
+      // allow creating for members and require slotId field
+      allow create: if isMember(request.resource.data.projectId) && request.resource.data.keys().hasAll(['slotId']);
+      // allow deleting for persons referred in slotRequest and project admins
+      allow delete: if resource.data.persons[currentPersonId()] != null || isAdmin(resource.data.projectId);
+    }
+    match /slots/{slotId} {
+      // allow reading for persons who are in map or is project member
+      allow read: if resource.data.persons[currentPersonId()] != null || isMember(resource.data.projectId);
+      // allow updating for project admins or with direct flag, any project member
+      allow update: if (isAdmin(resource.data.projectId) || (resource.data.direct == true && isMember(resource.data.projectId))) && doesNotChange(['projectId', 'direct']);
+      // allow creating for project admins
+      allow create: if isAdmin(request.resource.data.projectId);
+      // allow deleting for project admins
+      allow delete: if isAdmin(resource.data.projectId);
+    }
+    match /users/{userId} {
+      // users can read only their own documents
+      allow read: if request.auth != null && request.auth.uid == userId;
+      // allow updating only certain fields in own document
+      allow update: if request.auth != null && request.auth.uid == userId && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['regTokens', 'modified']);
+      // do not allow creating or deleting users
+      allow create, delete: if false;
+    }
+    // default
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
