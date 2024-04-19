@@ -16,7 +16,7 @@ REACT_APP_MEASUREMENT_ID="***"
 ```
 
 1. Create Firestore Database.
-1. Deploy [Firestore rules and indexes](https://firebase.google.com/docs/firestore/security/get-started#use_the_firebase_console)
+1. Deploy [Firestore rules and indexes](https://firebase.google.com/docs/firestore/security/get-started#use_the_cli)
 1. Add wanted authentication methods.
 1. Deploy [cloud functions](https://github.com/Cart-Scheduler/cloud-functions)
 1. Configure web credentials for cloud messaging from project settings and write the public key to `.env.local` file: `REACT_APP_FIREBASE_VAPID`
