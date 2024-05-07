@@ -9,7 +9,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import { FaEllipsisV, FaUsers } from 'react-icons/fa';
+import { FaEllipsisV, FaPen, FaUsers } from 'react-icons/fa';
 import startOfWeek from 'date-fns/startOfWeek';
 
 import {
@@ -36,6 +36,7 @@ import MonthCalendar from './MonthCalendar';
 import CreateLocation from './CreateLocation';
 import CreateSlotModal from './CreateSlotModal';
 import EditLocationModal from './EditLocationModal';
+import EditProjectModal from './EditProjectModal';
 import RemoveLocationModal from './RemoveLocationModal';
 import SelectedSlotRequests from './SelectedSlotRequests';
 import SlotModal from './SlotModal';
@@ -84,6 +85,7 @@ export default function ProjectAdminPage() {
   const [showSlotModal, setShowSlotModal] = useState(false);
   const [showCreateSlotModal, setShowCreateSlotModal] = useState(false);
   const [showEditLocationModal, setShowEditLocationModal] = useState(false);
+  const [showEditProjectModal, setShowEditProjectModal] = useState(false);
   const [showRemoveLocationModal, setShowRemoveLocationModal] = useState(false);
   const [starts, setStarts] = useState(getPrevMonday());
   const [showDays, setShowDays] = useState(DEFAULT_SHOW_DAYS);
@@ -191,13 +193,22 @@ export default function ProjectAdminPage() {
         <Col>
           <Card className="mb-4">
             <Card.Header>
-              <div className="float-end">
+              <div className="float-end h-2-5em">
+                <Button
+                  size="sm"
+                  onClick={() => setShowEditProjectModal(true)}
+                  title={t('Modify project')}
+                  className="ms-2 h-100 px-4"
+                >
+                  <FaPen size={18} />
+                </Button>
                 <Button
                   size="sm"
                   onClick={() =>
                     navigate(`/projects/${projectId}/admin/members`)
                   }
                   title={t('Members')}
+                  className="ms-2 h-100 px-4"
                 >
                   <FaUsers size={24} />
                   <RequestBadge projectId={projectId} />
@@ -350,6 +361,12 @@ export default function ProjectAdminPage() {
         projectId={projectId}
         project={project}
         locationId={selectedLocation}
+      />
+      <EditProjectModal
+        show={showEditProjectModal}
+        onHide={() => setShowEditProjectModal(false)}
+        projectId={projectId}
+        project={project}
       />
       <RemoveLocationModal
         show={showRemoveLocationModal}

@@ -1,6 +1,10 @@
 @import './calendar';
 
-// simple min-height helper classes
+// simple helper classes
+.h-2-5em {
+  height: 2.5em;
+}
+
 .mh-10 {
   min-height: 10em;
 }
