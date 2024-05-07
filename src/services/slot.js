@@ -3,6 +3,9 @@ import { filterObj } from './object';
 
 const clipboard = [];
 
+const filterSlotsByLocation = (slots, locationId) =>
+  filterObj(slots, ([id, slot]) => slot.locationId === locationId);
+
 // Filters objects by date range.
 export const filterSlotsByRange = (slots, starts, ends) =>
   filterObj(
@@ -20,9 +23,10 @@ const copySlotData = (starts, slot) => ({
 });
 
 // Copies slot information to the internal clipboard.
-export async function copySlots(slots, starts, ends) {
+export async function copySlots(slots, locationId, starts, ends) {
   clipboard.splice(0, clipboard.length);
-  const rangedSlots = filterSlotsByRange(slots, starts, ends);
+  const byLocation = filterSlotsByLocation(slots, locationId);
+  const rangedSlots = filterSlotsByRange(byLocation, starts, ends);
   Object.values(rangedSlots).forEach((slot) => {
     clipboard.push(copySlotData(starts, slot));
   });

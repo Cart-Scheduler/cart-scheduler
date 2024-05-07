@@ -247,7 +247,9 @@ export default function ProjectAdminPage() {
                           </Dropdown.Item>
                           <Dropdown.Item
                             as="button"
-                            onClick={() => copySlots(slots, starts, ends)}
+                            onClick={() =>
+                              copySlots(slots, locationId, starts, ends)
+                            }
                           >
                             {t('Copy slots')}
                           </Dropdown.Item>
