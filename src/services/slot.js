@@ -50,7 +50,7 @@ const isFree = (starts, ends, slots) => {
 
 // Creates new slots with data from the internal clipboard.
 export async function pasteSlots(projectId, locationId, slots, starts) {
-  const allSlots = Object.values(slots);
+  const allSlots = Object.values(filterSlotsByLocation(slots, locationId));
   const promises = [];
   for (let i = 0; i < clipboard.length; i++) {
     const src = clipboard[i];
