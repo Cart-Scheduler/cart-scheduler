@@ -4,11 +4,10 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 import { saveSignInEmail, signInLinkToEmail } from '../../services/auth';
-import BackButton from './BackButton';
 
 export const cleanEmail = (email) => email.trim().toLowerCase();
 
-function EmailSent({ email }) {
+function EmailSent({ email, onCancel }) {
   const { t } = useTranslation();
   return (
     <div>
@@ -28,7 +27,9 @@ function EmailSent({ email }) {
         <li>{t('contact support')}</li>
       </ul>
       <p>{t('Please note that the link is one-time use.')}</p>
-      <BackButton />
+      <Button variant="light" onClick={onCancel} className="w-100 mb-0">
+        {t('Sign in again')}
+      </Button>
     </div>
   );
 }
@@ -64,7 +65,7 @@ export default function SendLink({ next, onCancel }) {
   };
 
   if (isSent) {
-    return <EmailSent email={email} />;
+    return <EmailSent email={email} onCancel={onCancel} />;
   }
 
   return (
@@ -90,13 +91,13 @@ export default function SendLink({ next, onCancel }) {
           variant="outline"
           disabled={sending}
           onClick={onCancel}
-          className="mx-3 w"
+          className="mx-3 mb-0"
         >
           {t('Cancel')}
         </Button>
         <Button
           type="submit"
-          className="bg-gradient-primary"
+          className="bg-gradient-primary mb-0"
           disabled={sending}
         >
           {t('Send link')}

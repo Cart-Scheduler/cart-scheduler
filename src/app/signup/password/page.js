@@ -97,7 +97,7 @@ export default function SignUpPassword({ next, onCancel }) {
       <div className="">
         <Button
           type="submit"
-          className="bg-gradient-primary w-100"
+          className="bg-gradient-primary w-100 mb-0"
           disabled={processing}
         >
           {t('Sign up')}

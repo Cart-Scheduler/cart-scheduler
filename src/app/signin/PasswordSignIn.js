@@ -101,7 +101,7 @@ export default function PasswordSignIn({ next, onCancel }) {
           </Button>
         </div>
         <div className="">
-          <p className="text-center mb-4 mt-3 text-sm mx-auto">
+          <p className="text-center mt-3 text-sm mx-auto">
             {t("Don't have an account?")}{' '}
             <Link
               to="/signup/password"
