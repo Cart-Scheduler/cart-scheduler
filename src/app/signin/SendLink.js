@@ -52,7 +52,7 @@ export default function SendLink({ next, onCancel }) {
       setIsSent(true);
     } catch (err) {
       // if you get auth/invalid-continue-uri here, make sure you have
-      // REACT_APP_EMAIL_LINK_AUTH_URL defined in .local.env
+      // REACT_APP_EMAIL_LINK_AUTH_URL defined in .env.local
       console.error(err);
     }
   };
