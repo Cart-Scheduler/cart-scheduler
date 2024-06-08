@@ -1,7 +1,9 @@
-import GoogleButton from 'react-google-button';
+import GoogleButton from 'react-google-signin-button';
 import { useTranslation } from 'react-i18next';
 
 import { googleSignIn } from '../../services/auth';
+
+import 'react-google-signin-button/dist/button.css';
 
 // Button that follows Google's style guidelines
 export default function GoogleSignIn({ className }) {
@@ -18,6 +20,7 @@ export default function GoogleSignIn({ className }) {
       label={t('Sign in with Google')}
       onClick={handleClick}
       className={className}
+      logoAlign="center"
     />
   );
 }
