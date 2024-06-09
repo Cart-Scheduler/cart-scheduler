@@ -188,6 +188,7 @@ export default function SlotRequestModal({
     }
   }, [show]);
 
+  const hasAssignment = Object.keys(slot?.persons ?? {}).length > 0;
   const currentIsAssigned = !!slot?.persons?.[personId];
 
   return (
@@ -203,25 +204,25 @@ export default function SlotRequestModal({
               <strong>{t('You have been assigned to this cart shift.')}</strong>
             </p>
           )}
-          {!currentIsAssigned && slot?.persons && (
+          {!currentIsAssigned && hasAssignment && (
             <p>{t('Assigned to this cart shift:')}</p>
           )}
-          {slot?.persons && <Assigned slot={slot} />}
-          {!slot?.persons && slotRequestId && (
+          {hasAssignment && <Assigned slot={slot} />}
+          {!hasAssignment && slotRequestId && (
             <p>
               {t(
                 'You already have a request for this cart shift. If you want to update existing request, make the changes and press Save. You can cancel your request by pressing Remove request.',
               )}
             </p>
           )}
-          {!slot?.persons && !slotRequestId && (
+          {!hasAssignment && !slotRequestId && (
             <p>
               {t(
                 'If you are available for this cart shift, fill the form and press Add request. Adding a request does not mean that your request is accepted. You will be informed about accepted requests.',
               )}
             </p>
           )}
-          {!slot?.persons && (
+          {!hasAssignment && (
             <PartnerSelect
               value={partners}
               onChange={(val) => {
@@ -234,7 +235,7 @@ export default function SlotRequestModal({
           )}
           {error && <Alert variant="danger">{t(error)}</Alert>}
         </Modal.Body>
-        {!slot?.persons && (
+        {!hasAssignment && (
           <Modal.Footer
             className={slotRequestId ? 'justify-content-between' : ''}
           >
