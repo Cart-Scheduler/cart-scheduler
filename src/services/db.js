@@ -493,7 +493,9 @@ export async function updateSlotPersons(slotId, persons, editor) {
 // Hook that returns filtered slot documents.
 export function useSlots(projectId, starts, ends) {
   const path = 'slots';
-  const key = `slots-${projectId}-${starts}-${ends}`;
+  const startsTime = starts?.getTime() ?? 0;
+  const endsTime = ends?.getTime() ?? 0;
+  const key = `slots-${projectId}-${startsTime}-${endsTime}`;
   const queryFn = useCallback(
     (ref) => {
       const params = [ref, where('projectId', '==', projectId)];
@@ -515,15 +517,15 @@ export function useSlots(projectId, starts, ends) {
       if (!id.startsWith(`${path}/`) || doc.projectId !== projectId) {
         return false;
       }
-      if (starts && doc.starts < starts.getTime()) {
+      if (doc.starts < startsTime) {
         return false;
       }
-      if (ends && doc.starts >= ends.getTime()) {
+      if (doc.starts >= endsTime) {
         return false;
       }
       return true;
     },
-    [projectId, starts, ends],
+    [projectId, startsTime, endsTime],
   );
   return useExtractDb(key, filterSlots, path);
 }
