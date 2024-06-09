@@ -3,11 +3,15 @@ import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 import { useTranslation } from 'react-i18next';
 import { FaCheck } from 'react-icons/fa';
 
-import { createMembersArray, nameSorter } from '../../../services/string';
+import {
+  createMembersArray,
+  genRandomString,
+  nameSorter,
+} from '../../../services/string';
 import { useMemo } from 'react';
 
 import NameMissing from '../../../components/NameMissing';
@@ -28,9 +32,10 @@ function PartnerSelect(props) {
   return (
     <Form.Group>
       <Form.Label>{t('Partners')}</Form.Label>
-      <Select
+      <CreatableSelect
         placeholder={t('Select...')}
         noOptionsMessage={() => t('No options')}
+        formatCreateLabel={(val) => `${t('Add name')} "${val}"`}
         isMulti
         {...props}
       />
@@ -112,13 +117,18 @@ export default function SlotRequestModal({
 
   const getNewPersons = () => {
     const persons = {
+      // always include current person
       [personId]: {
         name: person.name,
       },
     };
-    partners.forEach((partner) => {
-      if (partner?.value) {
-        persons[partner.value] = { name: partner.label };
+    partners.forEach(({ value, label, __isNew__ }) => {
+      if (__isNew__) {
+        // user created a new name that does not exist in members
+        persons[`_ext_${genRandomString(6)}`] = { name: label.trim() };
+      } else if (value) {
+        // user selected person who exists in members
+        persons[value] = { name: label };
       }
     });
     return persons;
