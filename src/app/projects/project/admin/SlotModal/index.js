@@ -266,25 +266,6 @@ export default function SlotModal({
   const [error, setError] = useState();
   const { t } = useTranslation();
 
-  const create = async () => {
-    setProcessing(true);
-    setError();
-    try {
-      // TODO
-      onHide();
-    } catch (err) {
-      console.error(err);
-      setError(err.message);
-    }
-    setProcessing(false);
-  };
-
-  const handleSubmit = (evt) => {
-    evt.preventDefault();
-    evt.stopPropagation();
-    create();
-  };
-
   const handleDelete = async () => {
     setProcessing(true);
     setError();
