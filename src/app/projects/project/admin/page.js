@@ -44,6 +44,10 @@ import SlotModal from './SlotModal';
 const DEFAULT_SHOW_DAYS = 7;
 const LOCATION_ID_ADD = 'add';
 
+// Extends starts-ends date range by days so that context data is
+// fetched for decision-making.
+const DATA_RANGE_EXTENSION = 30;
+
 const findSlotRequestId = (slotId, requests) =>
   Object.keys(requests).find((id) => requests[id].slotId === slotId);
 
@@ -79,6 +83,13 @@ const LocationMenuToggle = forwardRef(({ children, onClick }, ref) => (
   </button>
 ));
 
+// Extends given date range by given days, both backward and forward.
+function extendRange(range, days) {
+  const start = new Date(range[0]);
+  const end = new Date(range[1]);
+  return [addDays(start, 0 - days), addDays(end, days)];
+}
+
 export default function ProjectAdminPage() {
   const { projectId } = useParams();
   const navigate = useNavigate();
@@ -96,9 +107,14 @@ export default function ProjectAdminPage() {
   const [selectedReqs, setSelectedReqs] = useState({});
   const { t } = useTranslation();
 
+  // Date range for the data: slots and slotRequests.
+  // It should be larger range than starts-ends because admin
+  // wants to know context from other slotRequests for decision making.
+  const [dataRange, setDataRange] = useState(() => [new Date(), new Date()]);
+
   const personId = usePersonId();
   const { data: project } = useProject(projectId);
-  const { docs: slots } = useSlots(projectId, starts, ends);
+  const { docs: slots } = useSlots(projectId, dataRange[0], dataRange[1]);
   const { docs: slotRequests } = useSlotRequestsByProject(projectId);
   const membersDoc = useProjectMembers(projectId);
 
@@ -130,22 +146,27 @@ export default function ProjectAdminPage() {
     [selectedSlot, slotRequests],
   );
 
-  const [aiRange, setAiRange] = useState([
-    new Date(2023, 0, 1).getTime(),
-    new Date(2023, 8, 2).getTime(),
-  ]);
   const { slotsByPerson, draftSlotsByPerson } = useSlotIndexes(
     slots,
     selectedReqs,
-    aiRange,
+    dataRange,
   );
   const { reqsByPerson } = useRequestIndexes(
     slotRequests,
     slots,
-    selectedReqs,
-    aiRange,
+    dataRange,
     HAPPY_SLOT_PERSON_COUNT,
   );
+
+  const startsTime = starts.getTime();
+  const endsTime = ends.getTime();
+  useEffect(() => {
+    const newDataRange = extendRange(
+      [startsTime, endsTime],
+      DATA_RANGE_EXTENSION,
+    );
+    setDataRange(newDataRange);
+  }, [startsTime, endsTime]);
 
   if (!project) {
     return null;

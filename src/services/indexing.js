@@ -100,6 +100,9 @@ const filterSlotsByRange = (slots, range) =>
 const filterRequestsByRange = (requests, slots, range) =>
   filterObj(requests, ([id, req]) => slotInRange(slots[req.slotId], range));
 
+// Maps given dates to timestamps.
+const datesToNumber = (range) => range.map((date) => date.getTime());
+
 // Hook that creates an index where slots and draft slots (selected requests)
 // are indexed by person id. This is used for showing a counter in how many
 // slots a person currently is assigned.
@@ -108,7 +111,7 @@ export function useSlotIndexes(slots, selectedReqs, range) {
   const [draftSlotsByPerson, setDraftSlotsByPerson] = useState({});
 
   const rangedSlots = useMemo(
-    () => filterSlotsByRange(slots, range),
+    () => filterSlotsByRange(slots, datesToNumber(range)),
     [slots, range],
   );
 
@@ -118,7 +121,7 @@ export function useSlotIndexes(slots, selectedReqs, range) {
   }, [rangedSlots]);
 
   const rangedSelectedReqs = useMemo(
-    () => filterRequestsByRange(selectedReqs, slots, range),
+    () => filterRequestsByRange(selectedReqs, slots, datesToNumber(range)),
     [selectedReqs, slots, range],
   );
 
@@ -136,13 +139,12 @@ export function useSlotIndexes(slots, selectedReqs, range) {
 export function useRequestIndexes(
   requests,
   slots,
-  selectedReqs,
   range,
   happySlotPersonCount,
 ) {
   const [reqsByPerson, setReqsByPerson] = useState({});
   const rangedReqs = useMemo(() => {
-    const ranged = filterRequestsByRange(requests, slots, range);
+    const ranged = filterRequestsByRange(requests, slots, datesToNumber(range));
     // exclude the requests where slot already has enough persons
     return filterObj(ranged, ([id, req]) => {
       const slot = slots[req.slotId];
