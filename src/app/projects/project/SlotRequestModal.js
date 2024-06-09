@@ -14,7 +14,6 @@ import {
 } from '../../../services/string';
 import { useMemo } from 'react';
 
-import NameMissing from '../../../components/NameMissing';
 import Time from '../../../components/Time';
 import { WEEKDAYS } from '../../../services/date';
 import {
@@ -39,7 +38,6 @@ function PartnerSelect(props) {
         isMulti
         {...props}
       />
-      <NameMissing />
     </Form.Group>
   );
 }
