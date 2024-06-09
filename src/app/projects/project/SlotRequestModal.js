@@ -96,25 +96,6 @@ export default function SlotRequestModal({
     [members, personId],
   );
 
-  const create = async () => {
-    setProcessing(true);
-    setError();
-    try {
-      // TODO
-      onHide();
-    } catch (err) {
-      console.error(err);
-      setError(err.message);
-    }
-    setProcessing(false);
-  };
-
-  const handleSubmit = (evt) => {
-    evt.preventDefault();
-    evt.stopPropagation();
-    create();
-  };
-
   const getNewPersons = () => {
     const persons = {
       // always include current person
@@ -206,7 +187,7 @@ export default function SlotRequestModal({
       <Modal.Header closeButton>
         <Title locationName={locationName} slot={slot} />
       </Modal.Header>
-      <Form onSubmit={handleSubmit}>
+      <Form>
         <Modal.Body>
           {currentIsAssigned && (
             <p>
