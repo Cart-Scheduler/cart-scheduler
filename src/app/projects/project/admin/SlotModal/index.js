@@ -168,6 +168,23 @@ function RequestCount({ personId, reqsByPerson }) {
   );
 }
 
+function ExternalWarning() {
+  const { t } = useTranslation();
+  const id = useId();
+  const popover = (
+    <Popover id={id}>
+      <Popover.Body>{t('Not a member of this project.')}</Popover.Body>
+    </Popover>
+  );
+  return (
+    <OverlayTrigger placement="top" overlay={popover}>
+      <span className="text-warning">
+        <FaExclamation />
+      </span>
+    </OverlayTrigger>
+  );
+}
+
 function SlotRequestPerson({
   personId,
   person,
@@ -177,21 +194,27 @@ function SlotRequestPerson({
   draftSlotsByPerson,
   reqsByPerson,
 }) {
+  const isExternal = personId.startsWith('_ext_');
   return (
     <Row className="align-items-center">
       <Col sm={6}>
-        <h6 className="text-dark text-sm mb-0">{person?.name}</h6>
+        <h6 className="text-dark text-sm mb-0">
+          {person?.name}
+          {isExternal && <ExternalWarning />}
+        </h6>
       </Col>
       <Col sm={6}>
-        <Stack direction="horizontal" gap={1}>
-          <SlotCount
-            personalSlots={slotsByPerson[personId]}
-            draftSlots={draftSlotsByPerson[personId]}
-            slot={slot}
-            slots={slots}
-          />
-          <RequestCount personId={personId} reqsByPerson={reqsByPerson} />
-        </Stack>
+        {!isExternal && (
+          <Stack direction="horizontal" gap={1}>
+            <SlotCount
+              personalSlots={slotsByPerson[personId]}
+              draftSlots={draftSlotsByPerson[personId]}
+              slot={slot}
+              slots={slots}
+            />
+            <RequestCount personId={personId} reqsByPerson={reqsByPerson} />
+          </Stack>
+        )}
       </Col>
     </Row>
   );
