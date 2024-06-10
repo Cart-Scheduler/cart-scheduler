@@ -21,6 +21,9 @@ const getRequestPartners = (slotRequest, personId) => {
     .map((name) => getNameInitials(name));
 };
 
+const slotRequestContainsPerson = (slotRequest, personId) =>
+  slotRequest?.persons?.[personId] !== undefined;
+
 function BigCheck() {
   return (
     <div className="text-lg text-center d-flex justify-content-center align-items-center h-100">
@@ -52,6 +55,7 @@ export function Slot({ slot, slotRequest, personId, onClick }) {
   const currentIsAssigned = !!slot.persons?.[personId];
   const assignedNames = getAssignedNames(slot);
   const isHappySlot = assignedNames.length >= HAPPY_SLOT_PERSON_COUNT;
+  const isOwnRequest = slotRequestContainsPerson(slotRequest, personId);
   let className = 'cal-slot cursor-pointer ';
   if (currentIsAssigned) {
     // current person is assigned to this slot
@@ -59,7 +63,7 @@ export function Slot({ slot, slotRequest, personId, onClick }) {
   } else if (isHappySlot) {
     // this slot has enough assignments
     className += 'bg-primary bg-gradient';
-  } else if (slotRequest) {
+  } else if (isOwnRequest) {
     // current person has a request for this slot
     className += 'bg-warning bg-gradient';
   } else {

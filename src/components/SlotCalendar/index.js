@@ -61,8 +61,12 @@ function DayTitle({ date, isToday }) {
   );
 }
 
-const findSlotRequestId = (slotId, requests) =>
-  Object.keys(requests).find((id) => requests[id].slotId === slotId);
+const findSlotRequestId = (slotId, personId, requests) =>
+  Object.keys(requests).find(
+    (id) =>
+      requests[id].slotId === slotId &&
+      requests[id].persons[personId] !== undefined,
+  );
 
 function DayCol({
   starts,
@@ -91,7 +95,7 @@ function DayCol({
         />
       );
     }
-    const slotRequestId = findSlotRequestId(slotId, slotRequests);
+    const slotRequestId = findSlotRequestId(slotId, personId, slotRequests);
     return (
       <Slot
         key={slotId}

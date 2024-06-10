@@ -26,8 +26,12 @@ import SlotRequestModal from './SlotRequestModal';
 
 const DEFAULT_SHOW_DAYS = 7;
 
-const findSlotRequestId = (slotId, requests) =>
-  Object.keys(requests).find((id) => requests[id].slotId === slotId);
+const findSlotRequestId = (slotId, personId, requests) =>
+  Object.keys(requests).find(
+    (id) =>
+      requests[id].slotId === slotId &&
+      requests[id].persons[personId] !== undefined,
+  );
 
 function MyBreadcrumb({ project }) {
   const { t } = useTranslation();
@@ -113,7 +117,7 @@ export default function Project() {
   if (!project || !locations) {
     return null;
   }
-  const slotRequestId = findSlotRequestId(selectedSlot, slotRequests);
+  const slotRequestId = findSlotRequestId(selectedSlot, personId, slotRequests);
 
   return (
     <LayoutContainer fluid breadcrumb={<MyBreadcrumb project={project} />}>
