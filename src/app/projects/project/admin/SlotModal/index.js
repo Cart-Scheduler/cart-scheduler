@@ -347,10 +347,16 @@ export default function SlotModal({
         <Title locationName={locationName} slot={slot} />
       </Modal.Header>
       <Modal.Body>
+        <p>{t('You can modify assignments directly.')}</p>
         <AssignmentEditor slotId={slotId} slot={slot} members={members} />
         <h6 className="text-uppercase text-body text-xs font-weight-bolder mb-3">
           {t('Requests')} ({Object.keys(slotRequests).length})
         </h6>
+        <p>
+          {t(
+            'You can also select shift requests. The selected shift requests can be accepted below the calendar.',
+          )}
+        </p>
         <ul className="list-group">
           {reqIds.map((reqId) => (
             <SlotRequest

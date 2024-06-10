@@ -76,13 +76,13 @@ export default function SelectedSlotRequests({
     <Row>
       <Col>
         <Card className="mb-4">
-          <Card.Header>
+          <Card.Header className="pb-1">
             <h6>
               {t('Selected requests')} ({requestIds.length})
             </h6>
           </Card.Header>
-          <Card.Body>
-            <ul className="list-group">
+          <Card.Body className="pt-0">
+            <ul className="list-group mb-3">
               {requestIds.map((id) => (
                 <SlotRequest key={id} projectId={projectId} id={id} />
               ))}
