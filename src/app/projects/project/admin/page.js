@@ -26,6 +26,7 @@ import {
   useSlotRequestsByProject,
 } from '../../../../services/db';
 import { LayoutContainer } from '../../../../layouts/Default';
+import { ProjectContext } from '../../../../components/ProjectContext';
 import Breadcrumb from '../../../../layouts/Breadcrumb';
 import { addDays, getPrevMonday } from '../../../../services/date';
 import { filterObj } from '../../../../services/object';
@@ -168,6 +169,14 @@ export default function ProjectAdminPage() {
     setDataRange(newDataRange);
   }, [startsTime, endsTime]);
 
+  const projectCtx = useMemo(
+    () => ({
+      projectId,
+      project,
+    }),
+    [projectId, project],
+  );
+
   if (!project) {
     return null;
   }
@@ -206,202 +215,204 @@ export default function ProjectAdminPage() {
   };
 
   return (
-    <LayoutContainer
-      fluid
-      breadcrumb={<MyBreadcrumb projectId={projectId} project={project} />}
-    >
-      <Row>
-        <Col>
-          <Card className="mb-4">
-            <Card.Header>
-              <div className="float-end h-2-5em">
-                <Button
-                  size="sm"
-                  onClick={() => setShowEditProjectModal(true)}
-                  title={t('Modify project')}
-                  className="ms-2 h-100 px-4"
-                >
-                  <FaPen size={18} />
-                </Button>
-                <Button
-                  size="sm"
-                  onClick={() =>
-                    navigate(`/projects/${projectId}/admin/members`)
-                  }
-                  title={t('Members')}
-                  className="ms-2 h-100 px-4"
-                >
-                  <FaUsers size={24} />
-                  <RequestBadge projectId={projectId} />
-                </Button>
-              </div>
-              <h6>{project?.name}</h6>
-            </Card.Header>
-            <Card.Body>
-              <Tabs
-                activeKey={selectedLocation}
-                onSelect={(loc) => setSelectedLocation(loc)}
-                id="location-tabs-admin"
-                className="location-tabs location-tabs-admin mb-3"
-                justify
-              >
-                {locations.map((locationId) => (
-                  <Tab
-                    key={locationId}
-                    eventKey={locationId}
-                    title={project.locations[locationId].name}
+    <ProjectContext.Provider value={projectCtx}>
+      <LayoutContainer
+        fluid
+        breadcrumb={<MyBreadcrumb projectId={projectId} project={project} />}
+      >
+        <Row>
+          <Col>
+            <Card className="mb-4">
+              <Card.Header>
+                <div className="float-end h-2-5em">
+                  <Button
+                    size="sm"
+                    onClick={() => setShowEditProjectModal(true)}
+                    title={t('Modify project')}
+                    className="ms-2 h-100 px-4"
                   >
-                    <div className="text-end">
-                      <Dropdown>
-                        <Dropdown.Toggle
-                          as={LocationMenuToggle}
-                          id={`loc-${locationId}-menu`}
-                        >
-                          <FaEllipsisV />
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                          <Dropdown.Item
-                            as="button"
-                            onClick={() => setShowEditLocationModal(true)}
-                          >
-                            {t('Modify location')}
-                          </Dropdown.Item>
-                          <Dropdown.Item
-                            as="button"
-                            onClick={() =>
-                              copySlots(slots, locationId, starts, ends)
-                            }
-                          >
-                            {t('Copy slots')}
-                          </Dropdown.Item>
-                          <Dropdown.Item
-                            as="button"
-                            onClick={() =>
-                              pasteSlots(projectId, locationId, slots, starts)
-                            }
-                          >
-                            {t('Paste slots')}
-                          </Dropdown.Item>
-                          <Dropdown.Item
-                            as="button"
-                            onClick={() => setShowRemoveLocationModal(true)}
-                          >
-                            {t('Remove')}
-                          </Dropdown.Item>
-                        </Dropdown.Menu>
-                      </Dropdown>
-                    </div>
-                    <Row>
-                      <Col md={6} xl={3}>
-                        <MonthCalendar
-                          starts={starts}
-                          ends={ends}
-                          onDaySelect={handleMonthDaySelect}
-                        />
-                      </Col>
-                      <Col md={12} xl={9}>
-                        <SlotCalendar
-                          starts={starts}
-                          ends={ends}
-                          project={project}
-                          locationId={locationId}
-                          slots={slots}
-                          slotRequests={slotRequests}
-                          days={showDays}
-                          personId={personId}
-                          admin
-                          onSlotClick={(slotId) => {
-                            setSelectedSlot(slotId);
-                            setShowSlotModal(true);
-                          }}
-                          onTimeClick={(time) => {
-                            setSelectedTime(time);
-                            setShowCreateSlotModal(true);
-                          }}
-                          onMovePrev={() => {
-                            setStarts(addDays(starts, 0 - showDays));
-                            setEnds(addDays(ends, 0 - showDays));
-                          }}
-                          onMoveNext={() => {
-                            setStarts(addDays(starts, showDays));
-                            setEnds(addDays(ends, showDays));
-                          }}
-                        />
-                      </Col>
-                    </Row>
-                  </Tab>
-                ))}
-                <Tab
-                  eventKey={LOCATION_ID_ADD}
-                  title="+"
-                  tabAttrs={{ title: t('New location') }}
+                    <FaPen size={18} />
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={() =>
+                      navigate(`/projects/${projectId}/admin/members`)
+                    }
+                    title={t('Members')}
+                    className="ms-2 h-100 px-4"
+                  >
+                    <FaUsers size={24} />
+                    <RequestBadge projectId={projectId} />
+                  </Button>
+                </div>
+                <h6>{project?.name}</h6>
+              </Card.Header>
+              <Card.Body>
+                <Tabs
+                  activeKey={selectedLocation}
+                  onSelect={(loc) => setSelectedLocation(loc)}
+                  id="location-tabs-admin"
+                  className="location-tabs location-tabs-admin mb-3"
+                  justify
                 >
-                  <CreateLocation
-                    projectId={projectId}
-                    project={project}
-                    onCreated={(loc) => setSelectedLocation(loc)}
-                  />
-                </Tab>
-              </Tabs>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-      <SelectedSlotRequests
-        projectId={projectId}
-        slotRequests={selectedReqs}
-        onReset={() => setSelectedReqs({})}
-      />
+                  {locations.map((locationId) => (
+                    <Tab
+                      key={locationId}
+                      eventKey={locationId}
+                      title={project.locations[locationId].name}
+                    >
+                      <div className="text-end">
+                        <Dropdown>
+                          <Dropdown.Toggle
+                            as={LocationMenuToggle}
+                            id={`loc-${locationId}-menu`}
+                          >
+                            <FaEllipsisV />
+                          </Dropdown.Toggle>
+                          <Dropdown.Menu>
+                            <Dropdown.Item
+                              as="button"
+                              onClick={() => setShowEditLocationModal(true)}
+                            >
+                              {t('Modify location')}
+                            </Dropdown.Item>
+                            <Dropdown.Item
+                              as="button"
+                              onClick={() =>
+                                copySlots(slots, locationId, starts, ends)
+                              }
+                            >
+                              {t('Copy slots')}
+                            </Dropdown.Item>
+                            <Dropdown.Item
+                              as="button"
+                              onClick={() =>
+                                pasteSlots(projectId, locationId, slots, starts)
+                              }
+                            >
+                              {t('Paste slots')}
+                            </Dropdown.Item>
+                            <Dropdown.Item
+                              as="button"
+                              onClick={() => setShowRemoveLocationModal(true)}
+                            >
+                              {t('Remove')}
+                            </Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      </div>
+                      <Row>
+                        <Col md={6} xl={3}>
+                          <MonthCalendar
+                            starts={starts}
+                            ends={ends}
+                            onDaySelect={handleMonthDaySelect}
+                          />
+                        </Col>
+                        <Col md={12} xl={9}>
+                          <SlotCalendar
+                            starts={starts}
+                            ends={ends}
+                            project={project}
+                            locationId={locationId}
+                            slots={slots}
+                            slotRequests={slotRequests}
+                            days={showDays}
+                            personId={personId}
+                            admin
+                            onSlotClick={(slotId) => {
+                              setSelectedSlot(slotId);
+                              setShowSlotModal(true);
+                            }}
+                            onTimeClick={(time) => {
+                              setSelectedTime(time);
+                              setShowCreateSlotModal(true);
+                            }}
+                            onMovePrev={() => {
+                              setStarts(addDays(starts, 0 - showDays));
+                              setEnds(addDays(ends, 0 - showDays));
+                            }}
+                            onMoveNext={() => {
+                              setStarts(addDays(starts, showDays));
+                              setEnds(addDays(ends, showDays));
+                            }}
+                          />
+                        </Col>
+                      </Row>
+                    </Tab>
+                  ))}
+                  <Tab
+                    eventKey={LOCATION_ID_ADD}
+                    title="+"
+                    tabAttrs={{ title: t('New location') }}
+                  >
+                    <CreateLocation
+                      projectId={projectId}
+                      project={project}
+                      onCreated={(loc) => setSelectedLocation(loc)}
+                    />
+                  </Tab>
+                </Tabs>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+        <SelectedSlotRequests
+          projectId={projectId}
+          slotRequests={selectedReqs}
+          onReset={() => setSelectedReqs({})}
+        />
 
-      <SlotModal
-        show={showSlotModal}
-        onHide={() => setShowSlotModal(false)}
-        projectId={projectId}
-        slotId={selectedSlot}
-        slotRequestId={slotRequestId}
-        slotRequest={slotRequests[slotRequestId]}
-        slot={slots?.[selectedSlot]}
-        slots={slots}
-        slotRequests={filteredReqs}
-        locationName={project?.locations?.[selectedLocation]?.name}
-        members={membersDoc?.members}
-        selectedRequests={selectedReqs}
-        slotsByPerson={slotsByPerson}
-        draftSlotsByPerson={draftSlotsByPerson}
-        reqsByPerson={reqsByPerson}
-        onRequestToggle={handleRequestToggle}
-      />
-      <CreateSlotModal
-        show={showCreateSlotModal}
-        onHide={() => setShowCreateSlotModal(false)}
-        projectId={projectId}
-        locationId={selectedLocation}
-        starts={selectedTime}
-      />
-      <EditLocationModal
-        show={showEditLocationModal}
-        onHide={() => setShowEditLocationModal(false)}
-        projectId={projectId}
-        project={project}
-        locationId={selectedLocation}
-      />
-      <EditProjectModal
-        show={showEditProjectModal}
-        onHide={() => setShowEditProjectModal(false)}
-        projectId={projectId}
-        project={project}
-      />
-      <RemoveLocationModal
-        show={showRemoveLocationModal}
-        onHide={() => setShowRemoveLocationModal(false)}
-        projectId={projectId}
-        project={project}
-        locationId={selectedLocation}
-        onDeleted={() => {
-          selectAnotherLocation();
-          setShowRemoveLocationModal(false);
-        }}
-      />
-    </LayoutContainer>
+        <SlotModal
+          show={showSlotModal}
+          onHide={() => setShowSlotModal(false)}
+          projectId={projectId}
+          slotId={selectedSlot}
+          slotRequestId={slotRequestId}
+          slotRequest={slotRequests[slotRequestId]}
+          slot={slots?.[selectedSlot]}
+          slots={slots}
+          slotRequests={filteredReqs}
+          locationName={project?.locations?.[selectedLocation]?.name}
+          members={membersDoc?.members}
+          selectedRequests={selectedReqs}
+          slotsByPerson={slotsByPerson}
+          draftSlotsByPerson={draftSlotsByPerson}
+          reqsByPerson={reqsByPerson}
+          onRequestToggle={handleRequestToggle}
+        />
+        <CreateSlotModal
+          show={showCreateSlotModal}
+          onHide={() => setShowCreateSlotModal(false)}
+          projectId={projectId}
+          locationId={selectedLocation}
+          starts={selectedTime}
+        />
+        <EditLocationModal
+          show={showEditLocationModal}
+          onHide={() => setShowEditLocationModal(false)}
+          projectId={projectId}
+          project={project}
+          locationId={selectedLocation}
+        />
+        <EditProjectModal
+          show={showEditProjectModal}
+          onHide={() => setShowEditProjectModal(false)}
+          projectId={projectId}
+          project={project}
+        />
+        <RemoveLocationModal
+          show={showRemoveLocationModal}
+          onHide={() => setShowRemoveLocationModal(false)}
+          projectId={projectId}
+          project={project}
+          locationId={selectedLocation}
+          onDeleted={() => {
+            selectAnotherLocation();
+            setShowRemoveLocationModal(false);
+          }}
+        />
+      </LayoutContainer>
+    </ProjectContext.Provider>
   );
 }

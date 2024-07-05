@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useId, useState } from 'react';
+import { useCallback, useContext, useEffect, useId, useState } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
@@ -14,6 +14,7 @@ import { FaCheck, FaExclamation, FaExclamationTriangle } from 'react-icons/fa';
 import AssignmentEditor from '../../AssignmentEditor';
 import { WEEKDAYS, calcSlotDistance } from '../../../../../services/date';
 import { deleteSlot } from '../../../../../services/db';
+import { ProjectContext } from '../../../../../components/ProjectContext';
 import Time from '../../../../../components/Time';
 
 function Title({ locationName, slot }) {
@@ -78,10 +79,12 @@ const checkClosestSlot = (personalSlots, draftSlots, slot, slots) => {
 };
 
 function SlotPreview({ slot }) {
+  const { project } = useContext(ProjectContext);
   const { t } = useTranslation();
   const starts = new Date(slot.starts);
   const ends = new Date(slot.ends);
-  const locationName = slot.locationId;
+  const locationName =
+    project?.locations?.[slot.locationId]?.name || slot.locationId;
   return (
     <div>
       {t(WEEKDAYS[starts.getDay()])} {starts.getDate()}.{starts.getMonth() + 1}.{' '}
