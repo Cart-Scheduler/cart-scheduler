@@ -23,6 +23,7 @@ import {
   usePerson,
   usePersonId,
 } from '../../../services/db';
+import { HAPPY_SLOT_PERSON_COUNT } from '../../../components/SlotCalendar/constants';
 
 const MAX_PARTNERS = 3;
 
@@ -177,7 +178,9 @@ export default function SlotRequestModal({
     }
   }, [show]);
 
-  const hasAssignment = Object.keys(slot?.persons ?? {}).length > 0;
+  const personIds = Object.keys(slot?.persons ?? {});
+  const hasAssignment = personIds.length > 0;
+  const isHappySlot = personIds.length >= HAPPY_SLOT_PERSON_COUNT;
   const currentIsAssigned = !!slot?.persons?.[personId];
 
   return (
@@ -211,7 +214,7 @@ export default function SlotRequestModal({
               )}
             </p>
           )}
-          {!hasAssignment && (
+          {!isHappySlot && (
             <PartnerSelect
               value={partners}
               onChange={(val) => {
@@ -224,7 +227,7 @@ export default function SlotRequestModal({
           )}
           {error && <Alert variant="danger">{t(error)}</Alert>}
         </Modal.Body>
-        {!hasAssignment && (
+        {!isHappySlot && (
           <Modal.Footer
             className={slotRequestId ? 'justify-content-between' : ''}
           >
