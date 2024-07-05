@@ -221,7 +221,7 @@ export default function ProjectAdminPage() {
         breadcrumb={<MyBreadcrumb projectId={projectId} project={project} />}
       >
         <Row>
-          <Col>
+          <Col className="px-0 px-lg-3">
             <Card className="mb-4">
               <Card.Header>
                 <div className="float-end h-2-5em">
