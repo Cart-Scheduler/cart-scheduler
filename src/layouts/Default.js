@@ -74,11 +74,11 @@ function MyNavbar({ breadcrumb }) {
       expand={false}
       bg="transparent"
       variant="dark"
-      className="px-0 mx-4 shadow-none border-radius-xl navbar-transparent"
+      className="px-0 mx-2 mx-sm-4 shadow-none navbar-transparent"
     >
-      <Container fluid className="py-1 px-3">
+      <Container fluid className="py-1 px-1 px-sm-3 px-sm-3 flex-nowrap">
         {breadcrumb}
-        <Navbar.Toggle>
+        <Navbar.Toggle className="align-self-start">
           <FaBars />
         </Navbar.Toggle>
         <MyOffCanvas title={title} />
