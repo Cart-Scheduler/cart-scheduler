@@ -60,3 +60,11 @@
 .location-tabs-admin li:last-child {
   flex-grow: 0;
 }
+
+// use same font color in disabled buttons
+@each $color, $value in $btn-font-colors {
+  .btn-#{$color}:disabled,
+  .btn.bg-gradient-#{$color}:disabled {
+    color: $value;
+  }
+}
