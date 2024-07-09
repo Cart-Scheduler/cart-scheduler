@@ -173,8 +173,9 @@ export default function ProjectAdminPage() {
     () => ({
       projectId,
       project,
+      reqsByPerson,
     }),
-    [projectId, project],
+    [projectId, project, reqsByPerson],
   );
 
   if (!project) {
@@ -313,7 +314,6 @@ export default function ProjectAdminPage() {
                           <SlotCalendar
                             starts={starts}
                             ends={ends}
-                            project={project}
                             locationId={locationId}
                             slots={slots}
                             slotRequests={slotRequests}

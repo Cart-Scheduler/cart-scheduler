@@ -23,6 +23,7 @@ import SlotCalendar from '../../../components/SlotCalendar';
 import AssignmentList from './AssignmentList';
 import ReservationModal from './ReservationModal';
 import SlotRequestModal from './SlotRequestModal';
+import { ProjectContext } from '../../../components/ProjectContext';
 
 const DEFAULT_SHOW_DAYS = 7;
 
@@ -114,105 +115,114 @@ export default function Project() {
     }
   }, [selectedLocation, locations]);
 
+  const projectCtx = useMemo(
+    () => ({
+      projectId,
+      project,
+    }),
+    [projectId, project],
+  );
+
   if (!project || !locations) {
     return null;
   }
   const slotRequestId = findSlotRequestId(selectedSlot, personId, slotRequests);
 
   return (
-    <LayoutContainer fluid breadcrumb={<MyBreadcrumb project={project} />}>
-      <Row>
-        <Col className="px-0 px-lg-3">
-          <Card className="mb-4">
-            <Card.Header className="pb-0">
-              {isAdmin && (
-                <div className="float-end">
-                  <Button
-                    size="sm"
-                    onClick={() => navigate(`/projects/${projectId}/admin`)}
-                  >
-                    {t('Admin')}
-                  </Button>
-                </div>
-              )}
-              <h6>{project?.name}</h6>
-              {project?.info && <Info info={project.info} />}
-            </Card.Header>
-            <Card.Body className="ps-2 pe-2">
-              <Guide project={project} />
-              <AssignmentList personId={personId} projectId={projectId} />
-              {project.locations && (
-                <Tabs
-                  activeKey={selectedLocation}
-                  onSelect={(loc) => setSelectedLocation(loc)}
-                  id="location-tabs"
-                  className="location-tabs mb-3"
-                  justify
-                >
-                  {locations.map((locationId) => (
-                    <Tab
-                      key={locationId}
-                      eventKey={locationId}
-                      title={project.locations[locationId].name}
+    <ProjectContext.Provider value={projectCtx}>
+      <LayoutContainer fluid breadcrumb={<MyBreadcrumb project={project} />}>
+        <Row>
+          <Col className="px-0 px-lg-3">
+            <Card className="mb-4">
+              <Card.Header className="pb-0">
+                {isAdmin && (
+                  <div className="float-end">
+                    <Button
+                      size="sm"
+                      onClick={() => navigate(`/projects/${projectId}/admin`)}
                     >
-                      <SlotCalendar
-                        starts={starts}
-                        ends={ends}
-                        project={project}
-                        locationId={locationId}
-                        slots={slots}
-                        slotRequests={slotRequests}
-                        days={showDays}
-                        personId={personId}
-                        onSlotClick={(slotId) => {
-                          setSelectedSlot(slotId);
-                          if (slots?.[slotId]?.direct) {
-                            setShowReservationModal(true);
-                          } else {
-                            setShowSlotModal(true);
-                          }
-                        }}
-                        onMovePrev={() => {
-                          setStarts(addDays(starts, 0 - showDays));
-                          setEnds(addDays(ends, 0 - showDays));
-                        }}
-                        onMoveNext={() => {
-                          setStarts(addDays(starts, showDays));
-                          setEnds(addDays(ends, showDays));
-                        }}
-                      />
-                    </Tab>
-                  ))}
-                </Tabs>
-              )}
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-      <SlotRequestModal
-        show={showSlotModal}
-        onHide={() => setShowSlotModal(false)}
-        projectId={projectId}
-        locationName={
-          project?.locations?.[selectedLocation]?.name || 'Default Location'
-        }
-        slotId={selectedSlot}
-        slotRequestId={slotRequestId}
-        slotRequest={slotRequests[slotRequestId]}
-        slot={slots?.[selectedSlot]}
-        members={membersDoc?.members}
-      />
-      <ReservationModal
-        show={showReservationModal}
-        onHide={() => setShowReservationModal(false)}
-        projectId={projectId}
-        locationName={
-          project?.locations?.[selectedLocation]?.name || 'Default Location'
-        }
-        slotId={selectedSlot}
-        slot={slots?.[selectedSlot]}
-        members={membersDoc?.members}
-      />
-    </LayoutContainer>
+                      {t('Admin')}
+                    </Button>
+                  </div>
+                )}
+                <h6>{project?.name}</h6>
+                {project?.info && <Info info={project.info} />}
+              </Card.Header>
+              <Card.Body className="ps-2 pe-2">
+                <Guide project={project} />
+                <AssignmentList personId={personId} projectId={projectId} />
+                {project.locations && (
+                  <Tabs
+                    activeKey={selectedLocation}
+                    onSelect={(loc) => setSelectedLocation(loc)}
+                    id="location-tabs"
+                    className="location-tabs mb-3"
+                    justify
+                  >
+                    {locations.map((locationId) => (
+                      <Tab
+                        key={locationId}
+                        eventKey={locationId}
+                        title={project.locations[locationId].name}
+                      >
+                        <SlotCalendar
+                          starts={starts}
+                          ends={ends}
+                          locationId={locationId}
+                          slots={slots}
+                          slotRequests={slotRequests}
+                          days={showDays}
+                          personId={personId}
+                          onSlotClick={(slotId) => {
+                            setSelectedSlot(slotId);
+                            if (slots?.[slotId]?.direct) {
+                              setShowReservationModal(true);
+                            } else {
+                              setShowSlotModal(true);
+                            }
+                          }}
+                          onMovePrev={() => {
+                            setStarts(addDays(starts, 0 - showDays));
+                            setEnds(addDays(ends, 0 - showDays));
+                          }}
+                          onMoveNext={() => {
+                            setStarts(addDays(starts, showDays));
+                            setEnds(addDays(ends, showDays));
+                          }}
+                        />
+                      </Tab>
+                    ))}
+                  </Tabs>
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+        <SlotRequestModal
+          show={showSlotModal}
+          onHide={() => setShowSlotModal(false)}
+          projectId={projectId}
+          locationName={
+            project?.locations?.[selectedLocation]?.name || 'Default Location'
+          }
+          slotId={selectedSlot}
+          slotRequestId={slotRequestId}
+          slotRequest={slotRequests[slotRequestId]}
+          slot={slots?.[selectedSlot]}
+          members={membersDoc?.members}
+        />
+        <ReservationModal
+          show={showReservationModal}
+          onHide={() => setShowReservationModal(false)}
+          projectId={projectId}
+          locationName={
+            project?.locations?.[selectedLocation]?.name || 'Default Location'
+          }
+          slotId={selectedSlot}
+          slot={slots?.[selectedSlot]}
+          members={membersDoc?.members}
+        />
+      </LayoutContainer>
+    </ProjectContext.Provider>
   );
 }

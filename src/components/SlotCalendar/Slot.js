@@ -1,10 +1,16 @@
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
+import Badge from 'react-bootstrap/Badge';
 import { FaCheck } from 'react-icons/fa';
 
 import { nameSorter } from '../../services/string';
 
 import { getNameInitials } from '../../services/string';
-import { HAPPY_SLOT_PERSON_COUNT, HOUR_ROW_HEIGHT } from './constants';
+import {
+  HAPPY_SLOT_PERSON_COUNT,
+  HOUR_ROW_HEIGHT,
+  IMPORTANT_REQUEST_THRESHOLD,
+} from './constants';
+import { ProjectContext } from '../ProjectContext';
 
 const getAssignedNames = (slot) => {
   return Object.values(slot?.persons ?? {})
@@ -87,6 +93,31 @@ export function Slot({ slot, slotRequest, personId, onClick }) {
   );
 }
 
+// Custom hook that returns true if this slot is important.
+// If person has a request for this slot and has only a few
+// other requests to other slots, this is important slot.
+function useImportant(reqIds, slotRequests) {
+  const { reqsByPerson } = useContext(ProjectContext);
+
+  let personIds = [];
+  for (let i = 0; i < reqIds.length; i++) {
+    personIds = [...personIds, ...Object.keys(slotRequests[reqIds[i]].persons)];
+  }
+
+  // get minimum amount of slot requests by one person
+  let min;
+  const ids = Object.keys(reqsByPerson ?? {}).filter((personId) =>
+    personIds.includes(personId),
+  );
+  for (let i = 0; i < ids.length; i++) {
+    const reqs = reqsByPerson[ids[i]];
+    if (!min || (reqs.length > 0 && reqs.length < min)) {
+      min = reqs.length;
+    }
+  }
+  return min > 0 && min <= IMPORTANT_REQUEST_THRESHOLD;
+}
+
 export function AdminSlot({ slotId, slot, slotRequests, onClick }) {
   const isHappySlot =
     Object.values(slot?.persons ?? {}).length >= HAPPY_SLOT_PERSON_COUNT;
@@ -98,15 +129,29 @@ export function AdminSlot({ slotId, slot, slotRequests, onClick }) {
     // free slot
     className += 'bg-light text-dark border';
   }
-  const requestCount = useMemo(
+
+  // filter requests for this slot
+  const reqIds = useMemo(
     () =>
-      Object.values(slotRequests).filter((req) => req.slotId === slotId).length,
+      Object.keys(slotRequests).filter(
+        (id) => slotRequests[id].slotId === slotId,
+      ),
     [slotId, slotRequests],
   );
+
+  const count = reqIds.length;
+  const isImportant = useImportant(reqIds, slotRequests);
+
   return (
     <SlotContainer slot={slot} className={className} onClick={onClick}>
       <div className="text-center d-flex justify-content-center align-items-center h-100">
-        {requestCount}
+        {!isHappySlot && isImportant ? (
+          <Badge pill bg="warning">
+            {count}
+          </Badge>
+        ) : (
+          <span>{count}</span>
+        )}
       </div>
     </SlotContainer>
   );
