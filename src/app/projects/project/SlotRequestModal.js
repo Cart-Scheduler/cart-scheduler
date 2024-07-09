@@ -71,6 +71,9 @@ function Assigned({ slot }) {
   );
 }
 
+// Returns true if given names match
+const namesMatch = (a, b) => a.trim().toLowerCase() === b.trim().toLowerCase();
+
 export default function SlotRequestModal({
   show,
   onHide,
@@ -105,7 +108,10 @@ export default function SlotRequestModal({
     partners.forEach(({ value, label, __isNew__ }) => {
       if (__isNew__) {
         // user created a new name that does not exist in members
-        persons[`_ext_${genRandomString(6)}`] = { name: label.trim() };
+        // ignore if user wrote his own name thinking it should be there
+        if (!namesMatch(person.name, label)) {
+          persons[`_ext_${genRandomString(6)}`] = { name: label.trim() };
+        }
       } else if (value) {
         // user selected person who exists in members
         persons[value] = { name: label };
