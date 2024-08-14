@@ -426,7 +426,10 @@ export async function deleteJoinRequest(id) {
 
 export async function addPersonToProject(projectId, personId, name) {
   await updateDoc(`projectMembers/${projectId}`, {
-    [`members.${personId}`]: { name },
+    [`members.${personId}`]: {
+      name,
+      joined: serverTimestamp(),
+    },
     modified: serverTimestamp(),
   });
 }
