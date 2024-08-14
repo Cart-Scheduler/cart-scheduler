@@ -33,3 +33,8 @@ export async function createJoinRq(params) {
   const data = await makeCall('createJoinRequest', params);
   return data;
 }
+
+export async function queryPerson(params) {
+  const data = await makeCall('queryPerson', params);
+  return data;
+}

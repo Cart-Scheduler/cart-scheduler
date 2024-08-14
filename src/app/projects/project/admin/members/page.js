@@ -1,4 +1,4 @@
-import { forwardRef, useMemo } from 'react';
+import { forwardRef, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
@@ -19,6 +19,7 @@ import {
 } from '../../../../../services/db';
 import { nameSorter } from '../../../../../services/string';
 import Invite from './Invite';
+import PersonDetailsModal from './PersonDetailsModal';
 
 function MyBreadcrumb({ projectId, project }) {
   const { t } = useTranslation();
@@ -47,7 +48,7 @@ const MemberMenuToggle = forwardRef(({ children, onClick }, ref) => (
   </button>
 ));
 
-function MemberMenu({ projectId, personId, member }) {
+function MemberMenu({ projectId, personId, member, onDetails }) {
   const { t } = useTranslation();
   const handleRemove = async () => {
     try {
@@ -77,6 +78,9 @@ function MemberMenu({ projectId, personId, member }) {
         <FaEllipsisV />
       </Dropdown.Toggle>
       <Dropdown.Menu>
+        <Dropdown.Item as="button" onClick={onDetails}>
+          {t('Details')}
+        </Dropdown.Item>
         {member.admin ? (
           <Dropdown.Item as="button" onClick={() => setAdmin(false)}>
             {t('Dismiss as admin')}
@@ -94,7 +98,7 @@ function MemberMenu({ projectId, personId, member }) {
   );
 }
 
-function Member({ projectId, personId, member, isCurrent }) {
+function Member({ projectId, personId, member, isCurrent, onDetails }) {
   const { t } = useTranslation();
   return (
     <tr>
@@ -121,6 +125,7 @@ function Member({ projectId, personId, member, isCurrent }) {
             projectId={projectId}
             personId={personId}
             member={member}
+            onDetails={onDetails}
           />
         )}
       </td>
@@ -130,6 +135,8 @@ function Member({ projectId, personId, member, isCurrent }) {
 
 function MemberList({ projectId }) {
   const { t } = useTranslation();
+  const [showDetails, setShowDetails] = useState(false);
+  const [selectedPersonId, setSelectedPersonId] = useState();
   const { data: project } = useProject(projectId);
 
   const currentPersonId = usePersonId();
@@ -165,11 +172,21 @@ function MemberList({ projectId }) {
                 personId={personId}
                 member={member}
                 isCurrent={personId === currentPersonId}
+                onDetails={() => {
+                  setSelectedPersonId(personId);
+                  setShowDetails(true);
+                }}
               />
             ))}
           </tbody>
         </table>
       </Card.Body>
+      <PersonDetailsModal
+        show={showDetails}
+        onHide={() => setShowDetails(false)}
+        projectId={projectId}
+        personId={selectedPersonId}
+      />
     </Card>
   );
 }
