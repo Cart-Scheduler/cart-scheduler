@@ -34,6 +34,7 @@ import { copySlots, pasteSlots } from '../../../../services/slot';
 import SlotCalendar from '../../../../components/SlotCalendar';
 import { HAPPY_SLOT_PERSON_COUNT } from '../../../../components/SlotCalendar/constants';
 import MonthCalendar from './MonthCalendar';
+import AssignmentListModal from './AssignmentListModal';
 import CreateLocation from './CreateLocation';
 import CreateSlotModal from './CreateSlotModal';
 import EditLocationModal from './EditLocationModal';
@@ -99,6 +100,7 @@ export default function ProjectAdminPage() {
   const [showEditLocationModal, setShowEditLocationModal] = useState(false);
   const [showEditProjectModal, setShowEditProjectModal] = useState(false);
   const [showRemoveLocationModal, setShowRemoveLocationModal] = useState(false);
+  const [showAssignmentListModal, setShowAssignmentListModal] = useState(false);
   const [starts, setStarts] = useState(getPrevMonday());
   const [showDays, setShowDays] = useState(DEFAULT_SHOW_DAYS);
   const [ends, setEnds] = useState(addDays(starts, showDays));
@@ -279,6 +281,12 @@ export default function ProjectAdminPage() {
                             </Dropdown.Item>
                             <Dropdown.Item
                               as="button"
+                              onClick={() => setShowAssignmentListModal(true)}
+                            >
+                              {t('Assignment list')}
+                            </Dropdown.Item>
+                            <Dropdown.Item
+                              as="button"
                               onClick={() =>
                                 copySlots(slots, locationId, starts, ends)
                               }
@@ -411,6 +419,14 @@ export default function ProjectAdminPage() {
             selectAnotherLocation();
             setShowRemoveLocationModal(false);
           }}
+        />
+        <AssignmentListModal
+          show={showAssignmentListModal}
+          onHide={() => setShowAssignmentListModal(false)}
+          slots={slots}
+          starts={starts}
+          ends={ends}
+          locationId={selectedLocation}
         />
       </LayoutContainer>
     </ProjectContext.Provider>
