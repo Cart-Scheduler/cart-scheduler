@@ -231,6 +231,14 @@ export default function ProjectAdminPage() {
                   <Button
                     size="sm"
                     onClick={() => setShowEditProjectModal(true)}
+                    title={t('Cleanup')}
+                    className="ms-2 h-100 px-4"
+                  >
+                    <FaPen size={18} />
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={() => setShowEditProjectModal(true)}
                     title={t('Modify project')}
                     className="ms-2 h-100 px-4"
                   >
