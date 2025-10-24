@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -16,6 +17,7 @@ import {
   updateDoc as updateDocFirestore,
   where,
   Timestamp,
+  writeBatch, //Topin muutos
 } from 'firebase/firestore';
 
 import { getApp } from './firebase';
@@ -598,4 +600,47 @@ export function useDoc(path) {
 // Listens to project document and returns data.
 export function useProject(id) {
   return useDoc(`projects/${id}`);
+}
+
+
+
+//Topin Cleanup funktio
+/**
+ * Deletes all slot and slotRequest documents in the project that are older than 365 days.
+ */
+export async function cleanupProjectData(projectId) {
+  const cutoffDate = new Date();
+  cutoffDate.setDate(cutoffDate.getDate() - 365);
+  const cutoffTimestamp = Timestamp.fromDate(cutoffDate); 
+  const collectionsToClean = ['slots', 'slotRequests'];
+  let totalDeletedCount = 0;
+
+  for (const collectionName of collectionsToClean) {
+
+    const collectionRef = collection(db, 'projects', projectId, collectionName);
+
+    const q = query(
+      collectionRef,
+      where('created', '<', cutoffTimestamp)
+    );
+
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      continue; 
+    }
+
+    const batch = writeBatch(db);
+    
+    querySnapshot.docs.forEach((document) => {
+      batch.delete(document.ref);
+    });
+
+    await batch.commit();
+
+    totalDeletedCount += querySnapshot.size;
+    console.log(`Deleted ${querySnapshot.size} documents from ${collectionName} in project ${projectId}.`);
+  }
+
+  return totalDeletedCount; 
 }
