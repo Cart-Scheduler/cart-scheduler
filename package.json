@@ -10,7 +10,10 @@
     "bootstrap": "^5.2.3",
     "classnames": "^2.3.2",
     "date-fns": "^2.30.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
     "firebase": "^10.11.1",
+    "prettier": "^3.6.2",
     "punycode": "^2.3.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",
@@ -30,16 +33,16 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "lint": "eslint .",
+    "lint": "prettier --check . && eslint .",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"
+      "react-app/jest",
+      "prettier"
     ]
-
   },
   "browserslist": {
     "production": [
