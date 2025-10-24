@@ -29,10 +29,7 @@ export default function CleanupModal({ show, onHide, projectId }) {
       const count = await cleanupProjectData(projectId); 
       
       setDeletedCount(count);
-      setCleanupDone(true); // Merkitään onnistuneeksi
-      
-      // Annamme käyttäjälle sekunnin aikaa nähdä lataustila, 
-      // ja suljetaan modaali sitten.
+      setCleanupDone(true); 
       setTimeout(() => {
         onHide(); 
       }, 1000); 
@@ -40,7 +37,7 @@ export default function CleanupModal({ show, onHide, projectId }) {
     } catch (err) {
       console.error('Cleanup failed:', err);
       setError(err.message || 'Cleanup failed due to an unknown error.');
-      setSaving(false); // Virhetilassa poistutaan lataustilasta, mutta ei suljeta modaalia
+      setSaving(false); 
     }
     
   };
