@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -608,30 +607,40 @@ export function useProject(id) {
 /**
  * Deletes all slot and slotRequest documents in the project that are older than 365 days.
  */
+
 export async function cleanupProjectData(projectId) {
+  if (!projectId) {
+    console.error("Cleanup requires a valid projectId.");
+    return 0;
+  }
+
   const cutoffDate = new Date();
   cutoffDate.setDate(cutoffDate.getDate() - 365);
-  const cutoffTimestamp = Timestamp.fromDate(cutoffDate); 
+  const cutoffTimestamp = Timestamp.fromDate(cutoffDate);
+
+
   const collectionsToClean = ['slots', 'slotRequests'];
   let totalDeletedCount = 0;
 
   for (const collectionName of collectionsToClean) {
 
-    const collectionRef = collection(db, 'projects', projectId, collectionName);
+    const collectionRef = collection(db, collectionName);
 
     const q = query(
       collectionRef,
+      where('projectId', '==', projectId),
       where('created', '<', cutoffTimestamp)
     );
 
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
-      continue; 
+      console.log(`No old documents found in ${collectionName} for project ${projectId}.`);
+      continue;
     }
 
     const batch = writeBatch(db);
-    
+
     querySnapshot.docs.forEach((document) => {
       batch.delete(document.ref);
     });
@@ -639,8 +648,8 @@ export async function cleanupProjectData(projectId) {
     await batch.commit();
 
     totalDeletedCount += querySnapshot.size;
-    console.log(`Deleted ${querySnapshot.size} documents from ${collectionName} in project ${projectId}.`);
+    console.log(`Deleted ${querySnapshot.size} documents from ${collectionName}.`);
   }
 
-  return totalDeletedCount; 
+  return totalDeletedCount;
 }

@@ -1,6 +1,3 @@
-// admin/project/CleanupModal.js
-
-/* eslint-disable prettier/prettier */
 import { useState } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
@@ -14,9 +11,9 @@ import { cleanupProjectData } from '../../../../services/db';
 export default function CleanupModal({ show, onHide, projectId }) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState();
-  const [cleanupDone, setCleanupDone] = useState(false); 
-  const [deletedCount, setDeletedCount] = useState(0); 
-  
+  const [cleanupDone, setCleanupDone] = useState(false);
+  const [deletedCount, setDeletedCount] = useState(0);
+
   const { t } = useTranslation();
 
   const cleanup = async () => {
@@ -25,21 +22,21 @@ export default function CleanupModal({ show, onHide, projectId }) {
     setCleanupDone(false);
 
     try {
-      
-      const count = await cleanupProjectData(projectId); 
-      
+
+      const count = await cleanupProjectData(projectId);
+
       setDeletedCount(count);
-      setCleanupDone(true); 
+      setCleanupDone(true);
       setTimeout(() => {
-        onHide(); 
-      }, 1000); 
+        onHide();
+      }, 1000);
 
     } catch (err) {
       console.error('Cleanup failed:', err);
       setError(err.message || 'Cleanup failed due to an unknown error.');
-      setSaving(false); 
+      setSaving(false);
     }
-    
+
   };
 
   const handleSubmit = async (evt) => {
@@ -54,14 +51,9 @@ export default function CleanupModal({ show, onHide, projectId }) {
       </Modal.Header>
       <Form onSubmit={handleSubmit}>
         <Modal.Body>
-          <p>{t('Press "Run Cleanup" to permanently delete all slots and slot requests older than 365 days.')}</p>
-          <p className="text-danger">{t('This action is irreversible.')}</p>
-
-          {/* Näytä virhe */}
-          {error && <Alert variant="danger">{t(error)}</Alert>}
-          
-          {/* Näytä onnistuminen ennen sulkemista */}
-          {cleanupDone && !error && 
+          <p>{t('Hehe')}</p>
+          {error && <Alert >{t(error)}</Alert>}
+          {cleanupDone && !error &&
             <Alert variant="success">
               {t('Cleanup successful! Deleted: {{count}} documents.', { count: deletedCount })}
             </Alert>
@@ -69,7 +61,7 @@ export default function CleanupModal({ show, onHide, projectId }) {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="danger" type="submit" disabled={saving}>
-            {saving ? t('Running Cleanup...') : t('Run Cleanup')} 
+            {saving ? t('Running Cleanup...') : t('Hihi')}
           </Button>
         </Modal.Footer>
       </Form>
