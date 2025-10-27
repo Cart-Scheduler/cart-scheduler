@@ -1,4 +1,3 @@
-
 import { forwardRef, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -10,7 +9,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import { FaEllipsisV, FaPen, FaUsers} from 'react-icons/fa';
+import { FaEllipsisV, FaPen, FaUsers } from 'react-icons/fa';
 import startOfWeek from 'date-fns/startOfWeek';
 
 import {
@@ -235,15 +234,11 @@ export default function ProjectAdminPage() {
               <Card.Header>
                 <div className="float-end h-2-5em">
                   <Button
-                  size="sm"
-
-                  onClick={() => setShowCleanupModal(true)}
-                  title={t('Cleanup')}
-                  className="ms-2 h-100 px-4"
-                  >
-
-
-                  </Button>
+                    size="sm"
+                    onClick={() => setShowCleanupModal(true)}
+                    title={t('Cleanup')}
+                    className="ms-2 h-100 px-4"
+                  ></Button>
                   <Button
                     size="sm"
                     onClick={() => setShowEditProjectModal(true)}
@@ -427,12 +422,9 @@ export default function ProjectAdminPage() {
         />
         {/* Topin CleanupModaali */}
         <CleanupModal
-
-            show={showCleanupModal}
-
-            onHide={() => setShowCleanupModal(false)}
-
-            projectId={projectId}
+          show={showCleanupModal}
+          onHide={() => setShowCleanupModal(false)}
+          projectId={projectId}
         />
         <RemoveLocationModal
           show={showRemoveLocationModal}

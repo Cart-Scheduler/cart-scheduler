@@ -5,7 +5,6 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { useTranslation } from 'react-i18next';
 
-
 import { cleanupProjectData } from '../../../../services/db';
 
 export default function CleanupModal({ show, onHide, projectId }) {
@@ -22,7 +21,6 @@ export default function CleanupModal({ show, onHide, projectId }) {
     setCleanupDone(false);
 
     try {
-
       const count = await cleanupProjectData(projectId);
 
       setDeletedCount(count);
@@ -30,13 +28,11 @@ export default function CleanupModal({ show, onHide, projectId }) {
       setTimeout(() => {
         onHide();
       }, 1000);
-
     } catch (err) {
       console.error('Cleanup failed:', err);
       setError(err.message || 'Cleanup failed due to an unknown error.');
       setSaving(false);
     }
-
   };
 
   const handleSubmit = async (evt) => {
@@ -52,12 +48,14 @@ export default function CleanupModal({ show, onHide, projectId }) {
       <Form onSubmit={handleSubmit}>
         <Modal.Body>
           <p>{t('Hehe')}</p>
-          {error && <Alert >{t(error)}</Alert>}
-          {cleanupDone && !error &&
+          {error && <Alert>{t(error)}</Alert>}
+          {cleanupDone && !error && (
             <Alert variant="success">
-              {t('Cleanup successful! Deleted: {{count}} documents.', { count: deletedCount })}
+              {t('Cleanup successful! Deleted: {{count}} documents.', {
+                count: deletedCount,
+              })}
             </Alert>
-          }
+          )}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="danger" type="submit" disabled={saving}>

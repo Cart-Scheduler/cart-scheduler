@@ -11,8 +11,8 @@ const Profile = React.lazy(() => import('../app/profile/page'));
 const ProjectList = React.lazy(() => import('../app/projects/page'));
 const CreateProject = React.lazy(() => import('../app/projects/new/page'));
 const Project = React.lazy(() => import('../app/projects/project/page'));
-const ProjectAdmin = React.lazy(() =>
-  import('../app/projects/project/admin/page'),
+const ProjectAdmin = React.lazy(
+  () => import('../app/projects/project/admin/page'),
 );
 const SignIn = React.lazy(() => import('../app/signin/page'));
 const SignInLink = React.lazy(() => import('../app/signin/Link'));
@@ -20,8 +20,8 @@ const SignOut = React.lazy(() => import('../app/SignOut'));
 const SignUpPassword = React.lazy(() => import('../app/signup/password/page'));
 const PrivacyPolicy = React.lazy(() => import('../app/PrivacyPolicy'));
 const TermsOfUse = React.lazy(() => import('../app/TermsOfUse'));
-const Members = React.lazy(() =>
-  import('../app/projects/project/admin/members/page'),
+const Members = React.lazy(
+  () => import('../app/projects/project/admin/members/page'),
 );
 
 // The path where user is redirected to after authentication by default

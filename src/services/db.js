@@ -601,8 +601,6 @@ export function useProject(id) {
   return useDoc(`projects/${id}`);
 }
 
-
-
 //Topin Cleanup funktio
 /**
  * Deletes all slot and slotRequest documents in the project that are older than 365 days.
@@ -610,7 +608,7 @@ export function useProject(id) {
 
 export async function cleanupProjectData(projectId) {
   if (!projectId) {
-    console.error("Cleanup requires a valid projectId.");
+    console.error('Cleanup requires a valid projectId.');
     return 0;
   }
 
@@ -618,24 +616,23 @@ export async function cleanupProjectData(projectId) {
   cutoffDate.setDate(cutoffDate.getDate() - 365);
   const cutoffTimestamp = Timestamp.fromDate(cutoffDate);
 
-
   const collectionsToClean = ['slots', 'slotRequests'];
   let totalDeletedCount = 0;
 
   for (const collectionName of collectionsToClean) {
-
     const collectionRef = collection(db, collectionName);
 
     const q = query(
       collectionRef,
       where('projectId', '==', projectId),
-      where('created', '<', cutoffTimestamp)
+      where('created', '<', cutoffTimestamp),
     );
 
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
-      console.log(`No old documents found in ${collectionName} for project ${projectId}.`);
+      console.log(`
+        No old documents found in ${collectionName} for project ${projectId}.`);
       continue;
     }
 
@@ -648,7 +645,8 @@ export async function cleanupProjectData(projectId) {
     await batch.commit();
 
     totalDeletedCount += querySnapshot.size;
-    console.log(`Deleted ${querySnapshot.size} documents from ${collectionName}.`);
+    console.log(`
+      Deleted ${querySnapshot.size} documents from ${collectionName}.`);
   }
 
   return totalDeletedCount;
