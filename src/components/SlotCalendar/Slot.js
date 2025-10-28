@@ -145,13 +145,15 @@ export function AdminSlot({ slotId, slot, slotRequests, onClick }) {
   return (
     <SlotContainer slot={slot} className={className} onClick={onClick}>
       <div className="text-center d-flex justify-content-center align-items-center h-100">
-        {!isHappySlot && isImportant ? (
-          <Badge pill bg="warning">
-            {count}
-          </Badge>
-        ) : (
-          <span>{count}</span>
-        )}
+        {/* Topi: Only show numbers when higher than zero  */}
+        {count > 0 &&
+          (!isHappySlot && isImportant ? (
+            <Badge pill bg="warning">
+              {count}
+            </Badge>
+          ) : (
+            <span>{count}</span>
+          ))}
       </div>
     </SlotContainer>
   );
