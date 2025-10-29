@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 export default function Footer() {
   const { t } = useTranslation();
   return (
@@ -11,7 +11,7 @@ export default function Footer() {
         <Row className="align-items-center justify-content-lg-between">
           <Col className="mb-lg-0 mb-4">
             <div className="copyright text-center text-xs text-muted text-lg-start">
-              {process.env.REACT_APP_TITLE}{' '}
+              {import.meta.env.VITE_APP_TITLE}{' '}
               {t(
                 'is a service maintained by private individuals and is based on open source project',
               )}{' '}
