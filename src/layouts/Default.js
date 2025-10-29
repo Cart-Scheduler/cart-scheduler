@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -26,12 +26,12 @@ import TimezoneChecker from '../components/TimezoneChecker';
 import CookieConsent from '../components/CookieConsent';
 
 function Version() {
-  if (!process.env.REACT_APP_VERSION) {
+  if (!import.meta.env.VITE_APP_VERSION) {
     return null;
   }
   return (
     <div className="text-xs text-muted mt-5">
-      {process.env.REACT_APP_VERSION}
+      {import.meta.env.VITE_APP_VERSION}
     </div>
   );
 }
@@ -114,18 +114,21 @@ function UserDocErrorChecker() {
   return null;
 }
 
-export function LayoutContainer({ fluid, breadcrumb, children }) {
-  return (
-    <>
-      <MyNavbar breadcrumb={breadcrumb} />
-      <Container fluid={fluid} className="py-4">
-        <UserDocErrorChecker />
-        <TimezoneChecker />
-        {children}
-        <Footer />
-      </Container>
-    </>
-  );
+export function LayoutContainer({ fluid, breadcrumb, children, isRootLayout }) {
+
+    const content = isRootLayout ? <Outlet /> : children;
+
+    return (
+        <>
+            <MyNavbar breadcrumb={breadcrumb} />
+            <Container fluid={fluid} className="py-4">
+                <UserDocErrorChecker />
+                <TimezoneChecker />
+                {content}
+                <Footer />
+            </Container>
+        </>
+    );
 }
 
 export default function DefaultLayout() {
