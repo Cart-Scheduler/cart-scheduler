@@ -1,6 +1,7 @@
 // Slice for Firebase Cloud Messaging related data
 
-import { createSlice } from '@reduxjs/toolkit';
+import pkg from '@reduxjs/toolkit';
+const { createSlice } = pkg;
 import { reset } from '../actions';
 
 const initialState = {};

@@ -20,10 +20,10 @@ import {
   usePersonDocError,
   useUserDocError,
 } from './services/db';
-import DbError from './components/DbError';
+import DbError from './components/DbError.jsx';
 import Footer from './layouts/Footer';
 
-import NotificationController from './components/notifications/Controller';
+import NotificationController from './components/notifications/Controller.jsx';
 import TimezoneChecker from './components/TimezoneChecker';
 import CookieConsent from './components/CookieConsent';
 

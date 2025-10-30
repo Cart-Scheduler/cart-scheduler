@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { useRegistrationToken } from '../../services/messaging';
-import PermissionModal from './PermissionModal';
+import PermissionModal from './PermissionModal.jsx';
 
 function TokenController() {
   useRegistrationToken();
