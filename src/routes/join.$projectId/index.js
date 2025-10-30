@@ -26,22 +26,6 @@ function MyBreadcrumb() {
   );
 }
 
-function Container({ children }) {
-  return (
-    <LayoutContainer fluid breadcrumb={<MyBreadcrumb />}>
-      <Row className="text-center">
-        <Col sm={11} md={10} lg={9} className="mx-auto">
-          <Card className="mb-6">
-            <Card.Body className="d-flex justify-content-center align-items-center h-100 mh-10">
-              {children}
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </LayoutContainer>
-  );
-}
-
 export default function JoinProject() {
   const { projectId } = useParams();
   const { data: project, isLoading } = useProject(projectId);
@@ -110,19 +94,19 @@ export default function JoinProject() {
       </Container>
     );
   }
-
-  if (!isLoading && project !== undefined && !project.created) {
+if (isLoading || person === undefined) {
     return (
-      <Container>
-        <div className="">
-          <div className="my-4">
-            <FaExclamationCircle size={64} />
-          </div>
-          <strong>{t('Project not found.')}</strong>
-          <br />
-          <p>{t('Check that the link is ok.')}</p>
-        </div>
-      </Container>
+      <Row className="text-center">
+        <Col sm={11} md={10} lg={9} className="mx-auto">
+          <Card className="mb-6">
+            <Card.Body className="d-flex justify-content-center align-items-center h-100 mh-10">
+              <div className="px-4 my-4">
+                <MySpinner />
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
     );
   }
 
