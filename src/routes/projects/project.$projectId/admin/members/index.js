@@ -9,7 +9,6 @@ import { FaEllipsisV, FaUserAlt } from 'react-icons/fa';
 
 import Breadcrumb from '../../../../../layouts/Breadcrumb';
 import JoinRequestManager from './JoinRequestManager';
-import { LayoutContainer } from '../../../../../layouts/Default';
 import {
   removePersonsFromProject,
   updateProjectMembers,
@@ -195,17 +194,22 @@ export default function ProjectMembers() {
   const { projectId } = useParams();
   const { data: project } = useProject(projectId);
   return (
-    <LayoutContainer
-      fluid
-      breadcrumb={<MyBreadcrumb projectId={projectId} project={project} />}
-    >
+  <>
+      <MyBreadcrumb projectId={projectId} project={project} />
       <Row>
         <Col>
-          <JoinRequestManager projectId={projectId} />
-          <Invite projectId={projectId} />
-          <MemberList projectId={projectId} />
+          <Card className="mb-4">
+            <Card.Header className="pb-0">
+                <h6 className="mb-0">{t('Members')}</h6>
+            </Card.Header>
+            <Card.Body>
+                <JoinRequestManager projectId={projectId} />
+                <Invite projectId={projectId} />
+                <MemberList projectId={projectId} />
+            </Card.Body>
+          </Card>
         </Col>
       </Row>
-    </LayoutContainer>
+    </>
   );
 }

@@ -8,7 +8,6 @@ import { useTranslation } from 'react-i18next';
 import slugify from 'slugify';
 import { useNavigate } from 'react-router';
 
-import { LayoutContainer } from '../../../layouts/Default';
 import Breadcrumb from '../../../layouts/Breadcrumb';
 import { createProject } from '../../../services/functions';
 
@@ -61,7 +60,8 @@ export default function CreateProjectModal() {
   };
 
   return (
-    <LayoutContainer fluid breadcrumb={<MyBreadcrumb />}>
+    <>
+   <MyBreadcrumb />
       <Row>
         <Col>
           <Card className="mb-4">
@@ -113,6 +113,6 @@ export default function CreateProjectModal() {
           </Card>
         </Col>
       </Row>
-    </LayoutContainer>
+    </>
   );
 }

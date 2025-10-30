@@ -111,46 +111,58 @@ if (isLoading || person === undefined) {
   }
 
   return (
-    <Container>
-      <div className="text-center w-100">
-        <h5 className="mt-3 mb-4">{project?.name}</h5>
-        {error && (
-          <Alert variant="danger" className="my-2 text-white">
-            {t('Failed to join project')}
-          </Alert>
-        )}
-        {requestSent ? (
-          <p className="small muted my-3">
-            {t(
-              'Thank you! Please wait until your request is processed. If accepted, the project will appear.',
-            )}
-          </p>
-        ) : (
-          <div className="my-2">
-            <Button
-              variant="primary"
-              size="lg"
-              onClick={handleJoinProjectClick}
-              disabled={isLoadingRequest}
-            >
-              {isLoadingRequest ? (
-                <>
-                  <Spinner
-                    as="span"
-                    animation="border"
-                    size="sm"
-                    role="status"
-                    aria-hidden="true"
-                  />
-                  <span className="visually-hidden">{t('Loading...')}</span>
-                </>
-              ) : (
-                t('Send Request')
-              )}
-            </Button>
-          </div>
-        )}
-      </div>
-    </Container>
+    <>
+      <MyBreadcrumb />
+      <Row className="text-center">
+        <Col sm={11} md={10} lg={9} className="mx-auto">
+          <Card className="mb-6">
+            <Card.Body className="d-flex justify-content-center align-items-center h-100 mh-10">
+
+              <div className="text-center w-100">
+                <h5 className="mt-3 mb-4">{project?.name}</h5>
+                {error && (
+                  <Alert variant="danger" className="my-2 text-white">
+                    {t('Failed to join project')}
+                  </Alert>
+                )}
+
+                {requestSent ? (
+                  <p className="small muted my-3">
+                    {t(
+                      'Thank you! Please wait until your request is processed. If accepted, the project will appear.',
+                    )}
+                  </p>
+                ) : (
+                  <div className="my-2">
+                    <Button
+                      variant="primary"
+                      size="lg"
+                      onClick={handleJoinProjectClick}
+                      disabled={isLoadingRequest}
+                    >
+                      {isLoadingRequest ? (
+                        <>
+                          <Spinner
+                            as="span"
+                            animation="border"
+                            size="sm"
+                            role="status"
+                            aria-hidden="true"
+                          />
+                          <span className="visually-hidden">{t('Loading...')}</span>
+                        </>
+                      ) : (
+                        t('Send Request')
+                      )}
+                    </Button>
+                  </div>
+                )}
+
+              </div>
+              </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </>
   );
 }

@@ -8,7 +8,6 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
 import Spinner from '../../components/Spinner';
-import { LayoutContainer } from '../../layouts/Default';
 import Breadcrumb from '../../layouts/Breadcrumb';
 import {
   useAuth,
@@ -149,7 +148,8 @@ function MyBreadcrumb() {
 export default function Profile() {
   const { t } = useTranslation();
   return (
-    <LayoutContainer fluid breadcrumb={<MyBreadcrumb />}>
+    <>
+      <MyBreadcrumb />
       <Row>
         <Col>
           <Card className="mb-4">
@@ -162,6 +162,6 @@ export default function Profile() {
           </Card>
         </Col>
       </Row>
-    </LayoutContainer>
+    </>
   );
 }

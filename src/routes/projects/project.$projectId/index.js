@@ -9,7 +9,6 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import ReactMarkdown from 'react-markdown';
 
-import { LayoutContainer } from '../../../layouts/Default';
 import Breadcrumb from '../../../layouts/Breadcrumb';
 import { addDays, getPrevMonday } from '../../../services/date';
 import {
@@ -130,7 +129,8 @@ export default function Project() {
 
   return (
     <ProjectContext.Provider value={projectCtx}>
-      <LayoutContainer fluid breadcrumb={<MyBreadcrumb project={project} />}>
+      <>
+      <MyBreadcrumb project={project} />
         <Row>
           <Col className="px-0 px-lg-3">
             <Card className="mb-4">
@@ -222,7 +222,7 @@ export default function Project() {
           slot={slots?.[selectedSlot]}
           members={membersDoc?.members}
         />
-      </LayoutContainer>
+      </>
     </ProjectContext.Provider>
   );
 }

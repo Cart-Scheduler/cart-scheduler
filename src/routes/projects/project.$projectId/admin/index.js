@@ -25,7 +25,7 @@ import {
   useSlots,
   useSlotRequestsByProject,
 } from '../../../../services/db';
-import { LayoutContainer } from '../../../../layouts/Default';
+
 import { ProjectContext } from '../../../../components/ProjectContext';
 import Breadcrumb from '../../../../layouts/Breadcrumb';
 import { addDays, getPrevMonday } from '../../../../services/date';
@@ -219,10 +219,8 @@ export default function ProjectAdminPage() {
 
   return (
     <ProjectContext.Provider value={projectCtx}>
-      <LayoutContainer
-        fluid
-        breadcrumb={<MyBreadcrumb projectId={projectId} project={project} />}
-      >
+      <>
+        <MyBreadcrumb projectId={projectId} project={project} />
         <Row>
           <Col className="px-0 px-lg-3">
             <Card className="mb-4">
@@ -428,7 +426,7 @@ export default function ProjectAdminPage() {
           ends={ends}
           locationId={selectedLocation}
         />
-      </LayoutContainer>
+      </>
     </ProjectContext.Provider>
   );
 }
