@@ -1,5 +1,5 @@
 import { forwardRef, useEffect, useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import Alert from 'react-bootstrap/Alert';
@@ -12,7 +12,7 @@ import AppleSignIn from './AppleSignIn';
 import GoogleSignIn from './GoogleSignIn';
 import PasswordSignIn from './PasswordSignIn';
 import SendLink from './SendLink';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 function MethodButton({ className, onClick, children }) {
   let classes = 'btn w-100 px-3 py-3';

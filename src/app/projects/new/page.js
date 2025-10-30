@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
 import slugify from 'slugify';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import { LayoutContainer } from '../../../layouts/Default';
 import Breadcrumb from '../../../layouts/Breadcrumb';

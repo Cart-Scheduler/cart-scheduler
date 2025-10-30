@@ -1,6 +1,6 @@
 // src/routes/root.jsx
 import React from 'react';
-// KORJAUS 1: 'react-router-dom' korvattu 'react-router'
+// KORJAUS 1: 'react-router' korvattu 'react-router'
 import { Outlet } from 'react-router';
 import NotificationController from '../components/notifications/Controller';
 import CookieConsent from '../components/CookieConsent';

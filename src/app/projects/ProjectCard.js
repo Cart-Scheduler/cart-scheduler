@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import Card from 'react-bootstrap/Card';
 
 import { useProject } from '../../services/db';

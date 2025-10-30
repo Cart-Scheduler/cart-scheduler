@@ -1,4 +1,4 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router';
 
 import { useSignOut } from '../services/auth';
 import { useDeleteRegistrationToken } from '../services/messaging';
