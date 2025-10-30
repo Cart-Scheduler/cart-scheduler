@@ -3,8 +3,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { useTranslation } from 'react-i18next';
 
-import { LayoutContainer } from '../layouts/Default';
-import Breadcrumb from '../layouts/Breadcrumb';
+import Breadcrumb from '../../layouts/Breadcrumb';
 
 function MyBreadcrumb() {
   const { t } = useTranslation();
@@ -22,7 +21,7 @@ function PrivacyPolicyContent() {
       <h3 className="mb-3">Tietosuojakäytäntö</h3>
       <div className="p-2">
         <p className="p-1 mb-4">
-          Tervetuloa {process.env.REACT_APP_TITLE} -sivustolle. Me kunnioitamme
+          Tervetuloa {import.meta.env.VITE_APP_TITLE} -sivustolle. Me kunnioitamme
           yksityisyyttäsi ja pyrimme suojelemaan henkilötietojasi. <br></br>{' '}
           Tässä tietosuojakäytännössä kerromme, miten keräämme, käytämme ja
           suojaamme henkilötietojasi Euroopan Unionin <br></br> yleisen
@@ -92,7 +91,7 @@ function PrivacyPolicyContent() {
           Jos sinulla on kysyttävää tietosuojakäytännöstä tai jos haluat tehdä
           pyynnön tietojesi tarkastamiseksi, korjaamiseksi tai poistamiseksi,
           voit ottaa meihin yhteyttä sähköpostitse:{' '}
-          {process.env.REACT_APP_CONTACT_EMAIL}
+          {import.meta.env.VITE_APP_CONTACT_EMAIL}
         </p>
       </div>
     </div>
@@ -101,7 +100,8 @@ function PrivacyPolicyContent() {
 
 export default function PrivacyPolicy() {
   return (
-    <LayoutContainer breadcrumb={<MyBreadcrumb />}>
+  <>
+    <MyBreadcrumb />
       <Row>
         <Col>
           <Card className="mb-4" style={{ minHeight: '20em' }}>
@@ -111,6 +111,6 @@ export default function PrivacyPolicy() {
           </Card>
         </Col>
       </Row>
-    </LayoutContainer>
+    </>
   );
 }

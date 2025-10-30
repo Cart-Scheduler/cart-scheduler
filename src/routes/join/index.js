@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { FaExclamationCircle } from 'react-icons/fa';
 
 import Breadcrumb from '../../layouts/Breadcrumb';
-import { LayoutContainer } from '../../layouts/Default';
+
 import MySpinner from '../../components/Spinner';
 import { createJoinRq } from '../../services/functions';
 import { usePerson, useProject, useMyProjectMembers } from '../../services/db';
