@@ -1,4 +1,7 @@
 
 export default function handleRequest() {
-  return null;
+  return new Response('', {
+    status: 200,
+    headers: { 'Content-Type': 'text/html' },
+  });
 }

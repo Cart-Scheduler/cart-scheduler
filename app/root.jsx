@@ -1,8 +1,7 @@
-// src/routes/root.jsx (Lopullinen Layout Framework Modeen)
 import React from 'react';
-import { Link, Outlet } from 'react-router'; // Tarvitaan Link ja Outlet
+import { Link, Outlet } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import Container from 'react-bootstrap/Container'; // Tarvitaan Bootstrap Container
+import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
@@ -81,7 +80,7 @@ function MyNavbar({ breadcrumb }) {
       className="px-0 mx-2 mx-sm-4 shadow-none navbar-transparent"
     >
       <Container fluid className="py-1 px-1 px-sm-3 px-sm-3 flex-nowrap">
-        {/* Breadcrumb renderöidään tässä! */}
+
         {breadcrumb}
         <Navbar.Toggle className="align-self-start">
           <FaBars />
