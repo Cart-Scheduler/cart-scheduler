@@ -24,8 +24,8 @@ import DbError from './components/DbError.jsx';
 import Footer from './layouts/Footer';
 
 import NotificationController from './components/notifications/Controller.jsx';
-import TimezoneChecker from './components/TimezoneChecker';
-import CookieConsent from './components/CookieConsent';
+import TimezoneChecker from './components/TimezoneChecker.jsx';
+import CookieConsent from './components/CookieConsent.jsx';
 
 // --- APUKOMPONENTIT SIIRRETTY DEFAULT.JSX:stä ---
 

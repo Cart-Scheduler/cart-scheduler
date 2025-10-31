@@ -1,6 +1,6 @@
 import Container from 'react-bootstrap/Container';
 
-import Spinner from '../components/Spinner';
+import Spinner from './Spinner';
 
 export default function AuthLoading() {
   return (
