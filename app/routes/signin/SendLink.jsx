@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Button from 'react-bootstrap/Button';
+import { Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 
 import { saveSignInEmail, signInLinkToEmail } from '../../services/auth';

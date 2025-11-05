@@ -1,12 +1,12 @@
 import { useCallback, useContext, useEffect, useId, useState } from 'react';
-import Alert from 'react-bootstrap/Alert';
+import { Alert} from 'react-bootstrap';
 import Badge from 'react-bootstrap/Badge';
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Modal from 'react-bootstrap/Modal';
+import { Button } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';;
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
-import Row from 'react-bootstrap/Row';
+import { Row } from 'react-bootstrap';
 import Stack from 'react-bootstrap/Stack';
 import { useTranslation } from 'react-i18next';
 import { FaCheck, FaExclamation, FaExclamationTriangle } from 'react-icons/fa';

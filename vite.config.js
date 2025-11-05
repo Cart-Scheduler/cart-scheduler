@@ -4,13 +4,13 @@ import { reactRouter } from '@react-router/dev/vite';
 
 export default defineConfig({
   plugins: [
-    react(),
-    reactRouter({
-     routesDirectory: 'app',
+   // react(),
+    reactRouter()
+    /* routesDirectory: 'app',
 
       routeConfig: 'app/routes.js',
-      ssr: false,
-    }),
+      ssr: false,*/
+    //}),
   ],
   build: {
     outDir: 'build',

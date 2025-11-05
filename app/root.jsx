@@ -1,10 +1,10 @@
 import React from 'react';
-import { Link, Outlet } from 'react-router';
+import { Link, Outlet, Scripts, ScrollRestoration } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import Offcanvas from 'react-bootstrap/Offcanvas';
+import { Container } from 'react-bootstrap';
+import { Nav } from 'react-bootstrap';
+import { Navbar } from 'react-bootstrap'; //Navbar from 'react-bootstrap/Navbar';
+import { Offcanvas } from 'react-bootstrap';
 import {
   FaBars,
   FaHome,
@@ -12,21 +12,18 @@ import {
   FaSignOutAlt,
   FaUserCircle,
 } from 'react-icons/fa';
-
 import {
   useAuth,
   usePerson,
   usePersonDocError,
   useUserDocError,
-} from './services/db';
+} from './services/db.js';
 import DbError from './components/DbError.jsx';
-import Footer from './layouts/Footer';
+import Footer from './layouts/Footer.jsx';
 
 import NotificationController from './components/notifications/Controller.jsx';
 import TimezoneChecker from './components/TimezoneChecker.jsx';
 import CookieConsent from './components/CookieConsent.jsx';
-
-// --- APUKOMPONENTIT SIIRRETTY DEFAULT.JSX:stä ---
 
 function Version() {
   if (!import.meta.env.VITE_APP_VERSION) {
@@ -80,7 +77,6 @@ function MyNavbar({ breadcrumb }) {
       className="px-0 mx-2 mx-sm-4 shadow-none navbar-transparent"
     >
       <Container fluid className="py-1 px-1 px-sm-3 px-sm-3 flex-nowrap">
-
         {breadcrumb}
         <Navbar.Toggle className="align-self-start">
           <FaBars />
@@ -119,10 +115,12 @@ function UserDocErrorChecker() {
 
 // --- PÄÄLAYOUT KOMPONENTTI ---
 
-export default function Root() {
+export function Root() {
   const { t } = useTranslation();
   // Tämä on tilapäinen 'tyhjä' breadcrumb Root-Layoutille.
-  const emptyBreadcrumb = <h6 className="mb-0 text-white">{t('Select project')}</h6>;
+  const emptyBreadcrumb = (
+    <h6 className="mb-0 text-white">{t('Select project')}</h6>
+  );
 
   return (
     <>
@@ -131,14 +129,32 @@ export default function Root() {
         <NotificationController />
         <MyNavbar breadcrumb={emptyBreadcrumb} />
         <Container fluid className="py-4">
-            <UserDocErrorChecker />
-            <TimezoneChecker />
-            <Outlet />
-            <Footer />
+          <UserDocErrorChecker />
+          <TimezoneChecker />
+          <Outlet />
+          <Footer />
         </Container>
 
         <CookieConsent />
       </main>
     </>
+  );
+}
+
+export default function App() {
+  return <Outlet />;
+}
+
+export function Layout({ children }) {
+  return (
+    <html lang="fi">
+      <head></head>
+      <body>
+        Topi2
+        {children}
+        <ScrollRestoration />
+        <Scripts />
+      </body>
+    </html>
   );
 }

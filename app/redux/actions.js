@@ -1,5 +1,3 @@
-import pkg from '@reduxjs/toolkit';
-
-const { createAction } = pkg;
+import { createAction } from '@reduxjs/toolkit';
 
 export const reset = createAction('reset');

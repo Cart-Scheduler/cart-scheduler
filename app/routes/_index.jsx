@@ -1,16 +1,12 @@
-// src/routes/_index.js
-
-// KORJATTU: 'react-router' korvattu 'react-router'
-import { Navigate } from 'react-router';
+//import { Navigate } from 'react-router';
 import Card from 'react-bootstrap/Card';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
+import { Col } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { FaSpinner } from 'react-icons/fa';
 
-import { useMyProjectMembers } from '../services/db';
-// TÄRKEÄÄ: LayoutContainerin käyttö (käsitellään kohdassa 2)
-// import { LayoutContainer } from '../layouts/Default';
+//import { useMyProjectMembers } from '../services/db';
+
 import Breadcrumb from '../layouts/Breadcrumb';
 import Welcome from '../components/Welcome';
 
@@ -18,7 +14,7 @@ function MyBreadcrumb() {
   const { t } = useTranslation();
   return <Breadcrumb title={t('Home')}></Breadcrumb>;
 }
-
+/*
 function WorkInProgress() {
   return (
     <div className="d-flex justify-content-center align-items-center p-4 h-100">
@@ -48,29 +44,28 @@ function Redirect() {
   }
   const projectIds = Object.keys(docs);
   if (projectIds.length === 1) {
-    // KORJATTU: Navigate käyttää myös 'react-router' -pakettia
     return <Navigate to={`/projects/${projectIds[0]}`} />;
   }
-  // KORJATTU: Navigate käyttää myös 'react-router' -pakettia
   return <Navigate to="/projects" />;
-}
+}*/
 
-// Tämä on Framework Moden etusivun komponentti
 export default function Home() {
+
   return (
-    // HUOM: LayoutContainer poistetaan TÄSTÄ, koska Layout hoidetaan root.jsx:ssä!
-    <>
-      <MyBreadcrumb /> {/* Jätä Breadcrumb tänne, jos se on reittispesifi */}
+     <><><div>
+
+    </div><div><Container>Topi</Container></div></><About />
+    <MyBreadcrumb />
       <Welcome />
       <Row>
         <Col>
           <Card className="mb-4" style={{ minHeight: '20em' }}>
             <Card.Body>
-              <Redirect />
+              <h1>TestiTeppoSeppo</h1>
+
             </Card.Body>
           </Card>
         </Col>
-      </Row>
-    </>
+      </Row></>
   );
 }

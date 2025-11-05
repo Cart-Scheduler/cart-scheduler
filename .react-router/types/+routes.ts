@@ -21,8 +21,13 @@ type RouteFiles = {
     id: "root";
     page: "/";
   };
+  "./routes/_index.jsx": {
+    id: "routes/_index";
+    page: "/";
+  };
 };
 
 type RouteModules = {
   "root": typeof import("./app/root.jsx");
+  "routes/_index": typeof import("./app/./routes/_index.jsx");
 };

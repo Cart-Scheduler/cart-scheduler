@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import Button from 'react-bootstrap/Button';
+import { Row } from 'react-bootstrap';
 import isSameDay from 'date-fns/isSameDay';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 

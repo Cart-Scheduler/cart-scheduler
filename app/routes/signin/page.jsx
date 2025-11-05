@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Navigate, useLocation } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
-import Alert from 'react-bootstrap/Alert';
+import { Alert} from 'react-bootstrap';
 
 import Spinner from '../../components/Spinner';
 import { DEFAULT_PATH } from '../../routes';
