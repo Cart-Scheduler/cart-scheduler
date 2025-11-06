@@ -84,6 +84,7 @@ const LocationMenuToggle = forwardRef(({ children, onClick }, ref) => (
     {children}
   </button>
 ));
+LocationMenuToggle.displayName = 'LocationMenuToggle';
 
 // Extends given date range by given days, both backward and forward.
 function extendRange(range, days) {

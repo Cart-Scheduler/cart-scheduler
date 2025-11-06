@@ -130,7 +130,7 @@ export default function Project() {
   return (
     <ProjectContext.Provider value={projectCtx}>
       <>
-      <MyBreadcrumb project={project} />
+        <MyBreadcrumb project={project} />
         <Row>
           <Col className="px-0 px-lg-3">
             <Card className="mb-4">

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Outlet, Scripts, ScrollRestoration } from 'react-router';
+import { Link, Outlet, Meta, Links, Scripts } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { Container } from 'react-bootstrap';
 import { Nav } from 'react-bootstrap';
@@ -113,34 +113,37 @@ function UserDocErrorChecker() {
   return null;
 }
 
-// --- PÄÄLAYOUT KOMPONENTTI ---
-
-export function Root() {
+export default function Root() {
   const { t } = useTranslation();
-  // Tämä on tilapäinen 'tyhjä' breadcrumb Root-Layoutille.
   const emptyBreadcrumb = (
     <h6 className="mb-0 text-white">{t('Select project')}</h6>
   );
 
   return (
-    <>
-      <div className="min-height-300 bg-primary position-absolute w-100" />
-      <main className="main-content position-relative border-radius-lg max-height-vh-100 h-100">
-        <NotificationController />
-        <MyNavbar breadcrumb={emptyBreadcrumb} />
-        <Container fluid className="py-4">
-          <UserDocErrorChecker />
-          <TimezoneChecker />
-          <Outlet />
-          <Footer />
-        </Container>
-
-        <CookieConsent />
-      </main>
-    </>
+    <html lang="fi">
+      <head>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <div className="min-height-300 bg-primary position-absolute w-100" />
+        <main className="main-content position-relative border-radius-lg max-height-vh-100 h-100">
+          <NotificationController />
+          <MyNavbar breadcrumb={emptyBreadcrumb} />
+          <Container fluid className="py-4">
+            <UserDocErrorChecker />
+            <TimezoneChecker />
+            <Outlet />
+            <Footer />
+          </Container>
+          <CookieConsent />
+        </main>
+        <Scripts />
+      </body>
+    </html>
   );
 }
-
+/*
 export default function App() {
   return <Outlet />;
 }
@@ -157,4 +160,4 @@ export function Layout({ children }) {
       </body>
     </html>
   );
-}
+}*/

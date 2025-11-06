@@ -21,8 +21,8 @@ function PrivacyPolicyContent() {
       <h3 className="mb-3">Tietosuojakäytäntö</h3>
       <div className="p-2">
         <p className="p-1 mb-4">
-          Tervetuloa {import.meta.env.VITE_APP_TITLE} -sivustolle. Me kunnioitamme
-          yksityisyyttäsi ja pyrimme suojelemaan henkilötietojasi. <br></br>{' '}
+          Tervetuloa {import.meta.env.VITE_APP_TITLE} -sivustolle. Me
+          kunnioitamme yksityisyyttäsi ja pyrimme suojelemaan henkilötietojasi.{' '}
           Tässä tietosuojakäytännössä kerromme, miten keräämme, käytämme ja
           suojaamme henkilötietojasi Euroopan Unionin <br></br> yleisen
           tietosuoja-asetuksen (GDPR) mukaisesti.
@@ -100,8 +100,8 @@ function PrivacyPolicyContent() {
 
 export default function PrivacyPolicy() {
   return (
-  <>
-    <MyBreadcrumb />
+    <>
+      <MyBreadcrumb />
       <Row>
         <Col>
           <Card className="mb-4" style={{ minHeight: '20em' }}>

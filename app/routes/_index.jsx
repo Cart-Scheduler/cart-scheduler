@@ -2,6 +2,7 @@
 import Card from 'react-bootstrap/Card';
 import { Col } from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { FaSpinner } from 'react-icons/fa';
 
@@ -50,22 +51,25 @@ function Redirect() {
 }*/
 
 export default function Home() {
-
   return (
-     <><><div>
-
-    </div><div><Container>Topi</Container></div></><About />
-    <MyBreadcrumb />
+    <>
+      <>
+        <div></div>
+        <div>
+          <Container>Topi</Container>
+        </div>
+      </>
+      <MyBreadcrumb />
       <Welcome />
       <Row>
         <Col>
           <Card className="mb-4" style={{ minHeight: '20em' }}>
             <Card.Body>
               <h1>TestiTeppoSeppo</h1>
-
             </Card.Body>
           </Card>
         </Col>
-      </Row></>
+      </Row>
+    </>
   );
 }

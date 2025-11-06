@@ -1,4 +1,4 @@
-export default{
-  ssr:false,
+export default {
+  ssr: false,
   appDirectory: 'app',
 };

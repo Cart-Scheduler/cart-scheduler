@@ -51,7 +51,6 @@ export default function Projects() {
       <DbError error={error} />
 
       {hasLoaded && Object.keys(docs ?? {}).length === 0 ? (
-
         <NoProjects />
       ) : (
         <Row className="mh-14">

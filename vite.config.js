@@ -4,8 +4,8 @@ import { reactRouter } from '@react-router/dev/vite';
 
 export default defineConfig({
   plugins: [
-   // react(),
-    reactRouter()
+    // react(),
+    reactRouter(),
     /* routesDirectory: 'app',
 
       routeConfig: 'app/routes.js',

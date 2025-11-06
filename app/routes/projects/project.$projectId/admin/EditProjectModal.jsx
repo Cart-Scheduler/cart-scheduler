@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Alert } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
-import { Modal } from 'react-bootstrap';;
+import { Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 import { updateProject } from '../../../../../services/db';

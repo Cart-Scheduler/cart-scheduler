@@ -46,6 +46,7 @@ const MemberMenuToggle = forwardRef(({ children, onClick }, ref) => (
     {children}
   </button>
 ));
+MemberMenuToggle.displayName = 'MemberMenuToggle';
 
 function MemberMenu({ projectId, personId, member, onDetails }) {
   const { t } = useTranslation();
@@ -194,18 +195,18 @@ export default function ProjectMembers() {
   const { projectId } = useParams();
   const { data: project } = useProject(projectId);
   return (
-  <>
+    <>
       <MyBreadcrumb projectId={projectId} project={project} />
       <Row>
         <Col>
           <Card className="mb-4">
             <Card.Header className="pb-0">
-                <h6 className="mb-0">{t('Members')}</h6>
+              <h6 className="mb-0">{t('Members')}</h6>
             </Card.Header>
             <Card.Body>
-                <JoinRequestManager projectId={projectId} />
-                <Invite projectId={projectId} />
-                <MemberList projectId={projectId} />
+              <JoinRequestManager projectId={projectId} />
+              <Invite projectId={projectId} />
+              <MemberList projectId={projectId} />
             </Card.Body>
           </Card>
         </Col>
