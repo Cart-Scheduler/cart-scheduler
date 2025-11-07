@@ -3,7 +3,7 @@ import { Link, Outlet } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { Container } from 'react-bootstrap';
 import { Nav } from 'react-bootstrap';
-import {Navbar}from 'react-bootstrap';
+import { Navbar } from 'react-bootstrap';
 import { Offcanvas } from 'react-bootstrap';
 import {
   FaBars,
@@ -115,20 +115,18 @@ function UserDocErrorChecker() {
 }
 
 export function LayoutContainer({ fluid, breadcrumb, children, isRootLayout }) {
-
-    const content = isRootLayout ? <Outlet /> : children;
-
-    return (
-        <>
-            <MyNavbar breadcrumb={breadcrumb} />
-            <Container fluid={fluid} className="py-4">
-                <UserDocErrorChecker />
-                <TimezoneChecker />
-                {content}
-                <Footer />
-            </Container>
-        </>
-    );
+  const content = isRootLayout ? <Outlet /> : children;
+  return (
+    <>
+      <MyNavbar breadcrumb={breadcrumb} />
+      <Container fluid={fluid} className="py-4">
+        <UserDocErrorChecker />
+        <TimezoneChecker />
+        {content}
+        <Footer />
+      </Container>
+    </>
+  );
 }
 
 export default function DefaultLayout() {

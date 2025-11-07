@@ -5,6 +5,7 @@ import { Button } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import { Col } from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import { useTranslation } from 'react-i18next';
 import { FaExclamationCircle } from 'react-icons/fa';
@@ -13,7 +14,11 @@ import Breadcrumb from '../../../layouts/Breadcrumb';
 
 import MySpinner from '../../../components/Spinner';
 import { createJoinRq } from '../../../services/functions';
-import { usePerson, useProject, useMyProjectMembers } from '../../../services/db';
+import {
+  usePerson,
+  useProject,
+  useMyProjectMembers,
+} from '../../../services/db';
 
 function MyBreadcrumb() {
   const { t } = useTranslation();
@@ -94,7 +99,7 @@ export default function JoinProject() {
       </Container>
     );
   }
-if (isLoading || person === undefined) {
+  if (isLoading || person === undefined) {
     return (
       <Row className="text-center">
         <Col sm={11} md={10} lg={9} className="mx-auto">
@@ -117,7 +122,6 @@ if (isLoading || person === undefined) {
         <Col sm={11} md={10} lg={9} className="mx-auto">
           <Card className="mb-6">
             <Card.Body className="d-flex justify-content-center align-items-center h-100 mh-10">
-
               <div className="text-center w-100">
                 <h5 className="mt-3 mb-4">{project?.name}</h5>
                 {error && (
@@ -149,7 +153,9 @@ if (isLoading || person === undefined) {
                             role="status"
                             aria-hidden="true"
                           />
-                          <span className="visually-hidden">{t('Loading...')}</span>
+                          <span className="visually-hidden">
+                            {t('Loading...')}
+                          </span>
                         </>
                       ) : (
                         t('Send Request')
@@ -157,9 +163,8 @@ if (isLoading || person === undefined) {
                     </Button>
                   </div>
                 )}
-
               </div>
-              </Card.Body>
+            </Card.Body>
           </Card>
         </Col>
       </Row>

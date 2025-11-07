@@ -1,7 +1,15 @@
 import React from 'react';
-import { Link, Outlet, Meta, Links, Scripts } from 'react-router';
+import {
+  Link,
+  Outlet,
+  Meta,
+  Links,
+  Scripts,
+  ScrollRestoration,
+} from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { Container } from 'react-bootstrap';
+/*
 import { Nav } from 'react-bootstrap';
 import { Navbar } from 'react-bootstrap'; //Navbar from 'react-bootstrap/Navbar';
 import { Offcanvas } from 'react-bootstrap';
@@ -23,8 +31,8 @@ import Footer from './layouts/Footer.jsx';
 
 import NotificationController from './components/notifications/Controller.jsx';
 import TimezoneChecker from './components/TimezoneChecker.jsx';
-import CookieConsent from './components/CookieConsent.jsx';
-
+import CookieConsent from './components/CookieConsent.jsx';*/
+/*
 function Version() {
   if (!import.meta.env.VITE_APP_VERSION) {
     return null;
@@ -111,9 +119,36 @@ function UserDocErrorChecker() {
     );
   }
   return null;
-}
+}*/
+export function Layout({ children }) {
+  const { t } = useTranslation();
+  const emptyBreadcrumb = (
+    <h6 className="mb-0 text-white">{t('Select project')}</h6>
+  );
 
-export default function Root() {
+  return (
+    <html lang="fi">
+      <head>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <div className="min-height-300 bg-primary position-absolute w-100" />
+        <main className="main-content position-relative border-radius-lg max-height-vh-100 h-100">
+          <Container fluid className="py-4">
+            {children}
+          </Container>
+        </main>
+        <Scripts />
+      </body>
+    </html>
+  );
+}
+export default function App() {
+  return <Outlet />;
+}
+/*
+export function Layout({ children }) {
   const { t } = useTranslation();
   const emptyBreadcrumb = (
     <h6 className="mb-0 text-white">{t('Select project')}</h6>
@@ -143,6 +178,7 @@ export default function Root() {
     </html>
   );
 }
+*/
 /*
 export default function App() {
   return <Outlet />;

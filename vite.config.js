@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+//import react from '@vitejs/plugin-react';
 import { reactRouter } from '@react-router/dev/vite';
 
 export default defineConfig({
@@ -12,8 +12,8 @@ export default defineConfig({
       ssr: false,*/
     //}),
   ],
-  build: {
+  /*build: {
     outDir: 'build',
   },
-  envPrefix: 'VITE_',
+  envPrefix: 'VITE_',*/
 });

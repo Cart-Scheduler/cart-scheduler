@@ -50,7 +50,9 @@ function Redirect() {
   return <Navigate to="/projects" />;
 }*/
 
-export default function Home() {
+export function Home() {
+  return <div>Moi</div>;
+
   return (
     <>
       <>
