@@ -3,7 +3,6 @@ import globals from 'globals';
 import pluginReact from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 import prettier from 'eslint-plugin-prettier/recommended';
-import importPlugin from 'eslint-plugin-import';
 import { defineConfig } from 'eslint/config';
 
 const SRC_FILES = ['**/*.{js,mjs,cjs,jsx}'];
