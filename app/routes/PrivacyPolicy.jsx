@@ -70,7 +70,7 @@ function PrivacyPolicyContent() {
         <p className="p-1 fw-bold mb-0">Turvallisuus</p>
         <p className="p-1 mb-3">
           Henkilötietojesi turvallisuus on meille tärkeää. Käytämme alan
-          standardien mukaisia ​​turvallisuusmenetelmiä tietojen suojaamiseksi.
+          standardien mukaisia turvallisuusmenetelmiä tietojen suojaamiseksi.
           Huomaathan kuitenkin, että mikään menetelmä ei ole 100% turvallinen.
         </p>
         <p className="p-1 fw-bold mb-0">Lasten yksityisyys</p>

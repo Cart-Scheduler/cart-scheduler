@@ -1,4 +1,4 @@
-import React from 'react';
+//import React from 'react';
 import {
   Link,
   Outlet,
@@ -9,6 +9,7 @@ import {
 } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { Container } from 'react-bootstrap';
+
 /*
 import { Nav } from 'react-bootstrap';
 import { Navbar } from 'react-bootstrap'; //Navbar from 'react-bootstrap/Navbar';
@@ -121,7 +122,8 @@ function UserDocErrorChecker() {
   return null;
 }*/
 export function Layout({ children }) {
-  const { t } = useTranslation();
+  //const { t } = useTranslation();
+  const t = () => {};
   const emptyBreadcrumb = (
     <h6 className="mb-0 text-white">{t('Select project')}</h6>
   );
@@ -129,6 +131,8 @@ export function Layout({ children }) {
   return (
     <html lang="fi">
       <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
       </head>
@@ -197,3 +201,7 @@ export function Layout({ children }) {
     </html>
   );
 }*/
+
+export function ErrorBoundary({ error }) {
+  return <div>VIRHE VIRHE</div>;
+}

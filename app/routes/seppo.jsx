@@ -11,6 +11,13 @@ import { FaSpinner } from 'react-icons/fa';
 import Breadcrumb from '../layouts/Breadcrumb';
 import Welcome from '../components/Welcome';
 
+export function meta() {
+  return [
+    { title: "Testisovellus - Etusivu" },
+    { name: "description", content: "Etusivu" },
+  ];
+}
+
 function MyBreadcrumb() {
   const { t } = useTranslation();
   return <Breadcrumb title={t('Home')}></Breadcrumb>;
@@ -50,9 +57,9 @@ function Redirect() {
   return <Navigate to="/projects" />;
 }*/
 
-export function Home() {
+export default function Home() {
   return <div>Moi</div>;
-
+  /*
   return (
     <>
       <>
@@ -74,4 +81,5 @@ export function Home() {
       </Row>
     </>
   );
+  */
 }
