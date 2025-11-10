@@ -193,6 +193,7 @@ function MemberList({ projectId }) {
 
 export default function ProjectMembers() {
   const { projectId } = useParams();
+  const { t } = useTranslation();
   const { data: project } = useProject(projectId);
   return (
     <>
