@@ -1,5 +1,5 @@
-import { appleSignIn } from '../../../services/auth';
-import AppleSignInButton from '../../../components/AppleSignInButton';
+import { appleSignIn } from '../../services/auth';
+import AppleSignInButton from '../../components/AppleSignInButton';
 
 // https://developer.apple.com/design/human-interface-guidelines/sign-in-with-apple#sign-in-with-apple-buttons
 export default function AppleSignIn({ className }) {

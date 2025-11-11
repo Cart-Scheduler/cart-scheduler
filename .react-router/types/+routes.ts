@@ -14,20 +14,41 @@ type Pages = {
   "/": {
     params: {};
   };
+  "/signin": {
+    params: {};
+  };
+  "/signin/link": {
+    params: {};
+  };
 };
 
 type RouteFiles = {
   "root.jsx": {
     id: "root";
-    page: "/";
+    page: "/" | "/signin" | "/signin/link";
   };
-  "routes/seppo.jsx": {
+  "./layouts/SignIn.jsx": {
+    id: "layouts/SignIn";
+    page: "/" | "/signin" | "/signin/link";
+  };
+  "./routes/seppo.jsx": {
     id: "routes/seppo";
     page: "/";
+  };
+  "./routes/signin/page.jsx": {
+    id: "routes/signin/page";
+    page: "/signin";
+  };
+  "./routes/signin/Link.jsx": {
+    id: "routes/signin/Link";
+    page: "/signin/link";
   };
 };
 
 type RouteModules = {
   "root": typeof import("./app/root.jsx");
-  "routes/seppo": typeof import("./app/routes/seppo.jsx");
+  "layouts/SignIn": typeof import("./app/./layouts/SignIn.jsx");
+  "routes/seppo": typeof import("./app/./routes/seppo.jsx");
+  "routes/signin/page": typeof import("./app/./routes/signin/page.jsx");
+  "routes/signin/Link": typeof import("./app/./routes/signin/Link.jsx");
 };
