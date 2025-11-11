@@ -1,5 +1,4 @@
-import pkg from '@reduxjs/toolkit';
-const { configureStore } = pkg;
+import { configureStore } from '@reduxjs/toolkit';
 
 import authReducer from './slices/auth';
 import dbReducer from './slices/db';
