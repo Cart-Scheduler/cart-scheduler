@@ -23,8 +23,8 @@ let auth;
 
 export function initAuth() {
   auth = getAuth();
-  if (process.env.REACT_APP_LANGUAGE) {
-    auth.languageCode = process.env.REACT_APP_LANGUAGE;
+  if (import.meta.env.VITE_LANGUAGE) {
+    auth.languageCode = import.meta.env.VITE_LANGUAGE;
   }
 }
 
@@ -74,9 +74,9 @@ export function appleSignIn() {
   provider.addScope('email');
   provider.addScope('name');
 
-  if (process.env.REACT_APP_LANGUAGE) {
+  if (import.meta.env.VITE_LANGUAGE) {
     provider.setCustomParameters({
-      locale: process.env.REACT_APP_LANGUAGE,
+      locale: import.meta.env.VITE_LANGUAGE,
     });
   }
 
@@ -108,7 +108,7 @@ const shouldUsePopup = () => {
   if (param !== null) {
     return param === '1';
   }
-  return process.env.NODE_ENV === 'development';
+  return import.meta.env.DEV === true;
 };
 
 export async function googleSignIn() {
@@ -119,12 +119,14 @@ export async function googleSignIn() {
   provider.addScope('profile');
 
   if (shouldUsePopup()) {
+    console.debug('popup');
     try {
       await signInWithPopup(auth, provider);
     } catch (err) {
       console.error(err);
     }
   } else {
+    console.debug('redirect');
     signInWithRedirect(auth, provider);
   }
 }
@@ -136,7 +138,7 @@ export const QUERY_PARAM_NEXT = '_csNext';
 
 // Returns URL that is used in email link authentication as continue URL.
 const getEmailLinkUrl = (next) => {
-  const server = process.env.REACT_APP_EMAIL_LINK_AUTH_URL ?? 'undefined';
+  const server = import.meta.env.VITE_EMAIL_LINK_AUTH_URL ?? 'undefined';
   let url = `${server}/signin/link`;
   if (next) {
     const params = new URLSearchParams();

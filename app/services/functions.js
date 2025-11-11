@@ -6,7 +6,7 @@ let functions;
 export function initFunctions() {
   // When cloud functions are not deployed to 'us-default1', the region must be
   // defined in the env var!
-  const region = process.env.REACT_APP_FIREBASE_FUNCTIONS_REGION;
+  const region = import.meta.env.VITE_FIREBASE_FUNCTIONS_REGION;
   functions = getFunctions(getApp(), region);
 }
 
