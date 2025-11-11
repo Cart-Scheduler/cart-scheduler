@@ -13,8 +13,8 @@ import Welcome from '../components/Welcome';
 
 export function meta() {
   return [
-    { title: "Testisovellus - Etusivu" },
-    { name: "description", content: "Etusivu" },
+    { title: 'Testisovellus - Etusivu' },
+    { name: 'description", content: "Etusivu' },
   ];
 }
 
@@ -58,7 +58,21 @@ function Redirect() {
 }*/
 
 export default function Home() {
-  return <div>Moi</div>;
+  return (
+    <>
+      <div>Moi</div>
+      <Welcome />
+      <Row>
+        <Col>
+          <Card className="mb-4" style={{ minHeight: '20em' }}>
+            <Card.Body>
+              <h1>TestiTeppoSeppo</h1>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </>
+  );
   /*
   return (
     <>

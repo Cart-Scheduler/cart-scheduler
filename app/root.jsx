@@ -9,6 +9,28 @@ import {
 } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { Container } from 'react-bootstrap';
+import { Provider } from 'react-redux';
+import store from './redux/store';
+import { initAuth } from './services/auth';
+import { initLocales } from './i18next';
+import { initFirebase } from './services/firebase';
+import { initDb } from './services/db';
+import { initFunctions } from './services/functions';
+import { initMessaging } from './services/messaging';
+import { InitApp } from './services/init';
+
+import './assets/scss/index.scss';
+import MainListener from './components/MainListener';
+
+/*
+initLocales();
+initFirebase();
+
+initAuth();
+initDb();
+initFunctions();
+initMessaging();
+*/
 
 /*
 import { Nav } from 'react-bootstrap';
@@ -139,9 +161,15 @@ export function Layout({ children }) {
       <body>
         <div className="min-height-300 bg-primary position-absolute w-100" />
         <main className="main-content position-relative border-radius-lg max-height-vh-100 h-100">
-          <Container fluid className="py-4">
-            {children}
-          </Container>
+          <InitApp>
+            <Provider store={store}>
+              <MainListener>
+                <Container fluid className="py-4">
+                  {children}
+                </Container>
+              </MainListener>
+            </Provider>
+          </InitApp>
         </main>
         <Scripts />
       </body>
