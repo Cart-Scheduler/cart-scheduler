@@ -1,10 +1,10 @@
-import { Alert} from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 import { FaExclamationCircle } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
 function TimezoneChecker() {
   const { t } = useTranslation();
-  const defaultTimezone = process.env.REACT_APP_DEFAULT_TIMEZONE;
+  const defaultTimezone = import.meta.env.VITE_APP_DEFAULT_TIMEZONE;
   if (
     !defaultTimezone ||
     !Intl ||
