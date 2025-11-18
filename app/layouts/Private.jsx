@@ -12,6 +12,7 @@ export default function PrivateLayout() {
   useEffect(() => {
     if (!loading && !user) {
       localStorage.setItem('redirectAfterLogin', window.location.pathname);
+      console.log('PRIVATE LAYOUT: Tallensi polun:', window.location.pathname);
     }
   }, [user, loading]);
 

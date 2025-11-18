@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Navigate, useLocation } from 'react-router';
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import { Alert } from 'react-bootstrap';
@@ -49,18 +49,33 @@ function SignInPasswordButton({ className, onClick }) {
     </MethodButton>
   );
 }
-
 export default function Login() {
   const [method, setMethod] = useState();
   const location = useLocation();
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   useCheckRedirectResult();
 
-  // check if we have next path after a successful authentication
-  const next = new URLSearchParams(location.search).get('next');
+  const storedRedirect = localStorage.getItem('redirectAfterLogin');
+
+  const urlNext = new URLSearchParams(location.search).get('next');
+
+  const redirectPath = storedRedirect || urlNext || DEFAULT_PATH;
+  console.log('LOGIN.JSX: Stored Redirect:', storedRedirect);
+  console.log('LOGIN.JSX: URL Next:', urlNext);
+  console.log('LOGIN.JSX: Päätetty kohde:', redirectPath);
 
   const { error, initializing, user } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      localStorage.removeItem('redirectAfterLogin');
+
+      navigate(redirectPath, { replace: true });
+    }
+  }, [user, navigate, redirectPath]);
+
   if (initializing) {
     return (
       <div className="text-center pt-2 pb-2">
@@ -70,19 +85,16 @@ export default function Login() {
   }
 
   if (user) {
-    // user is already logged in
-    return <Navigate to={next ? next : DEFAULT_PATH} />;
+    return null;
   }
 
   if (method === 'link') {
-    return <SendLink next={next} onCancel={() => setMethod()} />;
+    return <SendLink next={urlNext} onCancel={() => setMethod()} />;
   }
 
   if (method === 'password') {
-    return <PasswordSignIn next={next} onCancel={() => setMethod()} />;
+    return <PasswordSignIn next={urlNext} onCancel={() => setMethod()} />;
   }
-
-  // render main menu
   return (
     <div>
       {error && (
@@ -97,6 +109,7 @@ export default function Login() {
         className="mb-3"
         onClick={() => setMethod('password')}
       />
+      <TermsOfUse />
     </div>
   );
 }
