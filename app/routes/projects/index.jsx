@@ -4,10 +4,10 @@ import { Col } from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
 import { FaTimes } from 'react-icons/fa';
 
-import { useMyProjectMembers } from '../../../services/db';
-import Breadcrumb from '../../../layouts/Breadcrumb';
-import DbError from '../../../components/DbError';
-import Spinner from '../../../components/Spinner';
+import { useMyProjectMembers } from '../../services/db';
+import Breadcrumb from '../../layouts/Breadcrumb';
+import DbError from '../../components/DbError';
+import Spinner from '../../components/Spinner';
 import ProjectCard from './ProjectCard';
 
 function MyBreadcrumb() {

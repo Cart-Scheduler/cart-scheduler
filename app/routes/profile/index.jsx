@@ -7,14 +7,14 @@ import { Col } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { Row } from 'react-bootstrap';
 
-import Spinner from '../../../components/Spinner';
-import Breadcrumb from '../../../layouts/Breadcrumb';
+import Spinner from '../../components/Spinner';
+import Breadcrumb from '../../layouts/Breadcrumb';
 import {
   useAuth,
   usePerson,
   usePersonId,
   updatePersonDoc,
-} from '../../../services/db';
+} from '../../services/db';
 
 const cleanName = (name) => (name ?? '').trim();
 
