@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Alert } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
-import { Modal } from 'react-bootstrap';;
+import { Modal } from 'react-bootstrap';
 import CreatableSelect from 'react-select/creatable';
 import { useTranslation } from 'react-i18next';
 import { FaCheck } from 'react-icons/fa';
@@ -11,19 +11,19 @@ import {
   createMembersArray,
   genRandomString,
   nameSorter,
-} from '../../../../services/string';
+} from '../../../services/string';
 import { useMemo } from 'react';
 
-import Time from '../../../../components/Time';
-import { WEEKDAYS } from '../../../../services/date';
+import Time from '../../../components/Time';
+import { WEEKDAYS } from '../../../services/date';
 import {
   createSlotRequest,
   deleteSlotRequest,
   updateSlotRequest,
   usePerson,
   usePersonId,
-} from '../../../../services/db';
-import { HAPPY_SLOT_PERSON_COUNT } from '../../../../components/SlotCalendar/constants';
+} from '../../../services/db';
+import { HAPPY_SLOT_PERSON_COUNT } from '../../../components/SlotCalendar/constants';
 
 const MAX_PARTNERS = 3;
 

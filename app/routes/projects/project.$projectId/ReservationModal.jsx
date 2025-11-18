@@ -1,9 +1,9 @@
-import { Modal } from 'react-bootstrap';;
+import { Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 import AssignmentEditor from './AssignmentEditor';
-import Time from '../../../../components/Time';
-import { WEEKDAYS } from '../../../../services/date';
+import Time from '../../../components/Time';
+import { WEEKDAYS } from '../../../services/date';
 
 function Title({ locationName, slot }) {
   const { t } = useTranslation();

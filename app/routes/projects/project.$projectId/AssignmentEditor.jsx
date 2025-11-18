@@ -4,12 +4,12 @@ import CreatableSelect from 'react-select/creatable';
 import { Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 
-import { updateSlotPersons, usePersonId } from '../../../../services/db';
+import { updateSlotPersons, usePersonId } from '../../../services/db';
 import {
   createMembersArray,
   genRandomString,
   nameSorter,
-} from '../../../../services/string';
+} from '../../../services/string';
 
 // Moves the option with given person id to be the first option.
 const movePersonFirst = (options, personId) => {

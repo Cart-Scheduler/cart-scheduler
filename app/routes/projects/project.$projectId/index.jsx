@@ -9,20 +9,20 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import ReactMarkdown from 'react-markdown';
 
-import Breadcrumb from '../../../../layouts/Breadcrumb';
-import { addDays, getPrevMonday } from '../../../../services/date';
+import Breadcrumb from '../../../layouts/Breadcrumb';
+import { addDays, getPrevMonday } from '../../../services/date';
 import {
   usePersonId,
   useProject,
   useProjectMembers,
   useSlots,
   useSlotRequests,
-} from '../../../../services/db';
-import SlotCalendar from '../../../../components/SlotCalendar';
+} from '../../../services/db';
+import SlotCalendar from '../../../components/SlotCalendar';
 import AssignmentList from './AssignmentList';
 import ReservationModal from './ReservationModal';
 import SlotRequestModal from './SlotRequestModal';
-import { ProjectContext } from '../../../../components/ProjectContext';
+import { ProjectContext } from '../../../components/ProjectContext';
 
 const DEFAULT_SHOW_DAYS = 7;
 

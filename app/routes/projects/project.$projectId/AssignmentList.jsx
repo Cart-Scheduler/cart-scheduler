@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next';
 
-import { useMySlots, useProject } from '../../../../services/db';
-import { filterObj } from '../../../../services/object';
-import Time from '../../../../components/Time';
-import { WEEKDAYS } from '../../../../services/date';
+import { useMySlots, useProject } from '../../../services/db';
+import { filterObj } from '../../../services/object';
+import Time from '../../../components/Time';
+import { WEEKDAYS } from '../../../services/date';
 
 function Assignment({ slot, project }) {
   const { t } = useTranslation();
