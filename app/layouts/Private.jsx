@@ -6,6 +6,7 @@ import Footer from './Footer';
 import TimezoneChecker from '../components/TimezoneChecker';
 import { useEffect } from 'react';
 
+//REMEMBER TO CHECK THIS!!!
 export default function PrivateLayout() {
   const { user, loading } = useAuth();
 
