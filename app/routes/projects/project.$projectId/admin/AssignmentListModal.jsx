@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Button } from 'react-bootstrap';
-import { Modal } from 'react-bootstrap';;
+import { Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { FaCheck, FaRegCopy } from 'react-icons/fa';
 
-import Time from '../../../../../components/Time';
-import { WEEKDAYS, formatTime } from '../../../../../services/date';
-import { filterSlotsByRange } from '../../../../../services/slot';
-import { filterObj } from '../../../../../services/object';
+import Time from '../../../../components/Time';
+import { WEEKDAYS, formatTime } from '../../../../services/date';
+import { filterSlotsByRange } from '../../../../services/slot';
+import { filterObj } from '../../../../services/object';
 
 function Slot({ slot }) {
   const starts = new Date(slot.starts);

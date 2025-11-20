@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import { Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
-import { updateProject } from '../../../../../services/db';
+import { updateProject } from '../../../../services/db';
 
 export default function EditProjectModal({ show, onHide, projectId, project }) {
   const [saving, setSaving] = useState(false);

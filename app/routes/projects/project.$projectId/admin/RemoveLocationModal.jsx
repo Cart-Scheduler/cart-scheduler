@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Alert } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
-import { Modal } from 'react-bootstrap';;
+import { Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
-import { deleteProjectLocations } from '../../../../../services/db';
+import { deleteProjectLocations } from '../../../../services/db';
 
 export default function RemoveLocationModal({
   show,

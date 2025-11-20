@@ -7,9 +7,9 @@ import Card from 'react-bootstrap/Card';
 import { Col } from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
 
-import { WEEKDAYS } from '../../../../../services/date';
-import { acceptSlotRequests } from '../../../../../services/functions';
-import Time from '../../../../../components/Time';
+import { WEEKDAYS } from '../../../../services/date';
+import { acceptSlotRequests } from '../../../../services/functions';
+import Time from '../../../../components/Time';
 
 function SlotRequest({ id, projectId }) {
   const { t } = useTranslation();
