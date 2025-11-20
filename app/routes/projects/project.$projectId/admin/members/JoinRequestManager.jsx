@@ -6,7 +6,7 @@ import {
   addPersonToProject,
   deleteJoinRequest,
   useJoinRequests,
-} from '../../../../../../services/db';
+} from '../../../../../services/db';
 
 function JoinRequest({ projectId, id, joinRequest }) {
   const { t } = useTranslation();

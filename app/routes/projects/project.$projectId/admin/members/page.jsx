@@ -7,7 +7,7 @@ import { Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { FaEllipsisV, FaUserAlt } from 'react-icons/fa';
 
-import Breadcrumb from '../../../../../../layouts/Breadcrumb';
+import Breadcrumb from '../../../../../layouts/Breadcrumb';
 import JoinRequestManager from './JoinRequestManager';
 import {
   removePersonsFromProject,
@@ -15,8 +15,8 @@ import {
   usePersonId,
   useProject,
   useProjectMembers,
-} from '../../../../../../services/db';
-import { nameSorter } from '../../../../../../services/string';
+} from '../../../../../services/db';
+import { nameSorter } from '../../../../../services/string';
 import Invite from './Invite';
 import PersonDetailsModal from './PersonDetailsModal';
 import { LayoutContainer } from '../../../../../layouts/Private';

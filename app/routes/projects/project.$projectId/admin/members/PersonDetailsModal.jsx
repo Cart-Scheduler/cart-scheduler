@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
-import { Modal } from 'react-bootstrap';;
+import { Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
-import { queryPerson } from '../../../../../../services/functions';
+import { queryPerson } from '../../../../../services/functions';
 
 function Content({ projectId, personId }) {
   const [person, setPerson] = useState({});
