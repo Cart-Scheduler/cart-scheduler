@@ -28,5 +28,7 @@ export default [
       'projects/:projectId/admin',
       './routes/projects/project.$projectId/admin/page.jsx',
     ),
+    route('privacy-policy', './routes/PrivacyPolicy.jsx'),
+    route('terms-of-use', './routes/TermsOfUse.jsx'),
   ]),
 ];

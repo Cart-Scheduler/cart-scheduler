@@ -3,8 +3,8 @@ import { Col } from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
-import { LayoutContainer } from '../../layouts/Default';
-import Breadcrumb from '../../layouts/Breadcrumb';
+import { LayoutContainer } from '../layouts/Private';
+import Breadcrumb from '../layouts/Breadcrumb';
 import { Link } from 'react-router';
 
 function MyBreadcrumb() {
