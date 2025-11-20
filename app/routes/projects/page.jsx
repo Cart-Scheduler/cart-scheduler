@@ -9,6 +9,7 @@ import Breadcrumb from '../../layouts/Breadcrumb';
 import DbError from '../../components/DbError';
 import Spinner from '../../components/Spinner';
 import ProjectCard from './ProjectCard';
+import { LayoutContainer } from '../../layouts/Private';
 
 function MyBreadcrumb() {
   const { t } = useTranslation();
@@ -47,25 +48,26 @@ export default function Projects() {
   const { docs, error, isLoading, hasLoaded } = useMyProjectMembers();
   return (
     <>
-      <MyBreadcrumb />
-      <DbError error={error} />
+      <LayoutContainer breadcrumb={<MyBreadcrumb />}>
+        <DbError error={error} />
 
-      {hasLoaded && Object.keys(docs ?? {}).length === 0 ? (
-        <NoProjects />
-      ) : (
-        <Row className="mh-14">
-          {isLoading && (
-            <div>
-              <Spinner />
-            </div>
-          )}
-          {Object.keys(docs).map((projectId) => (
-            <Col md={4} key={projectId}>
-              <ProjectCard projectId={projectId} />
-            </Col>
-          ))}
-        </Row>
-      )}
+        {hasLoaded && Object.keys(docs ?? {}).length === 0 ? (
+          <NoProjects />
+        ) : (
+          <Row className="mh-14">
+            {isLoading && (
+              <div>
+                <Spinner />
+              </div>
+            )}
+            {Object.keys(docs).map((projectId) => (
+              <Col md={4} key={projectId}>
+                <ProjectCard projectId={projectId} />
+              </Col>
+            ))}
+          </Row>
+        )}
+      </LayoutContainer>
     </>
   );
 }

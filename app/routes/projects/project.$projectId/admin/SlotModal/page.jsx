@@ -1,9 +1,9 @@
 import { useCallback, useContext, useEffect, useId, useState } from 'react';
-import { Alert} from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 import Badge from 'react-bootstrap/Badge';
 import { Button } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
-import { Modal } from 'react-bootstrap';;
+import { Modal } from 'react-bootstrap';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import { Row } from 'react-bootstrap';
@@ -12,10 +12,10 @@ import { useTranslation } from 'react-i18next';
 import { FaCheck, FaExclamation, FaExclamationTriangle } from 'react-icons/fa';
 
 import AssignmentEditor from '../../AssignmentEditor';
-import { WEEKDAYS, calcSlotDistance } from '../../../../../../services/date';
-import { deleteSlot } from '../../../../../../services/db';
-import { ProjectContext } from '../../../../../../components/ProjectContext';
-import Time from '../../../../../../components/Time';
+import { WEEKDAYS, calcSlotDistance } from '../../../../../services/date';
+import { deleteSlot } from '../../../../../services/db';
+import { ProjectContext } from '../../../../../components/ProjectContext';
+import Time from '../../../../../components/Time';
 
 function Title({ locationName, slot }) {
   const { t } = useTranslation();

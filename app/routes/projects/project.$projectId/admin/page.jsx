@@ -15,8 +15,8 @@ import startOfWeek from 'date-fns/startOfWeek';
 import {
   useRequestIndexes,
   useSlotIndexes,
-} from '../../../../../services/indexing';
-import { getWeekStart } from '../../../../../services/date';
+} from '../../../../services/indexing';
+import { getWeekStart } from '../../../../services/date';
 import {
   useJoinRequests,
   usePersonId,
@@ -24,16 +24,16 @@ import {
   useProjectMembers,
   useSlots,
   useSlotRequestsByProject,
-} from '../../../../../services/db';
+} from '../../../../services/db';
 
-import { ProjectContext } from '../../../../../components/ProjectContext';
-import Breadcrumb from '../../../../../layouts/Breadcrumb';
-import { addDays, getPrevMonday } from '../../../../../services/date';
-import { filterObj } from '../../../../../services/object';
-import { copySlots, pasteSlots } from '../../../../../services/slot';
-import SlotCalendar from '../../../../../components/SlotCalendar';
-import { HAPPY_SLOT_PERSON_COUNT } from '../../../../../components/SlotCalendar/constants';
-import MonthCalendar from './MonthCalendar';
+import { ProjectContext } from '../../../../components/ProjectContext';
+import Breadcrumb from '../../../../layouts/Breadcrumb';
+import { addDays, getPrevMonday } from '../../../../services/date';
+import { filterObj } from '../../../../services/object';
+import { copySlots, pasteSlots } from '../../../../services/slot';
+import SlotCalendar from '../../../../components/SlotCalendar';
+import { HAPPY_SLOT_PERSON_COUNT } from '../../../../components/SlotCalendar/constants';
+import MonthCalendar from './MonthCalendar/page';
 import AssignmentListModal from './AssignmentListModal';
 import CreateLocation from './CreateLocation';
 import CreateSlotModal from './CreateSlotModal';
@@ -41,7 +41,9 @@ import EditLocationModal from './EditLocationModal';
 import EditProjectModal from './EditProjectModal';
 import RemoveLocationModal from './RemoveLocationModal';
 import SelectedSlotRequests from './SelectedSlotRequests';
-import SlotModal from './SlotModal';
+import SlotModal from './SlotModal/page';
+
+import { LayoutContainer } from '../../../../layouts/Private';
 
 const DEFAULT_SHOW_DAYS = 7;
 const LOCATION_ID_ADD = 'add';
@@ -220,8 +222,10 @@ export default function ProjectAdminPage() {
 
   return (
     <ProjectContext.Provider value={projectCtx}>
-      <>
-        <MyBreadcrumb projectId={projectId} project={project} />
+      <LayoutContainer
+        fluid
+        breadcrumb={<MyBreadcrumb projectId={projectId} project={project} />}
+      >
         <Row>
           <Col className="px-0 px-lg-3">
             <Card className="mb-4">
@@ -427,7 +431,7 @@ export default function ProjectAdminPage() {
           ends={ends}
           locationId={selectedLocation}
         />
-      </>
+      </LayoutContainer>
     </ProjectContext.Provider>
   );
 }

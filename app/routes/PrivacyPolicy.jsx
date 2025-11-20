@@ -5,6 +5,8 @@ import { useTranslation } from 'react-i18next';
 
 import Breadcrumb from '../layouts/Breadcrumb';
 
+import { LayoutContainer } from '../layouts/Default';
+
 function MyBreadcrumb() {
   const { t } = useTranslation();
   return (
@@ -100,8 +102,7 @@ function PrivacyPolicyContent() {
 
 export default function PrivacyPolicy() {
   return (
-    <>
-      <MyBreadcrumb />
+    <LayoutContainer breadcrumb={<MyBreadcrumb />}>
       <Row>
         <Col>
           <Card className="mb-4" style={{ minHeight: '20em' }}>
@@ -111,6 +112,6 @@ export default function PrivacyPolicy() {
           </Card>
         </Col>
       </Row>
-    </>
+    </LayoutContainer>
   );
 }

@@ -5,8 +5,8 @@ import { Col } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { Row } from 'react-bootstrap';
 
-import { updateProject } from '../../../../../services/db';
-import { genRandomString } from '../../../../../services/string';
+import { updateProject } from '../../../../services/db';
+import { genRandomString } from '../../../../services/string';
 
 const getNextOrder = (project) => {
   let max = -1;

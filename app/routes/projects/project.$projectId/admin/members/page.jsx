@@ -19,6 +19,7 @@ import {
 import { nameSorter } from '../../../../../../services/string';
 import Invite from './Invite';
 import PersonDetailsModal from './PersonDetailsModal';
+import { LayoutContainer } from '../../../../../layouts/Private';
 
 function MyBreadcrumb({ projectId, project }) {
   const { t } = useTranslation();
@@ -196,8 +197,10 @@ export default function ProjectMembers() {
   const { t } = useTranslation();
   const { data: project } = useProject(projectId);
   return (
-    <>
-      <MyBreadcrumb projectId={projectId} project={project} />
+    <LayoutContainer
+      fluid
+      breadcrumb={<MyBreadcrumb projectId={projectId} project={project} />}
+    >
       <Row>
         <Col>
           <Card className="mb-4">
@@ -212,6 +215,6 @@ export default function ProjectMembers() {
           </Card>
         </Col>
       </Row>
-    </>
+    </LayoutContainer>
   );
 }

@@ -10,7 +10,7 @@ import startOfMonth from 'date-fns/startOfMonth';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { Button } from 'react-bootstrap';
 
-import { MONTHS, getWeekStart } from '../../../../../../services/date';
+import { MONTHS, getWeekStart } from '../../../../../services/date';
 
 import './MonthCalendar.css';
 

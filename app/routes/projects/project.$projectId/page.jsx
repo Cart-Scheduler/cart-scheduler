@@ -24,6 +24,8 @@ import ReservationModal from './ReservationModal';
 import SlotRequestModal from './SlotRequestModal';
 import { ProjectContext } from '../../../components/ProjectContext';
 
+import { LayoutContainer } from '../../../layouts/Private';
+
 const DEFAULT_SHOW_DAYS = 7;
 
 const findSlotRequestId = (slotId, personId, requests) =>
@@ -129,8 +131,7 @@ export default function Project() {
 
   return (
     <ProjectContext.Provider value={projectCtx}>
-      <>
-        <MyBreadcrumb project={project} />
+      <LayoutContainer breadcrumb={<MyBreadcrumb project={project} />}>
         <Row>
           <Col className="px-0 px-lg-3">
             <Card className="mb-4">
@@ -222,7 +223,7 @@ export default function Project() {
           slot={slots?.[selectedSlot]}
           members={membersDoc?.members}
         />
-      </>
+      </LayoutContainer>
     </ProjectContext.Provider>
   );
 }
