@@ -13,16 +13,20 @@ export default [
 
   layout('./layouts/Private.jsx', [
     index('./routes/seppo.jsx'),
-    route('profile', './routes/profile/index.jsx'),
-    route('projects', './routes/projects/index.jsx'),
+    route('profile', './routes/profile/page.jsx'),
+    route('projects', './routes/projects/page.jsx'),
     route(
       'projects/:projectId',
-      './routes/projects/project.$projectId/index.jsx',
+      './routes/projects/project.$projectId/page.jsx',
     ),
     route(
       'projects/:projectId/admin/members',
-      './routes/projects/project.$projectId/admin/members/index.jsx',
+      './routes/projects/project.$projectId/admin/members/page.jsx',
     ),
-    route('join/:projectId', './routes/join.$projectId/index.jsx'),
+    route('join/:projectId', './routes/join.$projectId/page.jsx'),
+    route(
+      'projects/:projectId/admin',
+      './routes/projects/project.$projectId/admin/page.jsx',
+    ),
   ]),
 ];
