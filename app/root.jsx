@@ -1,4 +1,3 @@
-//import React from 'react';
 import {
   Link,
   Outlet,
@@ -11,12 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { Container } from 'react-bootstrap';
 import { Provider } from 'react-redux';
 import store from './redux/store';
-import { initAuth } from './services/auth';
-import { initLocales } from './i18next';
-import { initFirebase } from './services/firebase';
-import { initDb } from './services/db';
-import { initFunctions } from './services/functions';
-import { initMessaging } from './services/messaging';
+
 import { InitApp } from './services/init';
 
 import './assets/scss/index.scss';
@@ -56,67 +50,7 @@ import NotificationController from './components/notifications/Controller.jsx';
 import TimezoneChecker from './components/TimezoneChecker.jsx';
 import CookieConsent from './components/CookieConsent.jsx';*/
 /*
-function Version() {
-  if (!import.meta.env.VITE_APP_VERSION) {
-    return null;
-  }
-  return (
-    <div className="text-xs text-muted mt-5">
-      {import.meta.env.VITE_APP_VERSION}
-    </div>
-  );
-}
 
-function MyOffCanvas({ title }) {
-  const { t } = useTranslation();
-  const iconClass = 'me-2';
-  return (
-    <Navbar.Offcanvas placement="end">
-      <Offcanvas.Header closeButton>
-        <Offcanvas.Title>{title}</Offcanvas.Title>
-      </Offcanvas.Header>
-      <Offcanvas.Body>
-        <Nav className="justify-content-end flex-grow-1 pe-3">
-          <Nav.Link as={Link} to="/">
-            <FaHome className={iconClass} /> {t('Home')}
-          </Nav.Link>
-          <Nav.Link as={Link} to="/profile">
-            <FaUserCircle className={iconClass} /> {t('Profile')}
-          </Nav.Link>
-          <Nav.Link as={Link} to="/projects/new">
-            <FaPlus className={iconClass} /> {t('New project')}
-          </Nav.Link>
-          <Nav.Link as={Link} to="/signout">
-            <FaSignOutAlt className={iconClass} /> {t('Sign out')}
-          </Nav.Link>
-        </Nav>
-        <Version />
-      </Offcanvas.Body>
-    </Navbar.Offcanvas>
-  );
-}
-
-function MyNavbar({ breadcrumb }) {
-  const { user } = useAuth();
-  const { data: person } = usePerson();
-  const title = person?.name ?? user?.email;
-  return (
-    <Navbar
-      expand={false}
-      bg="transparent"
-      variant="dark"
-      className="px-0 mx-2 mx-sm-4 shadow-none navbar-transparent"
-    >
-      <Container fluid className="py-1 px-1 px-sm-3 px-sm-3 flex-nowrap">
-        {breadcrumb}
-        <Navbar.Toggle className="align-self-start">
-          <FaBars />
-        </Navbar.Toggle>
-        <MyOffCanvas title={title} />
-      </Container>
-    </Navbar>
-  );
-}
 
 function UserDocErrorChecker() {
   const { error: userError, uid } = useUserDocError();
@@ -143,6 +77,7 @@ function UserDocErrorChecker() {
   }
   return null;
 }*/
+
 export function Layout({ children }) {
   //const { t } = useTranslation();
   const t = () => {};
