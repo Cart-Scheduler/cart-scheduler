@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 function TimezoneChecker() {
   const { t } = useTranslation();
-  const defaultTimezone = import.meta.env.VITE_APP_DEFAULT_TIMEZONE;
+  const defaultTimezone = import.meta.env.VITE_DEFAULT_TIMEZONE;
   if (
     !defaultTimezone ||
     !Intl ||

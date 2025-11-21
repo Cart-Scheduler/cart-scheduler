@@ -34,7 +34,7 @@ function useGetToken() {
     const run = async () => {
       try {
         const token = await getToken(messaging, {
-          vapidKey: process.env.REACT_APP_FIREBASE_VAPID_KEY,
+          vapidKey: import.meta.env.VITE_FIREBASE_VAPID_KEY,
         });
         if (token) {
           dispatch(setToken(token));

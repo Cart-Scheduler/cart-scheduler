@@ -35,14 +35,14 @@ function TermsOfUseContent() {
           webappiamme. Huomaa, että Firebase-palvelun ehdot voivat muuttua
           tulevaisuudessa, joten sitoudut myös seuraamaan ja noudattamaan näitä
           muutoksia. Nämä ehdot koskevat kaikkia
-          {import.meta.env.VITE_APP_TITLE} {''}käyttäjiä, olivatpa he
+          {import.meta.env.VITE_TITLE} {''}käyttäjiä, olivatpa he
           rekisteröityneitä käyttäjiä tai vierailijoita.{' '}
-          {import.meta.env.VITE_APP_TITLE} on työkalu projektin työvuorojen
+          {import.meta.env.VITE_TITLE} on työkalu projektin työvuorojen
           hallinnointiin. <br></br> <br></br>
-          Jotta voit käyttää {import.meta.env.VITE_APP_TITLE}:tä, sinun on
+          Jotta voit käyttää {import.meta.env.VITE_TITLE}:tä, sinun on
           rekisteröidyttävä. Rekisteröityessäsi sinun on annettava kokonimesi ja
           voimassa oleva sähköpostiosoitteesi. Sinä olet vastuussa kaikista{' '}
-          {import.meta.env.VITE_APP_TITLE} käyttäjätunnuksella ja salasanalla
+          {import.meta.env.VITE_TITLE} käyttäjätunnuksella ja salasanalla
           tehdystä toiminnasta. Pidätämme oikeuden keskeyttää tai lopettaa
           käyttäjätunnuksesi, jos havaitsemme, että olet antanut vääriä tai
           harhaanjohtavia tietoja. Palvelu tarjotaan "sellaisena kuin se on".
@@ -54,14 +54,14 @@ function TermsOfUseContent() {
           kunnioittaen. Noudatamme kaikessa toiminnassamme voimassa olevaa
           tietosuojalainsäädäntöä.{' '}
           <Link to="/privacy-policy">Tietosuojaselosteemme</Link> on saatavilla{' '}
-          {import.meta.env.VITE_APP_TITLE} sivulla ja se kertoo
-          yksityiskohtaisesti, miten käsittelemme ja suojaamme henkilötietojasi.
-          Olet yksin vastuussa kaikesta tähän webappiin lataamastasi sisällöstä
-          ja sen seurauksista. Vakuutat ja takaat, että sinulla on kaikki
-          tarvittavat lisenssit, oikeudet, suostumukset ja luvat sisällön
-          lähettämiseen ja esittämiseen {import.meta.env.VITE_APP_TITLE}:ssä.
-          Pidätämme oikeuden poistaa minkä tahansa sisällön, joka rikkoo näitä
-          käyttöehtoja tai jonka katsomme sopimattomaksi.
+          {import.meta.env.VITE_TITLE} sivulla ja se kertoo yksityiskohtaisesti,
+          miten käsittelemme ja suojaamme henkilötietojasi.Olet yksin vastuussa
+          kaikesta tähän webappiin lataamastasi sisällöstä ja sen seurauksista.
+          Vakuutat ja takaat, että sinulla on kaikki tarvittavat lisenssit,
+          oikeudet, suostumukset ja luvat sisällön lähettämiseen ja esittämiseen
+          {import.meta.env.VITE_TITLE}:ssä. Pidätämme oikeuden poistaa minkä
+          tahansa sisällön, joka rikkoo näitä käyttöehtoja tai jonka katsomme
+          sopimattomaksi.
         </p>
 
         <p className="p-1 fw-bold mb-0">
@@ -69,17 +69,17 @@ function TermsOfUseContent() {
         </p>
         <p className="p-1 mb-3">
           Pidätämme oikeuden muuttaa tai lopettaa
-          {import.meta.env.VITE_APP_TITLE}
+          {import.meta.env.VITE_TITLE}
           :n tai sen osan milloin tahansa ilman etukäteisilmoitusta. Emme ole
           vastuussa sinulle tai kolmannelle osapuolelle, jos{' '}
-          {import.meta.env.VITE_APP_TITLE} lopetetaan. Teemme parhaamme
+          {import.meta.env.VITE_TITLE} lopetetaan. Teemme parhaamme
           ilmoittaaksemme mahdollisista muutoksista tai lopettamisista
           etukäteen, jos se on mahdollista.
         </p>
         <p className="p-1 fw-bold mb-0">Yhteystiedot</p>
         <p className="p-1 mb-3">
           Jos sinulla on kysyttävää käyttöehdoista, ota yhteyttä:{' '}
-          {import.meta.env.VITE_APP_CONTACT_EMAIL}
+          {import.meta.env.VITE_CONTACT_EMAIL}
         </p>
       </div>
     </div>

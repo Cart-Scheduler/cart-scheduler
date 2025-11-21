@@ -15,7 +15,7 @@ export default function SignInLayout() {
         <Col md={8} lg={6} xl={5} xxl={4}>
           <Card>
             <Card.Header className="pt-4 pb-4 text-center text-white bg-primary text-uppercase text-bold">
-              {import.meta.env.VITE_APP_TITLE}
+              {import.meta.env.VITE_TITLE}
             </Card.Header>
             <Card.Body className="p-4">
               <Outlet />

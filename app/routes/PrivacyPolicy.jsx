@@ -22,10 +22,10 @@ function PrivacyPolicyContent() {
       <h3 className="mb-3">Tietosuojakäytäntö</h3>
       <div className="p-2">
         <p className="p-1 mb-4">
-          Tervetuloa {import.meta.env.VITE_APP_TITLE} -sivustolle. Me
-          kunnioitamme yksityisyyttäsi ja pyrimme suojelemaan henkilötietojasi.{' '}
-          Tässä tietosuojakäytännössä kerromme, miten keräämme, käytämme ja
-          suojaamme henkilötietojasi Euroopan Unionin <br></br> yleisen
+          Tervetuloa {import.meta.env.VITE_TITLE} -sivustolle. Me kunnioitamme
+          yksityisyyttäsi ja pyrimme suojelemaan henkilötietojasi. Tässä
+          tietosuojakäytännössä kerromme, miten keräämme, käytämme ja suojaamme
+          henkilötietojasi Euroopan Unionin <br></br> yleisen
           tietosuoja-asetuksen (GDPR) mukaisesti.
         </p>
         <p className="p-1 fw-bold mb-0">GDPR ja henkilötietojen käsittely</p>
@@ -92,7 +92,7 @@ function PrivacyPolicyContent() {
           Jos sinulla on kysyttävää tietosuojakäytännöstä tai jos haluat tehdä
           pyynnön tietojesi tarkastamiseksi, korjaamiseksi tai poistamiseksi,
           voit ottaa meihin yhteyttä sähköpostitse:{' '}
-          {import.meta.env.VITE_APP_CONTACT_EMAIL}
+          {import.meta.env.VITE_CONTACT_EMAIL}
         </p>
       </div>
     </div>
