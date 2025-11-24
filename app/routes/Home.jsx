@@ -1,11 +1,11 @@
-//import { Navigate } from 'react-router';
 import Card from 'react-bootstrap/Card';
 import { Col } from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
-import { Container } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
-//import { useMyProjectMembers } from '../services/db';
+import { FaSpinner } from 'react-icons/fa';
+import { Navigate } from 'react-router';
+import { useMyProjectMembers } from '../services/db';
 
 import { LayoutContainer } from '../layouts/Private';
 import Breadcrumb from '../layouts/Breadcrumb';
@@ -22,7 +22,7 @@ function MyBreadcrumb() {
   const { t } = useTranslation();
   return <Breadcrumb title={t('Home')}></Breadcrumb>;
 }
-/*
+
 function WorkInProgress() {
   return (
     <div className="d-flex justify-content-center align-items-center p-4 h-100">
@@ -55,7 +55,7 @@ function Redirect() {
     return <Navigate to={`/projects/${projectIds[0]}`} />;
   }
   return <Navigate to="/projects" />;
-}*/
+}
 
 export default function Home() {
   return (
@@ -67,6 +67,7 @@ export default function Home() {
             <Card className="mb-4" style={{ minHeight: '20em' }}>
               <Card.Body>
                 <h1>TestiTeppoSeppo</h1>
+                <Redirect />
               </Card.Body>
             </Card>
           </Col>
@@ -74,27 +75,4 @@ export default function Home() {
       </LayoutContainer>
     </>
   );
-  /*
-  return (
-    <>
-      <>
-        <div></div>
-        <div>
-          <Container>Topi</Container>
-        </div>
-      </>
-      <MyBreadcrumb />
-      <Welcome />
-      <Row>
-        <Col>
-          <Card className="mb-4" style={{ minHeight: '20em' }}>
-            <Card.Body>
-              <h1>TestiTeppoSeppo</h1>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </>
-  );
-  */
 }

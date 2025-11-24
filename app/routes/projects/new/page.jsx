@@ -8,8 +8,8 @@ import { useTranslation } from 'react-i18next';
 import slugify from 'slugify';
 import { useNavigate } from 'react-router';
 
-import Breadcrumb from '../../../../layouts/Breadcrumb';
-import { createProject } from '../../../../services/functions';
+import Breadcrumb from '../../../layouts/Breadcrumb';
+import { createProject } from '../../../services/functions';
 
 const cleanName = (name) => (name ?? '').trim();
 const makeId = (name) => slugify(name, { lower: true });
