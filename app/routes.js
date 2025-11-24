@@ -8,17 +8,21 @@ export default [
       index('./routes/signin/page.jsx'),
       route('link', './routes/signin/Link.jsx'),
     ]),
+    ...prefix('signup', [
+      route('password', './routes/signup/password/page.jsx'),
+    ]),
     route('signout', './routes/SignOut.jsx'),
   ]),
 
   layout('./layouts/Private.jsx', [
-    index('./routes/seppo.jsx'),
+    index('./routes/Home.jsx'),
     route('profile', './routes/profile/page.jsx'),
     route('projects', './routes/projects/page.jsx'),
     route(
       'projects/:projectId',
       './routes/projects/project.$projectId/page.jsx',
     ),
+    route('projects/new', './routes/projects/new/page.jsx'),
     route(
       'projects/:projectId/admin/members',
       './routes/projects/project.$projectId/admin/members/page.jsx',
