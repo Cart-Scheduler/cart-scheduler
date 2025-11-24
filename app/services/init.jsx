@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import MainListener from '../components/MainListener';
 import { initAuth } from './auth';
 import { initLocales } from '../i18next';
 import { initFirebase } from './firebase';
@@ -10,7 +9,6 @@ import { initMessaging } from './messaging';
 export function InitApp({ children }) {
   const [initialized, setInitialized] = useState(false);
   useEffect(() => {
-    console.log('Kikkeliskokkelis2 selaimessa');
     initLocales();
     initFirebase();
 
