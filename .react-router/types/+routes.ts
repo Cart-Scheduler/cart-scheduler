@@ -20,20 +20,57 @@ type Pages = {
   "/signin/link": {
     params: {};
   };
+  "/signup/password": {
+    params: {};
+  };
+  "/signout": {
+    params: {};
+  };
+  "/profile": {
+    params: {};
+  };
+  "/projects": {
+    params: {};
+  };
+  "/projects/:projectId": {
+    params: {
+      "projectId": string;
+    };
+  };
+  "/projects/new": {
+    params: {};
+  };
+  "/projects/:projectId/admin/members": {
+    params: {
+      "projectId": string;
+    };
+  };
+  "/join/:projectId": {
+    params: {
+      "projectId": string;
+    };
+  };
+  "/projects/:projectId/admin": {
+    params: {
+      "projectId": string;
+    };
+  };
+  "/privacy-policy": {
+    params: {};
+  };
+  "/terms-of-use": {
+    params: {};
+  };
 };
 
 type RouteFiles = {
   "root.jsx": {
     id: "root";
-    page: "/" | "/signin" | "/signin/link";
+    page: "/" | "/signin" | "/signin/link" | "/signup/password" | "/signout" | "/profile" | "/projects" | "/projects/:projectId" | "/projects/new" | "/projects/:projectId/admin/members" | "/join/:projectId" | "/projects/:projectId/admin" | "/privacy-policy" | "/terms-of-use";
   };
   "./layouts/SignIn.jsx": {
     id: "layouts/SignIn";
-    page: "/" | "/signin" | "/signin/link";
-  };
-  "./routes/seppo.jsx": {
-    id: "routes/seppo";
-    page: "/";
+    page: "/signin" | "/signin/link" | "/signup/password" | "/signout";
   };
   "./routes/signin/page.jsx": {
     id: "routes/signin/page";
@@ -43,12 +80,76 @@ type RouteFiles = {
     id: "routes/signin/Link";
     page: "/signin/link";
   };
+  "./routes/signup/password/page.jsx": {
+    id: "routes/signup/password/page";
+    page: "/signup/password";
+  };
+  "./routes/SignOut.jsx": {
+    id: "routes/SignOut";
+    page: "/signout";
+  };
+  "./layouts/Private.jsx": {
+    id: "layouts/Private";
+    page: "/" | "/profile" | "/projects" | "/projects/:projectId" | "/projects/new" | "/projects/:projectId/admin/members" | "/join/:projectId" | "/projects/:projectId/admin" | "/privacy-policy" | "/terms-of-use";
+  };
+  "./routes/Home.jsx": {
+    id: "routes/Home";
+    page: "/";
+  };
+  "./routes/profile/page.jsx": {
+    id: "routes/profile/page";
+    page: "/profile";
+  };
+  "./routes/projects/page.jsx": {
+    id: "routes/projects/page";
+    page: "/projects";
+  };
+  "./routes/projects/project.$projectId/page.jsx": {
+    id: "routes/projects/project.$projectId/page";
+    page: "/projects/:projectId";
+  };
+  "./routes/projects/new/page.jsx": {
+    id: "routes/projects/new/page";
+    page: "/projects/new";
+  };
+  "./routes/projects/project.$projectId/admin/members/page.jsx": {
+    id: "routes/projects/project.$projectId/admin/members/page";
+    page: "/projects/:projectId/admin/members";
+  };
+  "./routes/join.$projectId/page.jsx": {
+    id: "routes/join.$projectId/page";
+    page: "/join/:projectId";
+  };
+  "./routes/projects/project.$projectId/admin/page.jsx": {
+    id: "routes/projects/project.$projectId/admin/page";
+    page: "/projects/:projectId/admin";
+  };
+  "./routes/PrivacyPolicy.jsx": {
+    id: "routes/PrivacyPolicy";
+    page: "/privacy-policy";
+  };
+  "./routes/TermsOfUse.jsx": {
+    id: "routes/TermsOfUse";
+    page: "/terms-of-use";
+  };
 };
 
 type RouteModules = {
   "root": typeof import("./app/root.jsx");
   "layouts/SignIn": typeof import("./app/./layouts/SignIn.jsx");
-  "routes/seppo": typeof import("./app/./routes/seppo.jsx");
   "routes/signin/page": typeof import("./app/./routes/signin/page.jsx");
   "routes/signin/Link": typeof import("./app/./routes/signin/Link.jsx");
+  "routes/signup/password/page": typeof import("./app/./routes/signup/password/page.jsx");
+  "routes/SignOut": typeof import("./app/./routes/SignOut.jsx");
+  "layouts/Private": typeof import("./app/./layouts/Private.jsx");
+  "routes/Home": typeof import("./app/./routes/Home.jsx");
+  "routes/profile/page": typeof import("./app/./routes/profile/page.jsx");
+  "routes/projects/page": typeof import("./app/./routes/projects/page.jsx");
+  "routes/projects/project.$projectId/page": typeof import("./app/./routes/projects/project.$projectId/page.jsx");
+  "routes/projects/new/page": typeof import("./app/./routes/projects/new/page.jsx");
+  "routes/projects/project.$projectId/admin/members/page": typeof import("./app/./routes/projects/project.$projectId/admin/members/page.jsx");
+  "routes/join.$projectId/page": typeof import("./app/./routes/join.$projectId/page.jsx");
+  "routes/projects/project.$projectId/admin/page": typeof import("./app/./routes/projects/project.$projectId/admin/page.jsx");
+  "routes/PrivacyPolicy": typeof import("./app/./routes/PrivacyPolicy.jsx");
+  "routes/TermsOfUse": typeof import("./app/./routes/TermsOfUse.jsx");
 };
