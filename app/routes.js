@@ -14,25 +14,23 @@ export default [
     route('signout', './routes/SignOut.jsx'),
   ]),
 
-  layout('./layouts/Private.jsx', [
-    index('./routes/Home.jsx'),
-    route('profile', './routes/profile/page.jsx'),
-    route('projects', './routes/projects/page.jsx'),
+  index('./routes/Home.jsx'),
+
+  route('profile', './routes/profile/page.jsx'),
+
+  ...prefix('projects', [
+    index('./routes/projects/page.jsx'),
+    route(':projectId', './routes/projects/project/page.jsx'),
+    route('new', './routes/projects/new/page.jsx'),
     route(
-      'projects/:projectId',
-      './routes/projects/project.$projectId/page.jsx',
+      ':projectId/admin/members',
+      './routes/projects/project/admin/members/page.jsx',
     ),
-    route('projects/new', './routes/projects/new/page.jsx'),
-    route(
-      'projects/:projectId/admin/members',
-      './routes/projects/project.$projectId/admin/members/page.jsx',
-    ),
-    route('join/:projectId', './routes/join.$projectId/page.jsx'),
-    route(
-      'projects/:projectId/admin',
-      './routes/projects/project.$projectId/admin/page.jsx',
-    ),
-    route('privacy-policy', './routes/PrivacyPolicy.jsx'),
-    route('terms-of-use', './routes/TermsOfUse.jsx'),
+    route(':projectId/admin', './routes/projects/project/admin/page.jsx'),
   ]),
+
+  route('join/:projectId', './routes/join/page.jsx'),
+
+  route('privacy-policy', './routes/PrivacyPolicy.jsx'),
+  route('terms-of-use', './routes/TermsOfUse.jsx'),
 ];
