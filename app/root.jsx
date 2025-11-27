@@ -28,7 +28,7 @@ export function Layout({ children }) {
         <main className="main-content position-relative border-radius-lg max-height-vh-100 h-100">
           <title>{import.meta.env.VITE_TITLE}</title>
           <InitApp>
-            <Provider store={store}>
+            <Provider store={store} stabilityCheck="never">
               <MainListener>
                 <Container fluid className="py-4">
                   {children}
