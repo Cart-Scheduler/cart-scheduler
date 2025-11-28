@@ -9,7 +9,6 @@ import './assets/scss/index.scss';
 import MainListener from './components/MainListener';
 
 export function Layout({ children }) {
-  //const { t } = useTranslation();
   const t = () => {};
   const emptyBreadcrumb = (
     <h6 className="mb-0 text-white">{t('Select project')}</h6>

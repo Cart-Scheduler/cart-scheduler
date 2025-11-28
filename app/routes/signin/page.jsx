@@ -14,7 +14,6 @@ import PasswordSignIn from './PasswordSignIn';
 import SendLink from './SendLink';
 import { Link } from 'react-router';
 
-//REMEMBER TO CHECK THIS!!!
 function MethodButton({ className, onClick, children }) {
   let classes = 'btn w-100 px-3 py-3';
   if (!className || !className.includes('text-')) {

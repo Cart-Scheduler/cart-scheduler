@@ -20,7 +20,17 @@ import {
 
 import '../assets/scss/index.scss';
 
-// --- Remember to check sigin ---
+function Version() {
+  if (!import.meta.env.VITE_APP_VERSION) {
+    return null;
+  }
+  return (
+    <div className="text-xs text-muted mt-5">
+      {import.meta.env.VITE_APP_VERSION}
+    </div>
+  );
+}
+// Displays errors related to fetching user or person document.
 
 function UserDocErrorChecker() {
   const { error: userError, uid } = useUserDocError();
@@ -46,16 +56,6 @@ function UserDocErrorChecker() {
     );
   }
   return null;
-}
-function Version() {
-  if (!import.meta.env.VITE_APP_VERSION) {
-    return null;
-  }
-  return (
-    <div className="text-xs text-muted mt-5">
-      {import.meta.env.VITE_APP_VERSION}
-    </div>
-  );
 }
 function MyOffCanvas({ title }) {
   const { t } = useTranslation();
@@ -122,15 +122,12 @@ export function LayoutContainer({ fluid, breadcrumb, children }) {
   );
 }
 
-// --- PÄÄKOMPONENTTI ---
-
 export default function PrivateLayout() {
   const { user, loading } = useAuth();
 
   useEffect(() => {
     if (!loading && !user) {
       localStorage.setItem('redirectAfterLogin', window.location.pathname);
-      console.log('PRIVATE LAYOUT: Tallensi polun:', window.location.pathname);
     }
   }, [user, loading]);
   if (loading) {
@@ -147,7 +144,6 @@ export default function PrivateLayout() {
   }
   return (
     <>
-      {/* background */}
       <div className="min-height-300 bg-primary position-absolute w-100" />
       <main className="main-content position-relative border-radius-lg max-height-vh-100 h-100">
         <NotificationController />
