@@ -13,12 +13,7 @@ export default function Welcome() {
   const { isLoading, data: person } = usePerson();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  console.log('1. isLoading:', isLoading);
-  console.log('2. person:', person);
-  console.log('3. person.created:', person?.created);
-  console.log('4. person.modified:', person?.modified);
   if (!isLoading && person && person.created && !person.modified) {
-    console.log('welcome näkyy');
     return (
       <Row>
         <Col>
