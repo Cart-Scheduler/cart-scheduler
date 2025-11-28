@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { Alert } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
@@ -15,6 +15,7 @@ import Breadcrumb from '../../layouts/Breadcrumb';
 import MySpinner from '../../components/Spinner';
 import { createJoinRq } from '../../services/functions';
 import { usePerson, useProject, useMyProjectMembers } from '../../services/db';
+import { LayoutContainer } from '../../layouts/Private';
 
 function MyBreadcrumb() {
   const { t } = useTranslation();
@@ -112,8 +113,7 @@ export default function JoinProject() {
   }
 
   return (
-    <>
-      <MyBreadcrumb />
+    <LayoutContainer breadcrumb={<MyBreadcrumb />}>
       <Row className="text-center">
         <Col sm={11} md={10} lg={9} className="mx-auto">
           <Card className="mb-6">
@@ -164,6 +164,6 @@ export default function JoinProject() {
           </Card>
         </Col>
       </Row>
-    </>
+    </LayoutContainer>
   );
 }
