@@ -11,13 +11,6 @@ import { LayoutContainer } from '../layouts/Private';
 import Breadcrumb from '../layouts/Breadcrumb';
 import Welcome from '../components/Welcome';
 
-export function meta() {
-  return [
-    { title: 'Testisovellus - Etusivu' },
-    { name: 'description", content: "Etusivu' },
-  ];
-}
-
 function MyBreadcrumb() {
   const { t } = useTranslation();
   return <Breadcrumb title={t('Home')}></Breadcrumb>;
@@ -66,7 +59,6 @@ export default function Home() {
           <Col>
             <Card className="mb-4" style={{ minHeight: '20em' }}>
               <Card.Body>
-                <h1>TestiTeppoSeppo</h1>
                 <Redirect />
               </Card.Body>
             </Card>
