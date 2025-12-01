@@ -32,13 +32,13 @@ type Pages = {
   "/projects": {
     params: {};
   };
+  "/projects/new": {
+    params: {};
+  };
   "/projects/:projectId": {
     params: {
       "projectId": string;
     };
-  };
-  "/projects/new": {
-    params: {};
   };
   "/projects/:projectId/admin/members": {
     params: {
@@ -66,7 +66,7 @@ type Pages = {
 type RouteFiles = {
   "root.jsx": {
     id: "root";
-    page: "/" | "/signin" | "/signin/link" | "/signup/password" | "/signout" | "/profile" | "/projects" | "/projects/:projectId" | "/projects/new" | "/projects/:projectId/admin/members" | "/projects/:projectId/admin" | "/join/:projectId" | "/privacy-policy" | "/terms-of-use";
+    page: "/" | "/signin" | "/signin/link" | "/signup/password" | "/signout" | "/profile" | "/projects" | "/projects/new" | "/projects/:projectId" | "/projects/:projectId/admin/members" | "/projects/:projectId/admin" | "/join/:projectId" | "/privacy-policy" | "/terms-of-use";
   };
   "./layouts/SignIn.jsx": {
     id: "layouts/SignIn";
@@ -100,13 +100,13 @@ type RouteFiles = {
     id: "routes/projects/page";
     page: "/projects";
   };
-  "./routes/projects/project/page.jsx": {
-    id: "routes/projects/project/page";
-    page: "/projects/:projectId";
-  };
   "./routes/projects/new/page.jsx": {
     id: "routes/projects/new/page";
     page: "/projects/new";
+  };
+  "./routes/projects/project/page.jsx": {
+    id: "routes/projects/project/page";
+    page: "/projects/:projectId";
   };
   "./routes/projects/project/admin/members/page.jsx": {
     id: "routes/projects/project/admin/members/page";
@@ -140,8 +140,8 @@ type RouteModules = {
   "routes/Home": typeof import("./app/./routes/Home.jsx");
   "routes/profile/page": typeof import("./app/./routes/profile/page.jsx");
   "routes/projects/page": typeof import("./app/./routes/projects/page.jsx");
-  "routes/projects/project/page": typeof import("./app/./routes/projects/project/page.jsx");
   "routes/projects/new/page": typeof import("./app/./routes/projects/new/page.jsx");
+  "routes/projects/project/page": typeof import("./app/./routes/projects/project/page.jsx");
   "routes/projects/project/admin/members/page": typeof import("./app/./routes/projects/project/admin/members/page.jsx");
   "routes/projects/project/admin/page": typeof import("./app/./routes/projects/project/admin/page.jsx");
   "routes/join/page": typeof import("./app/./routes/join/page.jsx");

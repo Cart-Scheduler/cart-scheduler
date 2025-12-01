@@ -20,13 +20,15 @@ export default [
 
   ...prefix('projects', [
     index('./routes/projects/page.jsx'),
-    route(':projectId', './routes/projects/project/page.jsx'),
     route('new', './routes/projects/new/page.jsx'),
-    route(
-      ':projectId/admin/members',
-      './routes/projects/project/admin/members/page.jsx',
-    ),
-    route(':projectId/admin', './routes/projects/project/admin/page.jsx'),
+    ...prefix(':projectId', [
+      index('./routes/projects/project/page.jsx'),
+      route('admin', './routes/projects/project/admin/page.jsx'),
+      route(
+        'admin/members',
+        './routes/projects/project/admin/members/page.jsx',
+      ),
+    ]),
   ]),
 
   route('join/:projectId', './routes/join/page.jsx'),
