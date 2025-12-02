@@ -24,6 +24,8 @@ yarn-error.log*
 
 *.swp
 
+.react-router/
+
 # Firebase project files
 .firebase
 .firebaserc
