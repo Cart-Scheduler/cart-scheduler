@@ -47,27 +47,24 @@ function NoProjects() {
 export default function Projects() {
   const { docs, error, isLoading, hasLoaded } = useMyProjectMembers();
   return (
-    <>
-      <LayoutContainer breadcrumb={<MyBreadcrumb />}>
-        <DbError error={error} />
-
-        {hasLoaded && Object.keys(docs ?? {}).length === 0 ? (
-          <NoProjects />
-        ) : (
-          <Row className="mh-14">
-            {isLoading && (
-              <div>
-                <Spinner />
-              </div>
-            )}
-            {Object.keys(docs).map((projectId) => (
-              <Col md={4} key={projectId}>
-                <ProjectCard projectId={projectId} />
-              </Col>
-            ))}
-          </Row>
-        )}
-      </LayoutContainer>
-    </>
+    <LayoutContainer breadcrumb={<MyBreadcrumb />}>
+      <DbError error={error} />
+      {hasLoaded && Object.keys(docs ?? {}).length === 0 ? (
+        <NoProjects />
+      ) : (
+        <Row className="mh-14">
+          {isLoading && (
+            <div>
+              <Spinner />
+            </div>
+          )}
+          {Object.keys(docs).map((projectId) => (
+            <Col md={4} key={projectId}>
+              <ProjectCard projectId={projectId} />
+            </Col>
+          ))}
+        </Row>
+      )}
+    </LayoutContainer>
   );
 }
