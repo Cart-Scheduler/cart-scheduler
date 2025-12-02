@@ -52,19 +52,17 @@ function Redirect() {
 
 export default function Home() {
   return (
-    <>
-      <LayoutContainer breadcrumb={<MyBreadcrumb />}>
-        <Welcome />
-        <Row>
-          <Col>
-            <Card className="mb-4" style={{ minHeight: '20em' }}>
-              <Card.Body>
-                <Redirect />
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </LayoutContainer>
-    </>
+    <LayoutContainer breadcrumb={<MyBreadcrumb />}>
+      <Welcome />
+      <Row>
+        <Col>
+          <Card className="mb-4" style={{ minHeight: '20em' }}>
+            <Card.Body>
+              <Redirect />
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </LayoutContainer>
   );
 }

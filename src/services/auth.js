@@ -119,14 +119,12 @@ export async function googleSignIn() {
   provider.addScope('profile');
 
   if (shouldUsePopup()) {
-    console.debug('popup');
     try {
       await signInWithPopup(auth, provider);
     } catch (err) {
       console.error(err);
     }
   } else {
-    console.debug('redirect');
     signInWithRedirect(auth, provider);
   }
 }
