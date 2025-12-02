@@ -4,7 +4,7 @@ import { Col } from 'react-bootstrap';
 import { Container } from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
 import Footer from './Footer';
-import { TermsOfUse } from '../routes/signin/page';
+import { TermsOfUse } from '../app/signin/page';
 
 import CookieConsent from '../components/CookieConsent';
 
