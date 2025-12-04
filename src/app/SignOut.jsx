@@ -1,11 +1,12 @@
 import { Navigate } from 'react-router';
-
+import { useAuth } from '../services/db';
 import { useSignOut } from '../services/auth';
 import { useDeleteRegistrationToken } from '../services/messaging';
 
 function AuthSignOut() {
   const signedOut = useSignOut();
-  if (signedOut) {
+  const { user } = useAuth();
+  if (signedOut && !user) {
     return <Navigate to="/signin" />;
   }
   return null;
