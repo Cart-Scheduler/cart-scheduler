@@ -62,9 +62,6 @@ export default function Login() {
   const urlNext = new URLSearchParams(location.search).get('next');
 
   const redirectPath = storedRedirect || urlNext || DEFAULT_PATH;
-  console.log('LOGIN.JSX: Stored Redirect:', storedRedirect);
-  console.log('LOGIN.JSX: URL Next:', urlNext);
-  console.log('LOGIN.JSX: Päätetty kohde:', redirectPath);
 
   const { error, initializing, user } = useAuth();
 
