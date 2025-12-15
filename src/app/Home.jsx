@@ -7,7 +7,7 @@ import { FaSpinner } from 'react-icons/fa';
 import { Navigate } from 'react-router';
 import { useMyProjectMembers } from '../services/db';
 
-import { LayoutContainer } from '../layouts/Private';
+import { LayoutContainer } from '../layouts/Default';
 import Breadcrumb from '../layouts/Breadcrumb';
 import Welcome from '../components/Welcome';
 

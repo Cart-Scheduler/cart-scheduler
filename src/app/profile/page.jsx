@@ -7,7 +7,7 @@ import { Col } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { Row } from 'react-bootstrap';
 
-import { LayoutContainer } from '../../layouts/Private';
+import { LayoutContainer } from '../../layouts/Default';
 import Spinner from '../../components/Spinner';
 import Breadcrumb from '../../layouts/Breadcrumb';
 import {

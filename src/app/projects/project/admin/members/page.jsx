@@ -19,7 +19,7 @@ import {
 import { nameSorter } from '../../../../../services/string';
 import Invite from './Invite';
 import PersonDetailsModal from './PersonDetailsModal';
-import { LayoutContainer } from '../../../../../layouts/Private';
+import { LayoutContainer } from '../../../../../layouts/Default';
 
 function MyBreadcrumb({ projectId, project }) {
   const { t } = useTranslation();

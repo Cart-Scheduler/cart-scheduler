@@ -9,7 +9,7 @@ import Breadcrumb from '../../layouts/Breadcrumb';
 import DbError from '../../components/DbError';
 import Spinner from '../../components/Spinner';
 import ProjectCard from './ProjectCard';
-import { LayoutContainer } from '../../layouts/Private';
+import { LayoutContainer } from '../../layouts/Default';
 
 function MyBreadcrumb() {
   const { t } = useTranslation();

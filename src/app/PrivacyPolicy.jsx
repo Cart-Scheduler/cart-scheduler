@@ -4,7 +4,7 @@ import { Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 import Breadcrumb from '../layouts/Breadcrumb';
-import { LayoutContainer } from '../layouts/Private';
+import { LayoutContainer } from '../layouts/Default';
 
 function MyBreadcrumb() {
   const { t } = useTranslation();

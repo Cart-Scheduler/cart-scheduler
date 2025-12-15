@@ -15,7 +15,7 @@ import Breadcrumb from '../../layouts/Breadcrumb';
 import MySpinner from '../../components/Spinner';
 import { createJoinRq } from '../../services/functions';
 import { usePerson, useProject, useMyProjectMembers } from '../../services/db';
-import { LayoutContainer } from '../../layouts/Private';
+import { LayoutContainer } from '../../layouts/Default';
 
 function MyBreadcrumb() {
   const { t } = useTranslation();

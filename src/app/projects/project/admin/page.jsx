@@ -43,7 +43,7 @@ import RemoveLocationModal from './RemoveLocationModal';
 import SelectedSlotRequests from './SelectedSlotRequests';
 import SlotModal from './SlotModal/page';
 
-import { LayoutContainer } from '../../../../layouts/Private';
+import { LayoutContainer } from '../../../../layouts/Default';
 
 const DEFAULT_SHOW_DAYS = 7;
 const LOCATION_ID_ADD = 'add';

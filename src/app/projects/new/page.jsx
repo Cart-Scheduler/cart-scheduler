@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import slugify from 'slugify';
 import { useNavigate } from 'react-router';
 
-import { LayoutContainer } from '../../../layouts/Private';
+import { LayoutContainer } from '../../../layouts/Default';
 import Breadcrumb from '../../../layouts/Breadcrumb';
 import { createProject } from '../../../services/functions';
 

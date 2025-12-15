@@ -24,7 +24,7 @@ import ReservationModal from './ReservationModal';
 import SlotRequestModal from './SlotRequestModal';
 import { ProjectContext } from '../../../components/ProjectContext';
 
-import { LayoutContainer } from '../../../layouts/Private';
+import { LayoutContainer } from '../../../layouts/Default';
 
 const DEFAULT_SHOW_DAYS = 7;
 
