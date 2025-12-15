@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Outlet, Navigate, useLocation } from 'react-router';
 import { useAuth } from '../services/db';
 
@@ -6,14 +5,7 @@ export default function PrivateLayout() {
   const { user, loading } = useAuth();
   const location = useLocation();
 
-  useEffect(() => {
-    if (!loading && !user) {
-      const currentPath = location.pathname + location.search + location.hash;
-      localStorage.setItem('redirectAfterLogin', currentPath);
-    }
-  }, [user, loading, location]);
-
-  if (loading) {
+  if (loading || user === undefined) {
     return (
       <div className="d-flex align-items-center justify-content-center min-vh-100">
         <div className="spinner-border text-primary" role="status">
@@ -22,8 +14,14 @@ export default function PrivateLayout() {
       </div>
     );
   }
+
   if (!user) {
-    return <Navigate to="/signin" replace />;
+    const params = new URLSearchParams();
+    params.set('next', location.pathname + location.search + location.hash);
+    const path = `/signin?${params.toString()}`;
+
+    return <Navigate to={path} replace />;
   }
+
   return <Outlet />;
 }
