@@ -1,5 +1,5 @@
 import { Outlet, Meta, Links, Scripts } from 'react-router';
-import { Container } from 'react-bootstrap';
+import { Alert, Container } from 'react-bootstrap';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 
@@ -50,5 +50,12 @@ export default function App() {
 }
 
 export function ErrorBoundary({ error }) {
-  return <div>VIRHE VIRHE</div>;
+  return (
+    <div>
+      <Alert variant="danger" className="text-white">
+        <h4 className="text-white">Error</h4>
+        <pre>{JSON.stringify(error ?? {}, null, 2)}</pre>
+      </Alert>
+    </div>
+  );
 }
