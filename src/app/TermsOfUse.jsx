@@ -45,8 +45,8 @@ function TermsOfUseContent() {
           {import.meta.env.VITE_TITLE} käyttäjätunnuksella ja salasanalla
           tehdystä toiminnasta. Pidätämme oikeuden keskeyttää tai lopettaa
           käyttäjätunnuksesi, jos havaitsemme, että olet antanut vääriä tai
-          harhaanjohtavia tietoja. Palvelu tarjotaan "sellaisena kuin se on".
-          Emme takaa Palvelun keskeytymättömyyttä tai virheettömyyttä.
+          harhaanjohtavia tietoja. Palvelu tarjotaan &quot;sellaisena kuin se
+          on&quot;. Emme takaa Palvelun keskeytymättömyyttä tai virheettömyyttä.
         </p>
         <p className="p-1 mb-3">
           Sitoudut käyttämään palvelua vain laillisiin tarkoituksiin, hyvää
