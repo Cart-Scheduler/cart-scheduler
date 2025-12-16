@@ -49,7 +49,7 @@ const hasProp = (obj, prop) => {
     // not all browsers have Object.hasOwn
     return Object.hasOwn(obj, prop);
   }
-  return obj.hasOwnProperty(prop);
+  return Object.prototype.hasOwnProperty.call(obj, prop);
 };
 
 // Deep clones given object but converts Firestore.Timestamp to primitive number.

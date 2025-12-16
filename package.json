@@ -2,37 +2,42 @@
   "name": "cart-scheduler",
   "version": "1.0.10",
   "private": true,
+  "type": "module",
   "dependencies": {
-    "@reduxjs/toolkit": "^1.9.5",
+    "@react-router/node": "^7.9.5",
+    "@react-router/serve": "^7.9.5",
+    "@reduxjs/toolkit": "^2.10.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@vitejs/plugin-react": "^5.1.0",
     "bootstrap": "^5.2.3",
     "classnames": "^2.3.2",
     "date-fns": "^2.30.0",
     "firebase": "^10.11.1",
+    "isbot": "^5",
     "punycode": "^2.3.1",
-    "react": "^18.2.0",
-    "react-bootstrap": "^2.7.4",
-    "react-dom": "^18.2.0",
+    "react": "^18.3.1",
+    "react-bootstrap": "^2.10.10",
+    "react-dom": "^18.3.1",
     "react-google-signin-button": "^1.1.0",
     "react-i18next": "^12.2.2",
-    "react-icons": "^4.9.0",
+    "react-icons": "^5.5.0",
     "react-markdown": "^8.0.7",
-    "react-redux": "^8.0.5",
-    "react-router-dom": "^6.11.1",
-    "react-scripts": "5.0.1",
+    "react-redux": "^9.2.0",
+    "react-router": "^7.9.5",
+    "react-router-dom": "^7.9.5",
     "react-select": "^5.7.3",
-    "sass": "^1.62.1",
+    "sass": "1.94.2",
     "slugify": "^1.6.6",
+    "vite": "^7.1.12",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "lint": "prettier --check . && eslint .",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev": "react-router dev --host",
+    "build": "react-router build",
+    "preview": "vite preview",
+    "lint": "eslint *js src/"
   },
   "eslintConfig": {
     "extends": [
@@ -59,7 +64,13 @@
     ]
   },
   "devDependencies": {
-    "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "^2.8.8"
+    "@react-router/dev": "^7.9.5",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "prettier": "^3.6.2"
   }
 }
