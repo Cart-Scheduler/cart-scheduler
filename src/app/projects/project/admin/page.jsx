@@ -1,14 +1,16 @@
 import { forwardRef, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import Badge from 'react-bootstrap/Badge';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import Col from 'react-bootstrap/Col';
-import Dropdown from 'react-bootstrap/Dropdown';
-import Row from 'react-bootstrap/Row';
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
+import {
+  Badge,
+  Button,
+  Card,
+  Col,
+  Dropdown,
+  Row,
+  Tab,
+  Tabs,
+} from 'react-bootstrap';
 import { FaEllipsisV, FaPen, FaUsers } from 'react-icons/fa';
 import startOfWeek from 'date-fns/startOfWeek';
 

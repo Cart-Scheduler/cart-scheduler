@@ -8,7 +8,7 @@ import isSameDay from 'date-fns/isSameDay';
 import startOfWeek from 'date-fns/startOfWeek';
 import startOfMonth from 'date-fns/startOfMonth';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
-import Button from 'react-bootstrap/Button';
+import { Button } from 'react-bootstrap';
 
 import { MONTHS, getWeekStart } from '../../../../../services/date';
 

@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Navigate, useLocation } from 'react-router';
-import Alert from 'react-bootstrap/Alert';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import { Alert, Button, Form } from 'react-bootstrap';
 
 import Spinner from '../../components/Spinner';
 import { DEFAULT_PATH } from '../../routes';

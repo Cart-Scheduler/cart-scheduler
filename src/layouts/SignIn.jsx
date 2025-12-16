@@ -1,8 +1,5 @@
 import { Outlet } from 'react-router';
-import Card from 'react-bootstrap/Card';
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
+import { Col, Card, Container, Row } from 'react-bootstrap';
 import Footer from './Footer';
 import { TermsOfUse } from '../app/signin/page';
 

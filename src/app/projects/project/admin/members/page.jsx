@@ -1,9 +1,6 @@
 import { forwardRef, useMemo, useState } from 'react';
 import { useParams } from 'react-router';
-import Card from 'react-bootstrap/Card';
-import Col from 'react-bootstrap/Col';
-import Dropdown from 'react-bootstrap/Dropdown';
-import Row from 'react-bootstrap/Row';
+import { Card, Col, Dropdown, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { FaEllipsisV, FaUserAlt } from 'react-icons/fa';
 

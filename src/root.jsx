@@ -1,6 +1,5 @@
 import { Outlet, Meta, Links, Scripts } from 'react-router';
-import Alert from 'react-bootstrap/Alert';
-import Container from 'react-bootstrap/Container';
+import { Alert, Container } from 'react-bootstrap';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 
@@ -9,21 +8,20 @@ import { InitApp } from './services/init';
 import './assets/scss/index.scss';
 import MainListener from './components/MainListener';
 
+export function links() {
+  return [
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap',
+    },
+  ];
+}
 export function Layout({ children }) {
-  const t = () => {};
-  const emptyBreadcrumb = (
-    <h6 className="mb-0 text-white">{t('Select project')}</h6>
-  );
-
   return (
     <html lang="fi">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link
-          href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap"
-          rel="stylesheet"
-        />
         <Meta />
         <Links />
       </head>

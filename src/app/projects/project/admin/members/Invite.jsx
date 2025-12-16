@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
+import { Button, Card, Form, InputGroup } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import punycode from 'punycode';
 

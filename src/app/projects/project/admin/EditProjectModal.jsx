@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
-import Alert from 'react-bootstrap/Alert';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
+import { Alert, Button, Form, Modal } from 'react-bootstrap';
+
 import { useTranslation } from 'react-i18next';
 
 import { updateProject } from '../../../../services/db';
