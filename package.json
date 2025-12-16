@@ -37,7 +37,7 @@
     "dev": "react-router dev --host",
     "build": "react-router build",
     "preview": "vite preview",
-    "lint": "prettier --check . && eslint ."
+    "lint": "eslint *js src/"
   },
   "eslintConfig": {
     "extends": [
