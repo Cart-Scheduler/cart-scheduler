@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Offcanvas } from 'react-bootstrap';
-import { Button } from 'react-bootstrap';
-import { Container } from 'react-bootstrap';
+import Offcanvas from 'react-bootstrap/Offcanvas';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 

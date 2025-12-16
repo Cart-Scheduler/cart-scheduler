@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import { Button } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import { Col } from 'react-bootstrap';
+import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import { Row } from 'react-bootstrap';
+import Row from 'react-bootstrap/Row';
 
 import { LayoutContainer } from '../../layouts/Default';
 import Spinner from '../../components/Spinner';

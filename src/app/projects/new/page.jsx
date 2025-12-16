@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Button } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import { Col } from 'react-bootstrap';
-import { Row } from 'react-bootstrap';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
 import slugify from 'slugify';
