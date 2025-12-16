@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router';
-import { Alert } from 'react-bootstrap';
-import { Button } from 'react-bootstrap';
-import Card from 'react-bootstrap/Card';
-import { Col } from 'react-bootstrap';
-import { Row } from 'react-bootstrap';
-import { Container } from 'react-bootstrap';
-import Spinner from 'react-bootstrap/Spinner';
+import {
+  Alert,
+  Button,
+  Card,
+  Col,
+  Row,
+  Container,
+  Spinner,
+} from 'react-bootstrap';
+
 import { useTranslation } from 'react-i18next';
 import { FaExclamationCircle } from 'react-icons/fa';
 

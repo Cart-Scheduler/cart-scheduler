@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
-import { Alert } from 'react-bootstrap';
-import { Button } from 'react-bootstrap';
-import Form from 'react-bootstrap/Form';
+import { Alert, Button, Form } from 'react-bootstrap';
 
 import { signUpPassword } from '../../../services/auth';
 

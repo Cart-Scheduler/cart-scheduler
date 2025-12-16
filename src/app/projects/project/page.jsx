@@ -1,12 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import { Button } from 'react-bootstrap';
-import Card from 'react-bootstrap/Card';
-import { Col } from 'react-bootstrap';
-import { Row } from 'react-bootstrap';
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
+import { Button, Card, Row, Col, Tab, Tabs } from 'react-bootstrap';
 import ReactMarkdown from 'react-markdown';
 
 import Breadcrumb from '../../../layouts/Breadcrumb';

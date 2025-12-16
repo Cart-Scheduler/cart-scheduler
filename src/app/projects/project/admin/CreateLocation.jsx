@@ -1,9 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button } from 'react-bootstrap';
-import { Col } from 'react-bootstrap';
-import Form from 'react-bootstrap/Form';
-import { Row } from 'react-bootstrap';
+import { Button, Col, Form, Row } from 'react-bootstrap';
 
 import { updateProject } from '../../../../services/db';
 import { genRandomString } from '../../../../services/string';

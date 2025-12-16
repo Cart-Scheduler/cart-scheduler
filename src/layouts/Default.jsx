@@ -5,10 +5,7 @@ import Footer from './Footer';
 import TimezoneChecker from '../components/TimezoneChecker';
 
 import { useTranslation } from 'react-i18next';
-import { Container } from 'react-bootstrap';
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
-import { Offcanvas } from 'react-bootstrap';
+import { Container, Navbar, Nav, Offcanvas } from 'react-bootstrap';
 import DbError from '../components/DbError';
 import { useUserDocError, usePersonDocError, usePerson } from '../services/db';
 

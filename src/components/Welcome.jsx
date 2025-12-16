@@ -1,8 +1,5 @@
 import { useNavigate } from 'react-router';
-import { Button } from 'react-bootstrap';
-import Card from 'react-bootstrap/Card';
-import { Col } from 'react-bootstrap';
-import { Row } from 'react-bootstrap';
+import { Button, Card, Col, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { FaChrome, FaEllipsisV, FaSafari } from 'react-icons/fa';
 import { IoShareOutline } from 'react-icons/io5';

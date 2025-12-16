@@ -1,7 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import Card from 'react-bootstrap/Card';
-import { Col } from 'react-bootstrap';
-import { Row } from 'react-bootstrap';
+import { Col, Row, Card } from 'react-bootstrap';
 import { FaTimes } from 'react-icons/fa';
 
 import { useMyProjectMembers } from '../../services/db';

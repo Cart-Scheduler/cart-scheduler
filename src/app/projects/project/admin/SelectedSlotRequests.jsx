@@ -1,11 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { Alert } from 'react-bootstrap';
-import { Button } from 'react-bootstrap';
-import Card from 'react-bootstrap/Card';
-import { Col } from 'react-bootstrap';
-import { Row } from 'react-bootstrap';
+import { Alert, Button, Card, Col, Row } from 'react-bootstrap';
 
 import { WEEKDAYS } from '../../../../services/date';
 import { acceptSlotRequests } from '../../../../services/functions';
