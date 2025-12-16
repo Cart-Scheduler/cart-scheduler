@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
-import Button from 'react-bootstrap/Button';
+import { Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 
 import { updateSlotPersons, usePersonId } from '../../../services/db';

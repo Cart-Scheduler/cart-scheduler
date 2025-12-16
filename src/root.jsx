@@ -1,6 +1,6 @@
 import { Outlet, Meta, Links, Scripts } from 'react-router';
-import Alert from 'react-bootstrap/Alert';
-import Container from 'react-bootstrap/Container';
+import { Alert } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 

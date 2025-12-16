@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import Alert from 'react-bootstrap/Alert';
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
+import { Alert } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
-import Row from 'react-bootstrap/Row';
+import { Modal } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 import TimeSelect from '../../../../components/TimeSelect';
