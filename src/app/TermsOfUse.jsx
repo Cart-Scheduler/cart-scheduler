@@ -1,6 +1,6 @@
 import Card from 'react-bootstrap/Card';
-import { Col } from 'react-bootstrap';
-import { Row } from 'react-bootstrap';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 import { useTranslation } from 'react-i18next';
 
 import { LayoutContainer } from '../layouts/Default';

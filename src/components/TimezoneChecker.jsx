@@ -1,4 +1,4 @@
-import { Alert } from 'react-bootstrap';
+import Alert from 'react-bootstrap/Alert';
 import { FaExclamationCircle } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 

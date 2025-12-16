@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
-import { Container } from 'react-bootstrap';
-import { Col } from 'react-bootstrap';
-import { Row } from 'react-bootstrap';
+import Container from 'react-bootstrap/Container';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 import { Link } from 'react-router';
 export default function Footer() {
   const { t } = useTranslation();
