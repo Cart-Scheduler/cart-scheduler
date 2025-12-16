@@ -1,4 +1,4 @@
-import { Outlet, Meta, Links, Scripts } from 'react-router';
+import { isRouteErrorResponse, Outlet, Meta, Links, Scripts } from 'react-router';
 import { Alert, Container } from 'react-bootstrap';
 import { Provider } from 'react-redux';
 import store from './redux/store';
@@ -49,11 +49,32 @@ export default function App() {
 }
 
 export function ErrorBoundary({ error }) {
+  console.error('Router error', error);
+  let message = 'Oops!';
+  let details = 'An unexpected error occurred.';
+  let stack;
+
+  if (isRouteErrorResponse(error)) {
+    message = error.status === 404 ? '404' : 'Error';
+    details =
+      error.status === 404
+        ? 'The requested page could not be found.'
+        : error.statusText || details;
+  } else if (import.meta.env.DEV && error && error instanceof Error) {
+    details = error.message;
+    stack = error.stack;
+  }
+
   return (
     <div>
       <Alert variant="danger" className="text-white">
-        <h4 className="text-white">Error</h4>
-        <pre>{JSON.stringify(error ?? {}, null, 2)}</pre>
+        <h4 className="text-white">{message}</h4>
+        <p>{details}</p>
+        {stack && (
+          <pre className="w-full p-4 overflow-x-auto">
+            <code>{stack}</code>
+          </pre>
+        )}
       </Alert>
     </div>
   );
