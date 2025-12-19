@@ -24,7 +24,7 @@ export function NotFoundPage() {
               </span>
             </p>
             <a
-              href="/projects"
+              href="/"
               className="btn btn-primary btn-lg px-5 shadow w-100 w-md-auto"
             >
               Siirry etusivulle
