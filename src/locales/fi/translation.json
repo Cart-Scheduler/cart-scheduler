@@ -167,5 +167,9 @@
   "check that the email address above is correct": "tarkista, että yllä näkyvä sähköpostiosoite on oikein",
   "check spam": "tarkista roskapostit",
   "contact support": "ota yhteyttä tukeen",
-  "Terms of Use": "Käyttöehdot"
+  "Terms of Use": "Käyttöehdot",
+  "Page not found": "Sivua ei löytynyt",
+  "The requested page could not be found.": "Valitettavasti etsimääsi osoitetta ei ole olemassa.",
+  "Please check the URL and try again.": "Tarkista osoite ja yritä uudestaan.",
+  "Return Home": "Siirry etusivulle"
 }
