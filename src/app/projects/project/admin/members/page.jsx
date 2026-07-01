@@ -105,19 +105,16 @@ function Member({ projectId, personId, member, isCurrent, onDetails }) {
         <div className="me-2 text-secondary flex-shrink-0">
           <FaUserAlt />
         </div>
-        <div className="min-vw-0 text-truncate">
-          <h6 className="mb-0 text-sm text-truncate">{member.name}</h6>
+        <div className="d-flex flex-column min-vw-0 align-items-start">
+          <h6 className="mb-0 text-sm text-truncate w-100">{member.name}</h6>
+          {member.admin && (
+            <span className="badge badge-sm bg-gradient-success text-xxs mt-1">
+              {t('ROLE.ADMIN')}
+            </span>
+          )}
         </div>
       </Col>
-      <Col
-        xs="auto"
-        className="d-flex align-items-center text-end px-0 flex-shrink-0"
-      >
-        {member.admin && (
-          <span className="badge badge-sm bg-gradient-success text-xxs me-2">
-            {t('ROLE.ADMIN')}
-          </span>
-        )}
+      <Col xs="auto" className="text-end px-0 flex-shrink-0">
         {!isCurrent && (
           <MemberMenu
             projectId={projectId}
