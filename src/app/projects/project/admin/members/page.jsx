@@ -105,16 +105,24 @@ function Member({ projectId, personId, member, isCurrent, onDetails }) {
         <div className="me-2 text-secondary flex-shrink-0">
           <FaUserAlt />
         </div>
-        <div className="d-flex flex-column min-vw-0 align-items-start">
-          <h6 className="mb-0 text-sm text-truncate w-100">{member.name}</h6>
+        <div className="d-flex flex-column flex-sm-row min-vw-0 align-items-start align-items-sm-center flex-grow-1">
+          <div className="min-vw-0 text-truncate flex-grow-1 d-flex align-items-center">
+            <h6 className="mb-0 text-sm text-truncate">{member.name}</h6>
+          </div>
           {member.admin && (
-            <span className="badge badge-sm bg-gradient-success text-xxs mt-1">
-              {t('ROLE.ADMIN')}
-            </span>
+            <div className="mt-1 mt-sm-0 pe-sm-5 flex-shrink-0">
+              <span className="badge badge-sm bg-gradient-success text-xxs">
+                {t('ROLE.ADMIN')}
+              </span>
+            </div>
           )}
         </div>
       </Col>
-      <Col xs="auto" className="text-end px-0 flex-shrink-0">
+      <Col
+        xs="auto"
+        className="text-end px-0 flex-shrink-0 d-flex align-items-center justify-content-end"
+        style={{ width: '40px' }}
+      >
         {!isCurrent && (
           <MemberMenu
             projectId={projectId}
@@ -127,7 +135,6 @@ function Member({ projectId, personId, member, isCurrent, onDetails }) {
     </Row>
   );
 }
-
 function MemberList({ projectId }) {
   const { t } = useTranslation();
   const [showDetails, setShowDetails] = useState(false);
