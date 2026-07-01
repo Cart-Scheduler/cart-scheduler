@@ -2,6 +2,9 @@ import { useTranslation } from 'react-i18next';
 import { Col, Row, Card } from 'react-bootstrap';
 import { FaTimes } from 'react-icons/fa';
 
+import { useMemo, useState, useEffect } from 'react';
+import { useProject } from '../../services/db';
+
 import { useMyProjectMembers } from '../../services/db';
 import Breadcrumb from '../../layouts/Breadcrumb';
 import DbError from '../../components/DbError';
@@ -41,9 +44,42 @@ function NoProjects() {
     </Row>
   );
 }
+//Topi sort by alphabets
+function ProjectSorter({ projectId, onNameLoaded }) {
+  const { data: project } = useProject(projectId);
+  const name = project?.name;
+
+  useEffect(() => {
+    if (name) {
+      onNameLoaded(projectId, name);
+    }
+  }, [name, projectId, onNameLoaded]);
+
+  return null;
+}
 
 export default function Projects() {
   const { docs, error, isLoading, hasLoaded } = useMyProjectMembers();
+  const [projectNames, setProjectNames] = useState({});
+  const handleNameLoaded = useMemo(() => {
+    return (id, name) => {
+      setProjectNames((prev) => {
+        if (prev[id] === name) return prev;
+        return { ...prev, [id]: name };
+      });
+    };
+  }, []);
+
+  const sortedProjectIds = useMemo(() => {
+    if (!docs) return [];
+
+    return Object.keys(docs).sort((a, b) => {
+      const nameA = projectNames[a] || a;
+      const nameB = projectNames[b] || b;
+      return nameA.localeCompare(nameB, 'fi', { sensitivity: 'base' });
+    });
+  }, [docs, projectNames]);
+
   return (
     <LayoutContainer breadcrumb={<MyBreadcrumb />}>
       <DbError error={error} />
@@ -56,7 +92,15 @@ export default function Projects() {
               <Spinner />
             </div>
           )}
-          {Object.keys(docs).map((projectId) => (
+          {Object.keys(docs ?? {}).map((id) => (
+            <ProjectSorter
+              key={id}
+              projectId={id}
+              onNameLoaded={handleNameLoaded}
+            />
+          ))}
+
+          {sortedProjectIds.map((projectId) => (
             <Col md={4} key={projectId}>
               <ProjectCard projectId={projectId} />
             </Col>
