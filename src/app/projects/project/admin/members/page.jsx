@@ -101,7 +101,7 @@ function Member({ projectId, personId, member, isCurrent, onDetails }) {
   const { t } = useTranslation();
   return (
     <Row className="align-items-center py-2 px-3 border-bottom mx-0 flex-nowrap">
-      <Col className="d-flex align-items-center px-0 flex-grow-1 min-vw-0">
+      <Col className="d-flex align-items-center px-0 w-90 min-vw-0">
         <div className="me-2 text-secondary flex-shrink-0">
           <FaUserAlt />
         </div>
@@ -118,11 +118,8 @@ function Member({ projectId, personId, member, isCurrent, onDetails }) {
           )}
         </div>
       </Col>
-      <Col
-        xs="auto"
-        className="text-end px-0 flex-shrink-0 d-flex align-items-center justify-content-end"
-        style={{ width: '40px' }}
-      >
+
+      <Col className="text-end px-0 w-10 d-flex align-items-center justify-content-end flex-shrink-0">
         {!isCurrent && (
           <MemberMenu
             projectId={projectId}
