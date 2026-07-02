@@ -71,7 +71,8 @@ function MemberMenu({ projectId, personId, member, onDetails }) {
     }
   };
   return (
-    <Dropdown>
+    //Topi fix to members being responsive
+    <Dropdown align="end">
       <Dropdown.Toggle as={MemberMenuToggle} id={`member-${personId}-menu`}>
         <FaEllipsisV />
       </Dropdown.Toggle>
@@ -99,25 +100,26 @@ function MemberMenu({ projectId, personId, member, onDetails }) {
 function Member({ projectId, personId, member, isCurrent, onDetails }) {
   const { t } = useTranslation();
   return (
-    <tr>
-      <td>
-        <div className="d-flex px-2">
-          <div className="me-2">
-            <FaUserAlt />
-          </div>
-          <div className="my-auto">
-            <h6 className="mb-0 text-sm">{member.name}</h6>
-          </div>
+    <Row className="align-items-center py-2 px-3 border-bottom mx-0 flex-nowrap">
+      <Col className="d-flex align-items-center px-0 w-90 min-vw-0">
+        <div className="me-2 text-secondary flex-shrink-0">
+          <FaUserAlt />
         </div>
-      </td>
-      <td className="align-middle text-center text-sm">
-        {member.admin && (
-          <span className="badge badge-sm bg-gradient-success">
-            {t('ROLE.ADMIN')}
-          </span>
-        )}
-      </td>
-      <td className="align-middle text-end">
+        <div className="d-flex flex-column flex-sm-row min-vw-0 align-items-start align-items-sm-center flex-grow-1">
+          <div className="min-vw-0 text-truncate flex-grow-1 d-flex align-items-center">
+            <h6 className="mb-0 text-sm text-truncate">{member.name}</h6>
+          </div>
+          {member.admin && (
+            <div className="mt-1 mt-sm-0 pe-sm-5 flex-shrink-0">
+              <span className="badge badge-sm bg-gradient-success text-xxs">
+                {t('ROLE.ADMIN')}
+              </span>
+            </div>
+          )}
+        </div>
+      </Col>
+
+      <Col className="text-end px-0 w-10 d-flex align-items-center justify-content-end flex-shrink-0">
         {!isCurrent && (
           <MemberMenu
             projectId={projectId}
@@ -126,11 +128,10 @@ function Member({ projectId, personId, member, isCurrent, onDetails }) {
             onDetails={onDetails}
           />
         )}
-      </td>
-    </tr>
+      </Col>
+    </Row>
   );
 }
-
 function MemberList({ projectId }) {
   const { t } = useTranslation();
   const [showDetails, setShowDetails] = useState(false);
@@ -155,29 +156,27 @@ function MemberList({ projectId }) {
 
   return (
     <Card className="mb-3">
-      <Card.Header className="pb-1">
-        <h6>
+      <Card.Header className="pb-2">
+        <h6 className="mb-0">
           {t('Members')} ({members.length})
         </h6>
       </Card.Header>
-      <Card.Body className="px-0 pt-0 pb-2">
-        <table className="table align-items-center justify-content-center mb-0">
-          <tbody>
-            {members.map(([personId, member]) => (
-              <Member
-                key={personId}
-                projectId={projectId}
-                personId={personId}
-                member={member}
-                isCurrent={personId === currentPersonId}
-                onDetails={() => {
-                  setSelectedPersonId(personId);
-                  setShowDetails(true);
-                }}
-              />
-            ))}
-          </tbody>
-        </table>
+      <Card.Body className="p-0">
+        <div className="d-flex flex-column">
+          {members.map(([personId, member]) => (
+            <Member
+              key={personId}
+              projectId={projectId}
+              personId={personId}
+              member={member}
+              isCurrent={personId === currentPersonId}
+              onDetails={() => {
+                setSelectedPersonId(personId);
+                setShowDetails(true);
+              }}
+            />
+          ))}
+        </div>
       </Card.Body>
       <PersonDetailsModal
         show={showDetails}

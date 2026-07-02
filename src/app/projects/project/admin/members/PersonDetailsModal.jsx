@@ -6,18 +6,23 @@ import { queryPerson } from '../../../../../services/functions';
 
 function Content({ projectId, personId }) {
   const [person, setPerson] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
   const { t } = useTranslation();
 
   useEffect(() => {
     const run = async () => {
+      setIsLoading(true);
       const data = await queryPerson({ projectId, personId });
       setPerson(data);
+      setIsLoading(false);
     };
     run();
   }, [projectId, personId]);
 
   let emails = '';
-  if (person.emails) {
+  if (isLoading) {
+    emails = '...';
+  } else if (person.emails) {
     emails = person.emails.join(', ');
   }
 
