@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Col, Row, Card } from 'react-bootstrap';
 import { FaTimes } from 'react-icons/fa';
 
-import { useMyProjectMembers } from '../../services/db';
+import { useMyProjectMembers, useMySlots } from '../../services/db';
 import Breadcrumb from '../../layouts/Breadcrumb';
 import DbError from '../../components/DbError';
 import Spinner from '../../components/Spinner';
@@ -42,8 +42,40 @@ function NoProjects() {
   );
 }
 
+function ProjectAssignmentInfo({ projectId, allAssignments }) {
+  const { t } = useTranslation();
+  const currentTimestamp = new Date().getTime();
+
+  if (!allAssignments) return null;
+
+  const hasAssignments = Object.entries(allAssignments).some(
+    ([id, doc]) =>
+      doc?.projectId === projectId && doc?.ends >= currentTimestamp,
+  );
+
+  if (!hasAssignments) return null;
+
+  return (
+    <div className="text-xs text-success fw-bold px-2 py-1 position-absolute project-badge-vuoro">
+      {t('Assignment')}
+    </div>
+  );
+}
+
 export default function Projects() {
   const { docs, error, isLoading, hasLoaded } = useMyProjectMembers();
+
+  const myPersonId = (() => {
+    if (!docs) return undefined;
+    for (const project of Object.values(docs)) {
+      const keys = Object.keys(project?.members ?? {});
+      if (keys.length > 0) return keys[0];
+    }
+    return undefined;
+  })();
+
+  const { docs: allAssignments } = useMySlots(myPersonId);
+
   return (
     <LayoutContainer breadcrumb={<MyBreadcrumb />}>
       <DbError error={error} />
@@ -56,8 +88,12 @@ export default function Projects() {
               <Spinner />
             </div>
           )}
-          {Object.keys(docs).map((projectId) => (
-            <Col md={4} key={projectId}>
+          {Object.keys(docs ?? {}).map((projectId) => (
+            <Col md={4} key={projectId} className="mb-4 position-relative">
+              <ProjectAssignmentInfo
+                projectId={projectId}
+                allAssignments={allAssignments}
+              />
               <ProjectCard projectId={projectId} />
             </Col>
           ))}

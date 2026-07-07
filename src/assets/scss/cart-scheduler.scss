@@ -61,6 +61,14 @@
   flex-grow: 0;
 }
 
+//TOPI style for assingment on project page
+.project-badge-vuoro {
+  top: 15px;
+  right: 25px;
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 4px;
+}
 // use same font color in disabled buttons
 @each $color, $value in $btn-font-colors {
   .btn-#{$color}:disabled,
